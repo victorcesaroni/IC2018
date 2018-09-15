@@ -1,0 +1,5 @@
+﻿  IC.cpp
+c:\users\admin190518\documents\ic\ic\ic\ic.cpp(220): warning C4018: '<': signed/unsigned mismatch
+c:\users\admin190518\documents\ic\ic\ic\ic.cpp(244): warning C4018: '<': signed/unsigned mismatch
+c:\users\admin190518\documents\ic\ic\ic\ic.cpp(246): warning C4018: '<': signed/unsigned mismatch
+  IC.vcxproj -> C:\Users\ADMIN190518\Documents\IC\IC\Debug\IC.exe
