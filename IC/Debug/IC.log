@@ -1,2 +1,8 @@
 ﻿  IC.cpp
+c:\users\admin190518\documents\ic\ic\ic\ic.cpp(633): warning C4477: 'printf' : format string '%d' requires an argument of type 'int', but variadic argument 1 has type 'const std::pair<const _Kty,_Ty>'
+          with
+          [
+              _Kty=int,
+              _Ty=bool
+          ]
   IC.vcxproj -> C:\Users\ADMIN190518\Documents\IC\IC\Debug\IC.exe
