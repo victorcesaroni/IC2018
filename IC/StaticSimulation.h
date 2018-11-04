@@ -1,0 +1,83 @@
+#pragma once
+
+//TODO:finish me
+enum LambdaAllocationStrategy
+{
+	BASIC,
+	RANDOM,
+	FIRST_FIT,
+	LEAST_USED,
+	STRATEGIES_COUNT,
+};
+
+//TODO:finish me
+class StaticSimulation
+{
+public:
+	Network *pNetwork;
+
+	Matrix<int> connectionsMatrix; // matriz que diz se existe conexão entre (i,j)
+	Matrix<int> costMatrix; // matriz que diz qual o custo para ir diretamente (de i, até j), infinito caso não seja possível
+	Matrix<int> hopCostMatrix; // matriz que diz se e possível ir diretamente (de i, até j), infinito caso não seja possível
+	Matrix<int> minimumDistanceMatrix; // matriz que possui a distancia mínima para ir, passando por um ou mais nos, (de i, até j), infinito caso não seja possível
+	Matrix<int> utilizationMatrix; // matriz que possui o numero de vezes que um caminho minimo passa por (i, j)
+	Matrix<std::vector<LambdaAllocInfo>> lambdaMatrix; // matriz que possui as alocações de comprimento de onda (de i, até j) das rotas de caminho mínimo, utilizando o menor lambda possível por caminho
+	Matrix<std::vector<LambdaAllocInfo>> lambdaMatrixWithConversor; // matriz que possui as alocações de comprimento de onda (de i, até j) das rotas de caminho mínimo, utilizando conversores em todos os nós
+	
+	Matrix<std::vector<PathInfo>> allPaths; // matriz com todos os caminhos possíveis (de i, até j)
+	std::vector<PathInfo> minimumCostPaths; // lista de caminhos mínimos
+
+	float avgHops; // número médio de hops, utilizando o caminho mínimo
+
+	StaticSimulation(Network *pNetwork);
+	
+	//TODO:finish me
+	void Run();
+
+	/// encontra todos os caminhos minimos partindo de todos os nos ate todos os nos
+	/// useUniformCost: indica se deve usar a matriz com custo 1 entre todos os nós
+	void PreparePathsAndMinimumDistanceMatrix(bool useUniformCost);
+
+	/// encontra o menor número possível N no set (sendo N >= 1 e N < infinito)
+	/// used: set com números N (sendo N >= 1 e N < infinito)
+	int FindSmallestLambdaAvailable(const std::set<int>& used);
+
+	//TODO:finish me
+	void LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const std::vector<PathInfo>& paths, std::set<int>& usedLambdas, bool useConversor, LambdaAllocationStrategy strategy);
+
+	//TODO:finish me
+	void DiscoverUsedLambdasInThePath(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdasInThePath);
+
+	//TODO:finish me
+	void AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas);
+	
+	//TODO:finish me
+	void AllocateLambdaWithConversor(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas);
+	
+	/// método auxiliar do método FindAllPaths parar encontrar todos os caminhos possíveis em um grafo dada uma matriz adjacência
+	/// from: nó de origem
+	/// to: nó de destino
+	/// current: nó atual
+	/// cost: matriz com custo para ir (de i, até j)
+	/// N: número de nós na matriz (número de linhas e colunas)
+	/// visited: lista de nós já visitados
+	/// path: lista de nós visitados para o caminho atual
+	/// level: nível atual de busca 
+	/// allPaths: matriz com todos os caminhos (de i, até j)
+	void FindAllPathsDfs(int from, int to, int current, const Matrix<int>& cost, int N, std::vector<bool>& visited, std::vector<int>& path, int& level, Matrix<std::vector<PathInfo>>& allPaths);
+
+	/// encontra todos os caminhos possíveis em um grafo dada uma matriz de adjacência
+	/// from: nó de origem
+	/// to: nó de destino
+	/// cost: matriz com custo para ir (de i, até j)
+	/// allPaths: matriz com todos os caminhos (de i, até j)
+	/// N: número de nós na matriz (número de linhas e colunas)
+	void FindAllPaths(int from, int to, const Matrix<int>& cost, Matrix<std::vector<PathInfo>>& allPaths, int N);
+
+	/// encontra todos os caminhos mínimos em um grafo dada uma matriz de adjacência
+	/// from: nó de origem
+	/// cost: matriz com custo para ir (de i, até j)
+	/// paths: lista de caminhos
+	/// N: número de nós na matriz (número de linhas e colunas)
+	void FindShortestPaths(int from, const Matrix<int>& cost, std::vector<PathInfo>& paths, int *distance, int N);
+};
