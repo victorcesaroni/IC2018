@@ -2,8 +2,8 @@
 #include "NetworkInfo.h"
 #include "Network.h"
 
-Link::Link(const std::string& to, int cost) :
-	to(to), cost(cost)
+Link::Link(const std::string& to, int cost, bool conversor) :
+	to(to), cost(cost), conversor(conversor)
 {
 
 }
@@ -82,7 +82,7 @@ void Network::PrintPairMatrix(const Matrix<int>& matrix)
 		{
 			if (i == j || matrix[i][j] == 0)
 				continue;
-			printf("(%s,%s) ", FindNameById(i).c_str(), FindNameById(j).c_str());
+			printf("(%s->%s) ", FindNameById(i).c_str(), FindNameById(j).c_str());
 			printf("%d", matrix[i][j]);
 			printf("\n");
 		}
@@ -105,7 +105,7 @@ void Network::PrintLambdaPairMatrix(const Matrix<std::vector<LambdaAllocInfo>>& 
 			}
 			printf("\n");*/
 
-			printf("(%s,%s) ", FindNameById(i).c_str(), FindNameById(j).c_str());
+			printf("(%s->%s) ", FindNameById(i).c_str(), FindNameById(j).c_str());
 			std::vector<int> lambdas = {};
 
 			for (const auto& l : matrix[i][j])

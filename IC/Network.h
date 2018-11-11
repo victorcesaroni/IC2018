@@ -8,10 +8,12 @@ class Link
 public:
 	/// to: nome do nó de destino dessa conexao
 	/// cost: custo para chegar ate o destino
-	Link(const std::string& to, int cost);
+	/// conversor: true caso tenha um conversor de comprimento de onda
+	Link(const std::string& to, int cost, bool conversor);
 
 	std::string to;
 	int cost;
+	bool conversor;
 };
 
 // classe que define um nó de uma rede

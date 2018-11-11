@@ -17,8 +17,9 @@ StaticSimulation::StaticSimulation(Network *pNetwork)
 	minimumDistanceMatrix.Create(N, N);
 	utilizationMatrix.Create(N, N);
 	lambdaMatrix.Create(N, N);
-	lambdaMatrixWithConversor.Create(N, N);
 	allPaths.Create(N, N);
+	hasConversorMatrix.Create(N, N);
+	minimumHopsMatrix.Create(N, N);
 
 	for (int i = 0; i < N; i++)
 	{
@@ -29,8 +30,8 @@ StaticSimulation::StaticSimulation(Network *pNetwork)
 			hopCostMatrix[i][j] = INFINITE_VAL;
 			minimumDistanceMatrix[i][j] = 0;
 			utilizationMatrix[i][j] = 0;
+			hasConversorMatrix[i][j] = 0;
 			lambdaMatrix[i][j].clear();
-			lambdaMatrixWithConversor[i][j].clear();
 			allPaths[i][j].clear();
 		}
 	}
@@ -46,23 +47,28 @@ StaticSimulation::StaticSimulation(Network *pNetwork)
 			connectionsMatrix[i][j] = 1;
 			costMatrix[i][j] = link.cost;
 			hopCostMatrix[i][j] = 1;
+			hasConversorMatrix[i][j] = link.conversor;
 		}
 	}
 
 	printf("Inicializando listas\n");
 
 	minimumCostPaths.clear();
+	minimumHopPaths.clear();
 }
 
-void StaticSimulation::PreparePathsAndMinimumDistanceMatrix(bool useUniformCost)
+void StaticSimulation::PreparePathsAndMinimumDistanceMatrix()
 {
 	printf("Inicializando caminhos minimos\n");
+
+	auto N = pNetwork->nodeCount;
 
 	// descobre todos os caminhos mínimos		
 	for (const auto& node : pNetwork->nodes)
 	{
 		auto i = node.second.id;
-		FindShortestPaths(i, useUniformCost ? hopCostMatrix : costMatrix, minimumCostPaths, minimumDistanceMatrix[i], pNetwork->nodeCount);
+		FindShortestPaths(i, costMatrix, minimumCostPaths, minimumDistanceMatrix[i], N);
+		FindShortestPaths(i, hopCostMatrix, minimumHopPaths, minimumHopsMatrix[i], N);		
 	}
 
 	printf("Inicializando caminhos\n");
@@ -78,7 +84,7 @@ void StaticSimulation::PreparePathsAndMinimumDistanceMatrix(bool useUniformCost)
 			if (i == j)
 				continue;
 
-			FindAllPaths(i, j, useUniformCost ? hopCostMatrix : costMatrix, allPaths, pNetwork->nodeCount);
+			FindAllPaths(i, j, costMatrix, allPaths, N);
 		}
 	}
 }
@@ -95,7 +101,7 @@ int StaticSimulation::FindSmallestLambdaAvailable(const std::set<int>& used) // 
 	return lambda;
 }
 
-void StaticSimulation::LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const std::vector<PathInfo>& paths, std::set<int>& usedLambdas, bool useConversor, LambdaAllocationStrategy strategy)
+void StaticSimulation::LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const std::vector<PathInfo>& paths, std::set<int>& usedLambdas, LambdaAllocationStrategy strategy, int& conversionCount)
 {
 	if (strategy == LambdaAllocationStrategy::BASIC)
 	{
@@ -104,10 +110,7 @@ void StaticSimulation::LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& la
 			if (!p.hops.empty())
 			{
 				// aloca
-				if (!useConversor)
-					AllocateLambda(lambdaMatrix, p, usedLambdas);
-				else
-					AllocateLambdaWithConversor(lambdaMatrix, p, usedLambdas);
+				AllocateLambda(lambdaMatrix, p, usedLambdas, conversionCount);
 			}
 		}
 	}
@@ -123,10 +126,7 @@ void StaticSimulation::LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& la
 			if (!availablePaths[idx].hops.empty())
 			{
 				// aloca
-				if (!useConversor)
-					AllocateLambda(lambdaMatrix, availablePaths[idx], usedLambdas);
-				else
-					AllocateLambdaWithConversor(lambdaMatrix, availablePaths[idx], usedLambdas);
+				AllocateLambda(lambdaMatrix, availablePaths[idx], usedLambdas, conversionCount);
 			}
 
 			availablePaths.erase(availablePaths.begin() + idx);
@@ -158,10 +158,7 @@ void StaticSimulation::LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& la
 			if (!availablePaths[idx].hops.empty())
 			{
 				// aloca
-				if (!useConversor)
-					AllocateLambda(lambdaMatrix, availablePaths[idx], usedLambdas);
-				else
-					AllocateLambdaWithConversor(lambdaMatrix, availablePaths[idx], usedLambdas);
+				AllocateLambda(lambdaMatrix, availablePaths[idx], usedLambdas, conversionCount);
 			}
 
 			availablePaths.erase(availablePaths.begin() + idx);
@@ -192,10 +189,7 @@ void StaticSimulation::LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& la
 			if (!availablePaths[idx].hops.empty())
 			{
 				// aloca
-				if (!useConversor)
-					AllocateLambda(lambdaMatrix, availablePaths[idx], usedLambdas);
-				else
-					AllocateLambdaWithConversor(lambdaMatrix, availablePaths[idx], usedLambdas);
+				AllocateLambda(lambdaMatrix, availablePaths[idx], usedLambdas, conversionCount);
 			}
 
 			availablePaths.erase(availablePaths.begin() + idx);
@@ -219,9 +213,9 @@ void StaticSimulation::DiscoverUsedLambdasInThePath(Matrix<std::vector<LambdaAll
 	}
 }
 
-void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas)
+void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas, int& conversionCount)
 {
-	std::set<int> usedLambdasInThePath;
+	/*std::set<int> usedLambdasInThePath;
 
 	// descobre os lambdas usados no caminho
 	DiscoverUsedLambdasInThePath(lambdaMatrix, path, usedLambdasInThePath);
@@ -237,9 +231,104 @@ void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lamb
 	{
 		lambdaMatrix[lastHop][h].push_back(LambdaAllocInfo(path.from, path.to, newLambda));
 		lastHop = h;
+	}*/
+
+	// lista com caminhos parciais de um caminho completo usando conversores para separar.
+	// como um conversor pode alterar o lambda é como se fosse outro caminho, ou seja, não precisa
+	// se preocupar em manter o mesmo lambda
+	std::vector<PathInfo> subPathsList; 
+
+	{
+		PathInfo tmpPath;
+		tmpPath.from = path.from;
+		tmpPath.to = path.to;
+		tmpPath.hops.clear();
+
+		int lastHop = path.from;
+
+		// descobre os segmentos que não possuem conversores
+		for (const auto& h : path.hops)
+		{
+			tmpPath.hops.push_back(h);
+
+			if (hasConversorMatrix[lastHop][h])
+			{
+				// nesse ponto existe um conversor entre nó anterior e nó atual
+				// salva o caminho sem conversores na lista e inicia um novo
+				subPathsList.push_back(tmpPath);
+				tmpPath.hops.clear();
+
+				// cria novo segmento adicionando o nó atual no começo do próximo item da lista
+				tmpPath.from = h;
+				tmpPath.to = path.to;
+			}
+
+			lastHop = h;
+		}
+
+		if (!tmpPath.hops.empty())
+		{
+			// existe um caminho que não encontrou um conversor nesse ponto, pois acabaram-se os hops
+			subPathsList.push_back(tmpPath);
+			tmpPath.hops.clear();
+		}
 	}
+
+	printf("Encontrou %d caminho(s) parciais.\n", subPathsList.size());
+	
+	for (auto it = subPathsList.begin(); it != subPathsList.end(); ++it)
+	{
+		const auto& subPath = *it;
+
+		if (it != subPathsList.begin())
+			printf("[CONVERSAO]%s", pNetwork->FindNameById(subPath.from).c_str());
+		else
+			printf(" %s", pNetwork->FindNameById(subPath.from).c_str());
+
+		for (const auto& h : subPath.hops)
+		{
+			printf("->%s", pNetwork->FindNameById(h).c_str());
+		}
+	}
+	printf("\n");
+	
+	int lastLambda = -1;
+	for (auto it = subPathsList.begin(); it != subPathsList.end(); ++it)
+	{
+		const auto& subPath = *it;
+
+		// nesse ponto o caminho precisa alocar um lambda no caminho parcial inteiro pois essa lista é dividida por conversores
+		std::set<int> usedLambdasInThePath;
+
+		// descobre os lambdas usados no caminho parcial
+		DiscoverUsedLambdasInThePath(lambdaMatrix, subPath, usedLambdasInThePath);
+
+		// descobre o menor lambda possivel para uso
+		int newLambda = FindSmallestLambdaAvailable(usedLambdasInThePath);
+
+		usedLambdas.emplace(newLambda);
+
+		// aloca o lambda no caminho parcial (adiciona o lambda escolhido a lista de lambdas de todos os nos no caminho)
+		int lastHop = subPath.from;
+		printf("(%s", pNetwork->FindNameById(lastHop).c_str());
+		for (const auto& h : subPath.hops)
+		{
+			printf("->%s", pNetwork->FindNameById(h).c_str());
+			lambdaMatrix[lastHop][h].push_back(LambdaAllocInfo(path.from, path.to, newLambda));
+			lastHop = h;
+		}
+		printf(" L%d)", newLambda);
+
+		if (lastLambda != -1 && newLambda != lastLambda)
+			conversionCount++;
+
+		lastLambda = newLambda;
+	}
+
+	printf("\n");
 }
 
+/*
 void StaticSimulation::AllocateLambdaWithConversor(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas)
 {
 	int lastHop = path.from;
@@ -263,11 +352,11 @@ void StaticSimulation::AllocateLambdaWithConversor(Matrix<std::vector<LambdaAllo
 
 		lastHop = h;
 	}
-}
+}*/
 
 void StaticSimulation::Run()
 {
-	PreparePathsAndMinimumDistanceMatrix(true);
+	PreparePathsAndMinimumDistanceMatrix();
 
 	// numero medio de hops
 	int sum = 0;
@@ -281,9 +370,9 @@ void StaticSimulation::Run()
 		{
 			for (int j = 0; j < N; j++)
 			{
-				if (minimumDistanceMatrix[i][j] != INFINITE_VAL && minimumDistanceMatrix[i][j] > 0)
+				if (minimumHopsMatrix[i][j] != INFINITE_VAL && minimumHopsMatrix[i][j] > 0)
 				{
-					sum += minimumDistanceMatrix[i][j];
+					sum += minimumHopsMatrix[i][j];
 					k++;
 				}
 			}
@@ -326,74 +415,91 @@ void StaticSimulation::Run()
 		//LambdaAllocation(lambdaMatrixWithConversor, minimumCostPaths, usedLambdas, true, LambdaAllocationStrategy::BASIC);
 	}
 
-	auto AllocLambda = [&](bool useConversor)
+	printf(". Alocando lambdas\n");
+
+	Matrix<std::vector<LambdaAllocInfo>> tmpLambdaMatrix;
+	tmpLambdaMatrix.Create(N, N);
+	size_t bestLambdaUseCount = INFINITE_VAL;
+	int bestConversionCount = INFINITE_VAL;
+	LambdaAllocationStrategy bestStrategyToReduceLambda = LambdaAllocationStrategy::BASIC;
+	LambdaAllocationStrategy bestStrategyToReduceConversion = LambdaAllocationStrategy::BASIC;
+
+	auto ClearTempMatrix = [&]()
 	{
-		Matrix<std::vector<LambdaAllocInfo>> tmpLambdaMatrix;
-		tmpLambdaMatrix.Create(N, N);
-		size_t bestLambdaUseCount = INFINITE_VAL;
-		LambdaAllocationStrategy bestStrategy = LambdaAllocationStrategy::BASIC;
-
-		auto ClearTempMatrix = [&]()
+		for (int i = 0; i < N; i++)
 		{
-			for (int i = 0; i < N; i++)
-			{
-				for (int j = 0; j < N; j++)
-					tmpLambdaMatrix[i][j].clear();
-			}
-		};
-
-		auto SaveTempMatrix = [&](LambdaAllocationStrategy strategy)
-		{
-			for (int i = 0; i < N; i++)
-			{
-				for (int j = 0; j < N; j++)
-				{
-					if (!useConversor)
-						lambdaMatrix[i][j] = tmpLambdaMatrix[i][j];
-					else
-						lambdaMatrixWithConversor[i][j] = tmpLambdaMatrix[i][j];
-				}
-			}
-
-			bestStrategy = strategy;
-		};
-
-		const LambdaAllocationStrategy strategies[STRATEGIES_COUNT] = { BASIC, RANDOM, FIRST_FIT, LEAST_USED };
-		const char *strategiesName[STRATEGIES_COUNT] = { "BASIC", "RANDOM", "FIRST_FIT", "LEAST_USED" };
-		int strategiesLambdasCount[STRATEGIES_COUNT];
-
-		for (int i = 0; i < STRATEGIES_COUNT; i++)
-		{
-			ClearTempMatrix();
-
-			// executa a alocacao de acordo com a estrategia
-			std::set<int> usedLambdas;
-			LambdaAllocation(tmpLambdaMatrix, minimumCostPaths, usedLambdas, useConversor, strategies[i]);
-
-			strategiesLambdasCount[strategies[i]] = usedLambdas.size();
-
-			if (usedLambdas.size() < bestLambdaUseCount)
-			{
-				bestLambdaUseCount = usedLambdas.size();
-
-				// salva a matriz que utiliza a menor quantidade de lambdas
-				SaveTempMatrix(strategies[i]);
-			}
+			for (int j = 0; j < N; j++)
+				tmpLambdaMatrix[i][j].clear();
 		}
-
-		for (int i = 0; i < STRATEGIES_COUNT; i++)
-		{
-			printf("  %s %d lambdas usados\n", strategiesName[strategies[i]], strategiesLambdasCount[strategies[i]]);
-		}
-
-		printf("  Melhor estrategia encontrada: %s\n", strategiesName[bestStrategy]);
 	};
 
-	printf(". Alocando lambdas sem conversor\n");
-	AllocLambda(false);
+	auto SaveTempMatrixToReduceLambda = [&](LambdaAllocationStrategy strategy)
+	{
+		for (int i = 0; i < N; i++)
+		{
+			for (int j = 0; j < N; j++)
+			{
+				lambdaMatrix[i][j] = tmpLambdaMatrix[i][j];
+			}
+		}
 
-	printf(". Alocando lambdas com conversor\n");
-	AllocLambda(true);
+		bestStrategyToReduceLambda = strategy;
+	};
+
+	auto SaveTempMatrixToReduceConversion = [&](LambdaAllocationStrategy strategy)
+	{
+		for (int i = 0; i < N; i++)
+		{
+			for (int j = 0; j < N; j++)
+			{
+				lambdaMatrix[i][j] = tmpLambdaMatrix[i][j];
+			}
+		}
+
+		bestStrategyToReduceConversion = strategy;
+	};
+
+	const LambdaAllocationStrategy strategies[STRATEGIES_COUNT] = { BASIC, RANDOM, FIRST_FIT, LEAST_USED };
+	const char *strategiesName[STRATEGIES_COUNT] = { "BASIC", "RANDOM", "FIRST_FIT", "LEAST_USED" };
+	int strategiesLambdasCount[STRATEGIES_COUNT];
+	int strategiesConversionCount[STRATEGIES_COUNT];
+
+	for (int i = 0; i < STRATEGIES_COUNT; i++)
+	{
+		ClearTempMatrix();
+
+		// executa a alocacao de acordo com a estrategia
+		std::set<int> usedLambdas;
+		int conversionCount = 0;
+
+		printf("\n.. Alocando utilizando %s\n", strategiesName[strategies[i]]);
+		LambdaAllocation(tmpLambdaMatrix, minimumCostPaths, usedLambdas, strategies[i], conversionCount);
+
+		strategiesLambdasCount[strategies[i]] = usedLambdas.size();
+		strategiesConversionCount[strategies[i]] = conversionCount;
+
+		if (usedLambdas.size() < bestLambdaUseCount)
+		{
+			bestLambdaUseCount = usedLambdas.size();
+			// salva a matriz que utiliza a menor quantidade de lambdas
+			SaveTempMatrixToReduceLambda(strategies[i]);
+		}
+
+		if (conversionCount < bestConversionCount)
+		{
+			bestConversionCount = conversionCount;
+			// salva a matriz que faz a menor quantidade de conversões
+			SaveTempMatrixToReduceConversion(strategies[i]);
+		}
+	}
+
+	for (int i = 0; i < STRATEGIES_COUNT; i++)
+	{
+		printf("  %s %d lambdas usados / %d conversoes feitas\n", strategiesName[strategies[i]], strategiesLambdasCount[strategies[i]], strategiesConversionCount[strategies[i]]);
+	}
+
+	printf("  Melhor estrategia encontrada para reduzir lambda: %s\n", strategiesName[bestStrategyToReduceLambda]);
+	printf("  Melhor estrategia encontrada para reduzir conversao: %s\n", strategiesName[bestStrategyToReduceConversion]);
 }
 
 void StaticSimulation::FindAllPathsDfs(int from, int to, int current, const Matrix<int>& cost, int N, std::vector<bool>& visited, std::vector<int>& path, int& level, Matrix<std::vector<PathInfo>>& allPaths)

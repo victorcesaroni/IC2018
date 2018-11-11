@@ -37,9 +37,10 @@ static void Parse(const char *path, Network *pNetwork)
 
 			char nodeName2[256] = {};
 			int cost = 0;
-			sscanf(buf2, "%s %d", nodeName2, &cost);
+			int conversor = 0;
+			sscanf(buf2, "%s %d %d", nodeName2, &cost, &conversor);
 
-			links.push_back(Link(nodeName2, cost));
+			links.push_back(Link(nodeName2, cost, conversor != 0));
 		}
 
 		pNetwork->AddNode(nodeName, links);

@@ -20,12 +20,14 @@ public:
 	Matrix<int> costMatrix; // matriz que diz qual o custo para ir diretamente (de i, até j), infinito caso não seja possível
 	Matrix<int> hopCostMatrix; // matriz que diz se e possível ir diretamente (de i, até j), infinito caso não seja possível
 	Matrix<int> minimumDistanceMatrix; // matriz que possui a distancia mínima para ir, passando por um ou mais nos, (de i, até j), infinito caso não seja possível
+	Matrix<int> minimumHopsMatrix; // matriz que possui a distancia mínima para ir, passando por um ou mais nos, (de i, até j), infinito caso não seja possível
 	Matrix<int> utilizationMatrix; // matriz que possui o numero de vezes que um caminho minimo passa por (i, j)
+	Matrix<bool> hasConversorMatrix; // matriz que se existe conversor entre (i,j)
 	Matrix<std::vector<LambdaAllocInfo>> lambdaMatrix; // matriz que possui as alocações de comprimento de onda (de i, até j) das rotas de caminho mínimo, utilizando o menor lambda possível por caminho
-	Matrix<std::vector<LambdaAllocInfo>> lambdaMatrixWithConversor; // matriz que possui as alocações de comprimento de onda (de i, até j) das rotas de caminho mínimo, utilizando conversores em todos os nós
 	
 	Matrix<std::vector<PathInfo>> allPaths; // matriz com todos os caminhos possíveis (de i, até j)
-	std::vector<PathInfo> minimumCostPaths; // lista de caminhos mínimos
+	std::vector<PathInfo> minimumCostPaths; // lista de caminhos de distância mínimas
+	std::vector<PathInfo> minimumHopPaths; // lista de caminhos de saltos mínimos
 
 	float avgHops; // número médio de hops, utilizando o caminho mínimo
 
@@ -34,25 +36,24 @@ public:
 	//TODO:finish me
 	void Run();
 
-	/// encontra todos os caminhos minimos partindo de todos os nos ate todos os nos
-	/// useUniformCost: indica se deve usar a matriz com custo 1 entre todos os nós
-	void PreparePathsAndMinimumDistanceMatrix(bool useUniformCost);
+	/// encontra todos os caminhos minimos e todos os caminhos partindo de todos os nos ate todos os nos
+	void PreparePathsAndMinimumDistanceMatrix();
 
 	/// encontra o menor número possível N no set (sendo N >= 1 e N < infinito)
 	/// used: set com números N (sendo N >= 1 e N < infinito)
 	int FindSmallestLambdaAvailable(const std::set<int>& used);
 
 	//TODO:finish me
-	void LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const std::vector<PathInfo>& paths, std::set<int>& usedLambdas, bool useConversor, LambdaAllocationStrategy strategy);
+	void LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const std::vector<PathInfo>& paths, std::set<int>& usedLambdas, LambdaAllocationStrategy strategy, int& conversionCount);
 
 	//TODO:finish me
 	void DiscoverUsedLambdasInThePath(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdasInThePath);
 
 	//TODO:finish me
-	void AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas);
-	
-	//TODO:finish me
-	void AllocateLambdaWithConversor(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas);
+	void AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas, int& conversionCount);
+		
+	/*//TODO:finish me
+	void AllocateLambdaWithConversor(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas);*/
 	
 	/// método auxiliar do método FindAllPaths parar encontrar todos os caminhos possíveis em um grafo dada uma matriz adjacência
 	/// from: nó de origem
