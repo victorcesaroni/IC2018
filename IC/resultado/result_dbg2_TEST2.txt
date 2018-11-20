@@ -17,17 +17,17 @@ n4->n1->n2: L6
 n4->n3: L2
   Alocando utilizando RANDOM
 n2->n1->n4: L1
-n4->n3: L1
 n4->n1->n2: L2
-n1->n4: L3
-n3->n2: L1
-n2->n3: L2
-n2->n1: L3
+n2->n3: L1
+n3->n2->n1: L3
 n1->n2->n3: L4
-n3->n4: L2
-n3->n2->n1: L5
-n4->n1: L4
+n2->n1: L5
 n1->n2: L6
+n4->n1: L3
+n3->n4: L1
+n4->n3: L2
+n3->n2: L2
+n1->n4: L4
   Alocando utilizando FIRST_FIT
 n1->n2: L1
 n1->n4: L1
