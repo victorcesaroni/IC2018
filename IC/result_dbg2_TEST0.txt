@@ -1,0 +1,63 @@
+. Calculando numero medio de hops
+  totalHops = 6 / minimumPathsCount = 6
+  avgHops = 1.000000
+. Alocando lambdas
+  Alocando utilizando BASIC
+n1->n2: L1
+n1->n3: L1
+n2->n1: L2
+n2->n3: L1
+n3->n1: L2
+n3->n2: L2
+  Alocando utilizando RANDOM
+n3->n2: L1
+n2->n1: L1
+n2->n3: L2
+n1->n3: L1
+n3->n1: L2
+n1->n2: L2
+  Alocando utilizando FIRST_FIT
+n1->n2: L1
+n1->n3: L1
+n2->n3: L1
+n2->n1: L2
+n3->n1: L2
+n3->n2: L2
+  Alocando utilizando LEAST_USED
+n1->n2: L1
+n1->n3: L1
+n2->n3: L1
+n2->n1: L2
+n3->n1: L2
+n3->n2: L2
+  BASIC 2 lambdas usados / 0 conversoes feitas
+  RANDOM 2 lambdas usados / 0 conversoes feitas
+  FIRST_FIT 2 lambdas usados / 0 conversoes feitas
+  LEAST_USED 2 lambdas usados / 0 conversoes feitas
+  Melhor estrategia encontrada para reduzir lambda: BASIC
+  Melhor estrategia encontrada para reduzir conversao: BASIC
+*******************************************************
+* Matriz de custo:
+    n1  n2  n3 
+ n1 0   1   1   
+ n2 1   0   1   
+ n3 1   1   0   
+*******************************************************
+* Numero medio de hops: 1.000000
+*******************************************************
+* Utilizacao de enlace:
+(n1->n2) 1
+(n1->n3) 1
+(n2->n1) 1
+(n2->n3) 1
+(n3->n1) 1
+(n3->n2) 1
+*******************************************************
+* Alocacao de lambda por caminho minimo:
+(n1->n2) (1 lambdas) L1 
+(n1->n3) (1 lambdas) L1 
+(n2->n1) (1 lambdas) L2 
+(n2->n3) (1 lambdas) L1 
+(n3->n1) (1 lambdas) L2 
+(n3->n2) (1 lambdas) L2 
+Lambdas usados (2): L1 L2 

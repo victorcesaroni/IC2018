@@ -52,7 +52,7 @@ void Network::PrintNodeMatrixNotInf(const Matrix<int>& matrix)
 			if (matrix[i][j] < INFINITE_VAL)
 				printf("%-3d ", matrix[i][j]);
 			else
-				printf("XXX ");
+				printf("%-3s ", "X");
 		}
 		printf("\n");
 	}

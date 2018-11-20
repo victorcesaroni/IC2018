@@ -1,0 +1,442 @@
+. Calculando numero medio de hops
+  totalHops = 206 / minimumPathsCount = 90
+  avgHops = 2.288889
+. Alocando lambdas
+  Alocando utilizando BASIC
+BeloHorizonte->Fortaleza: L1
+BeloHorizonte->Fortaleza->Recife: L2
+BeloHorizonte->RioDeJaneiro->Salvador: L1
+BeloHorizonte->Brasilia: L1
+BeloHorizonte->RioDeJaneiro: L2
+BeloHorizonte->Brasilia->SaoPaulo: L2
+BeloHorizonte->Brasilia->SaoPaulo->Curitiba: L3
+BeloHorizonte->Brasilia->SemNome->Florianopolis: L4
+BeloHorizonte->Brasilia->SemNome: L5
+Brasilia->BeloHorizonte->Fortaleza: L6
+Brasilia->BeloHorizonte->Fortaleza->Recife: L7
+Brasilia->BeloHorizonte->RioDeJaneiro->Salvador: L8
+Brasilia->BeloHorizonte: L9
+Brasilia->BeloHorizonte->RioDeJaneiro: L10
+Brasilia->SaoPaulo: L1
+Brasilia->SaoPaulo->Curitiba: L4
+Brasilia->SemNome->Florianopolis: L1
+Brasilia->SemNome: L2
+Curitiba->SaoPaulo->Brasilia->BeloHorizonte->Fortaleza: L11
+Curitiba->SaoPaulo->RioDeJaneiro->Salvador->Recife: L2
+Curitiba->SaoPaulo->RioDeJaneiro->Salvador: L5
+Curitiba->SaoPaulo->Brasilia: L6
+Curitiba->SaoPaulo->Brasilia->BeloHorizonte: L12
+Curitiba->SaoPaulo->RioDeJaneiro: L1
+Curitiba->SaoPaulo: L7
+Curitiba->Florianopolis: L1
+Curitiba->Florianopolis->SemNome: L2
+Florianopolis->SemNome->Brasilia->BeloHorizonte->Fortaleza: L13
+Florianopolis->SemNome->Brasilia->BeloHorizonte->Fortaleza->Recife: L14
+Florianopolis->Curitiba->SaoPaulo->RioDeJaneiro->Salvador: L9
+Florianopolis->SemNome->Brasilia: L3
+Florianopolis->SemNome->Brasilia->BeloHorizonte: L15
+Florianopolis->Curitiba->SaoPaulo->RioDeJaneiro: L8
+Florianopolis->Curitiba->SaoPaulo: L10
+Florianopolis->Curitiba: L3
+Florianopolis->SemNome: L5
+Fortaleza->Recife: L1
+Fortaleza->Recife->Salvador: L3
+Fortaleza->BeloHorizonte->Brasilia: L16
+Fortaleza->BeloHorizonte: L3
+Fortaleza->BeloHorizonte->RioDeJaneiro: L4
+Fortaleza->BeloHorizonte->Brasilia->SaoPaulo: L17
+Fortaleza->BeloHorizonte->Brasilia->SaoPaulo->Curitiba: L18
+Fortaleza->BeloHorizonte->Brasilia->SemNome->Florianopolis: L19
+Fortaleza->BeloHorizonte->Brasilia->SemNome: L20
+Recife->Fortaleza: L4
+Recife->Salvador: L1
+Recife->Fortaleza->BeloHorizonte->Brasilia: L21
+Recife->Fortaleza->BeloHorizonte: L5
+Recife->Salvador->RioDeJaneiro: L4
+Recife->Salvador->RioDeJaneiro->SaoPaulo: L6
+Recife->Salvador->RioDeJaneiro->SaoPaulo->Curitiba: L13
+Recife->Salvador->RioDeJaneiro->SaoPaulo->Curitiba->Florianopolis: L14
+Recife->Fortaleza->BeloHorizonte->Brasilia->SemNome: L22
+RioDeJaneiro->BeloHorizonte->Fortaleza: L9
+RioDeJaneiro->Salvador->Recife: L7
+RioDeJaneiro->Salvador: L3
+RioDeJaneiro->BeloHorizonte->Brasilia: L23
+RioDeJaneiro->BeloHorizonte: L3
+RioDeJaneiro->SaoPaulo: L3
+RioDeJaneiro->SaoPaulo->Curitiba: L15
+RioDeJaneiro->SaoPaulo->Curitiba->Florianopolis: L16
+RioDeJaneiro->BeloHorizonte->Brasilia->SemNome: L24
+Salvador->Recife->Fortaleza: L8
+Salvador->Recife: L5
+Salvador->RioDeJaneiro->BeloHorizonte->Brasilia: L25
+Salvador->RioDeJaneiro->BeloHorizonte: L11
+Salvador->RioDeJaneiro: L10
+Salvador->RioDeJaneiro->SaoPaulo: L12
+Salvador->RioDeJaneiro->SaoPaulo->Curitiba: L17
+Salvador->RioDeJaneiro->SaoPaulo->Curitiba->Florianopolis: L19
+Salvador->RioDeJaneiro->BeloHorizonte->Brasilia->SemNome: L26
+SaoPaulo->Brasilia->BeloHorizonte->Fortaleza: L27
+SaoPaulo->RioDeJaneiro->Salvador->Recife: L18
+SaoPaulo->RioDeJaneiro->Salvador: L20
+SaoPaulo->Brasilia: L5
+SaoPaulo->Brasilia->BeloHorizonte: L28
+SaoPaulo->RioDeJaneiro: L4
+SaoPaulo->Curitiba: L20
+SaoPaulo->Curitiba->Florianopolis: L21
+SaoPaulo->Brasilia->SemNome: L7
+SemNome->Brasilia->BeloHorizonte->Fortaleza: L29
+SemNome->Brasilia->BeloHorizonte->Fortaleza->Recife: L30
+SemNome->Brasilia->BeloHorizonte->RioDeJaneiro->Salvador: L31
+SemNome->Brasilia: L6
+SemNome->Brasilia->BeloHorizonte: L32
+SemNome->Brasilia->BeloHorizonte->RioDeJaneiro: L33
+SemNome->Brasilia->SaoPaulo: L8
+SemNome->Florianopolis->Curitiba: L6
+SemNome->Florianopolis: L7
+  Alocando utilizando RANDOM
+Brasilia->BeloHorizonte->RioDeJaneiro: L1
+RioDeJaneiro->Salvador: L1
+Curitiba->SaoPaulo: L1
+Recife->Salvador: L1
+SaoPaulo->Curitiba->Florianopolis: L2
+SaoPaulo->Brasilia: L1
+BeloHorizonte->Brasilia->SemNome->Florianopolis: L2
+Recife->Fortaleza: L1
+Fortaleza->BeloHorizonte->Brasilia->SaoPaulo->Curitiba: L3
+RioDeJaneiro->SaoPaulo->Curitiba: L4
+BeloHorizonte->Brasilia->SaoPaulo: L4
+SemNome->Brasilia->BeloHorizonte->RioDeJaneiro: L5
+SaoPaulo->Curitiba: L5
+SaoPaulo->RioDeJaneiro->Salvador: L2
+Recife->Fortaleza->BeloHorizonte->Brasilia->SemNome: L6
+Brasilia->SaoPaulo: L2
+Recife->Fortaleza->BeloHorizonte: L2
+Curitiba->SaoPaulo->RioDeJaneiro->Salvador: L6
+Fortaleza->BeloHorizonte->Brasilia->SaoPaulo: L7
+Salvador->RioDeJaneiro: L3
+Brasilia->SemNome: L1
+SemNome->Brasilia->BeloHorizonte->Fortaleza->Recife: L8
+SaoPaulo->Brasilia->BeloHorizonte: L9
+Florianopolis->Curitiba->SaoPaulo->RioDeJaneiro: L7
+Recife->Salvador->RioDeJaneiro->SaoPaulo: L5
+Florianopolis->SemNome->Brasilia: L3
+SemNome->Florianopolis: L1
+SaoPaulo->Brasilia->SemNome: L10
+Salvador->RioDeJaneiro->BeloHorizonte: L4
+Fortaleza->BeloHorizonte->RioDeJaneiro: L9
+Florianopolis->Curitiba: L1
+RioDeJaneiro->BeloHorizonte->Brasilia->SemNome: L11
+Florianopolis->Curitiba->SaoPaulo: L8
+Curitiba->SaoPaulo->RioDeJaneiro->Salvador->Recife: L9
+Brasilia->BeloHorizonte->Fortaleza: L10
+Brasilia->BeloHorizonte: L12
+SaoPaulo->RioDeJaneiro: L1
+BeloHorizonte->Brasilia->SaoPaulo->Curitiba: L13
+BeloHorizonte->RioDeJaneiro: L2
+Florianopolis->SemNome: L4
+Brasilia->SemNome->Florianopolis: L7
+Salvador->RioDeJaneiro->SaoPaulo->Curitiba: L10
+SemNome->Brasilia->BeloHorizonte->RioDeJaneiro->Salvador: L14
+BeloHorizonte->Fortaleza: L1
+RioDeJaneiro->SaoPaulo->Curitiba->Florianopolis: L11
+BeloHorizonte->Brasilia->SemNome: L15
+Brasilia->BeloHorizonte->Fortaleza->Recife: L16
+RioDeJaneiro->BeloHorizonte: L3
+Curitiba->Florianopolis->SemNome: L5
+Florianopolis->SemNome->Brasilia->BeloHorizonte->Fortaleza: L17
+SemNome->Florianopolis->Curitiba: L6
+RioDeJaneiro->BeloHorizonte->Brasilia: L18
+Salvador->Recife->Fortaleza: L3
+SaoPaulo->Brasilia->BeloHorizonte->Fortaleza: L19
+Salvador->RioDeJaneiro->SaoPaulo: L8
+BeloHorizonte->RioDeJaneiro->Salvador: L7
+BeloHorizonte->Fortaleza->Recife: L4
+Curitiba->SaoPaulo->Brasilia->BeloHorizonte: L20
+Fortaleza->Recife: L5
+Fortaleza->Recife->Salvador: L7
+Curitiba->Florianopolis: L3
+Fortaleza->BeloHorizonte->Brasilia: L21
+Curitiba->SaoPaulo->Brasilia->BeloHorizonte->Fortaleza: L22
+SemNome->Brasilia: L4
+Recife->Salvador->RioDeJaneiro->SaoPaulo->Curitiba->Florianopolis: L12
+Fortaleza->BeloHorizonte->Brasilia->SemNome->Florianopolis: L23
+Recife->Fortaleza->BeloHorizonte->Brasilia: L24
+SemNome->Brasilia->BeloHorizonte->Fortaleza: L25
+SaoPaulo->RioDeJaneiro->Salvador->Recife: L13
+Brasilia->BeloHorizonte->RioDeJaneiro->Salvador: L26
+Salvador->RioDeJaneiro->BeloHorizonte->Brasilia->SemNome: L27
+Salvador->RioDeJaneiro->BeloHorizonte->Brasilia: L28
+Salvador->RioDeJaneiro->SaoPaulo->Curitiba->Florianopolis: L15
+Fortaleza->BeloHorizonte->Brasilia->SemNome: L29
+Salvador->Recife: L2
+Recife->Salvador->RioDeJaneiro: L11
+SemNome->Brasilia->SaoPaulo: L12
+RioDeJaneiro->SaoPaulo: L3
+Curitiba->SaoPaulo->Brasilia: L14
+Curitiba->SaoPaulo->RioDeJaneiro: L16
+Florianopolis->Curitiba->SaoPaulo->RioDeJaneiro->Salvador: L17
+SemNome->Brasilia->BeloHorizonte: L30
+Brasilia->SaoPaulo->Curitiba: L18
+Fortaleza->BeloHorizonte: L5
+Florianopolis->SemNome->Brasilia->BeloHorizonte->Fortaleza->Recife: L31
+BeloHorizonte->Brasilia: L32
+Florianopolis->SemNome->Brasilia->BeloHorizonte: L33
+RioDeJaneiro->BeloHorizonte->Fortaleza: L12
+Recife->Salvador->RioDeJaneiro->SaoPaulo->Curitiba: L19
+RioDeJaneiro->Salvador->Recife: L16
+  Alocando utilizando FIRST_FIT
+BeloHorizonte->Fortaleza: L1
+BeloHorizonte->RioDeJaneiro->Salvador: L1
+BeloHorizonte->Brasilia: L1
+Brasilia->SaoPaulo: L1
+Brasilia->SemNome->Florianopolis: L1
+Curitiba->SaoPaulo->RioDeJaneiro: L1
+Curitiba->Florianopolis: L1
+Fortaleza->Recife: L1
+Recife->Salvador: L1
+BeloHorizonte->Fortaleza->Recife: L2
+BeloHorizonte->RioDeJaneiro: L2
+BeloHorizonte->Brasilia->SaoPaulo: L2
+Brasilia->SemNome: L2
+Curitiba->SaoPaulo->RioDeJaneiro->Salvador->Recife: L2
+Curitiba->Florianopolis->SemNome: L2
+BeloHorizonte->Brasilia->SaoPaulo->Curitiba: L3
+Florianopolis->SemNome->Brasilia: L3
+Florianopolis->Curitiba: L3
+Fortaleza->Recife->Salvador: L3
+Fortaleza->BeloHorizonte: L3
+RioDeJaneiro->Salvador: L3
+RioDeJaneiro->BeloHorizonte: L3
+RioDeJaneiro->SaoPaulo: L3
+BeloHorizonte->Brasilia->SemNome->Florianopolis: L4
+Brasilia->SaoPaulo->Curitiba: L4
+Fortaleza->BeloHorizonte->RioDeJaneiro: L4
+Recife->Fortaleza: L4
+Recife->Salvador->RioDeJaneiro: L4
+SaoPaulo->RioDeJaneiro: L4
+BeloHorizonte->Brasilia->SemNome: L5
+Curitiba->SaoPaulo->RioDeJaneiro->Salvador: L5
+Florianopolis->SemNome: L5
+Recife->Fortaleza->BeloHorizonte: L5
+Salvador->Recife: L5
+SaoPaulo->Brasilia: L5
+Brasilia->BeloHorizonte->Fortaleza: L6
+Curitiba->SaoPaulo->Brasilia: L6
+Recife->Salvador->RioDeJaneiro->SaoPaulo: L6
+SemNome->Brasilia: L6
+SemNome->Florianopolis->Curitiba: L6
+Brasilia->BeloHorizonte->Fortaleza->Recife: L7
+Curitiba->SaoPaulo: L7
+RioDeJaneiro->Salvador->Recife: L7
+SaoPaulo->Brasilia->SemNome: L7
+SemNome->Florianopolis: L7
+Brasilia->BeloHorizonte->RioDeJaneiro->Salvador: L8
+Florianopolis->Curitiba->SaoPaulo->RioDeJaneiro: L8
+Salvador->Recife->Fortaleza: L8
+SemNome->Brasilia->SaoPaulo: L8
+Brasilia->BeloHorizonte: L9
+Florianopolis->Curitiba->SaoPaulo->RioDeJaneiro->Salvador: L9
+RioDeJaneiro->BeloHorizonte->Fortaleza: L9
+Brasilia->BeloHorizonte->RioDeJaneiro: L10
+Florianopolis->Curitiba->SaoPaulo: L10
+Salvador->RioDeJaneiro: L10
+Curitiba->SaoPaulo->Brasilia->BeloHorizonte->Fortaleza: L11
+Salvador->RioDeJaneiro->BeloHorizonte: L11
+Curitiba->SaoPaulo->Brasilia->BeloHorizonte: L12
+Salvador->RioDeJaneiro->SaoPaulo: L12
+Florianopolis->SemNome->Brasilia->BeloHorizonte->Fortaleza: L13
+Recife->Salvador->RioDeJaneiro->SaoPaulo->Curitiba: L13
+Florianopolis->SemNome->Brasilia->BeloHorizonte->Fortaleza->Recife: L14
+Recife->Salvador->RioDeJaneiro->SaoPaulo->Curitiba->Florianopolis: L14
+Florianopolis->SemNome->Brasilia->BeloHorizonte: L15
+RioDeJaneiro->SaoPaulo->Curitiba: L15
+Fortaleza->BeloHorizonte->Brasilia: L16
+RioDeJaneiro->SaoPaulo->Curitiba->Florianopolis: L16
+Fortaleza->BeloHorizonte->Brasilia->SaoPaulo: L17
+Salvador->RioDeJaneiro->SaoPaulo->Curitiba: L17
+Fortaleza->BeloHorizonte->Brasilia->SaoPaulo->Curitiba: L18
+SaoPaulo->RioDeJaneiro->Salvador->Recife: L18
+Fortaleza->BeloHorizonte->Brasilia->SemNome->Florianopolis: L19
+Salvador->RioDeJaneiro->SaoPaulo->Curitiba->Florianopolis: L19
+Fortaleza->BeloHorizonte->Brasilia->SemNome: L20
+SaoPaulo->RioDeJaneiro->Salvador: L20
+SaoPaulo->Curitiba: L20
+Recife->Fortaleza->BeloHorizonte->Brasilia: L21
+SaoPaulo->Curitiba->Florianopolis: L21
+Recife->Fortaleza->BeloHorizonte->Brasilia->SemNome: L22
+RioDeJaneiro->BeloHorizonte->Brasilia: L23
+RioDeJaneiro->BeloHorizonte->Brasilia->SemNome: L24
+Salvador->RioDeJaneiro->BeloHorizonte->Brasilia: L25
+Salvador->RioDeJaneiro->BeloHorizonte->Brasilia->SemNome: L26
+SaoPaulo->Brasilia->BeloHorizonte->Fortaleza: L27
+SaoPaulo->Brasilia->BeloHorizonte: L28
+SemNome->Brasilia->BeloHorizonte->Fortaleza: L29
+SemNome->Brasilia->BeloHorizonte->Fortaleza->Recife: L30
+SemNome->Brasilia->BeloHorizonte->RioDeJaneiro->Salvador: L31
+SemNome->Brasilia->BeloHorizonte: L32
+SemNome->Brasilia->BeloHorizonte->RioDeJaneiro: L33
+  Alocando utilizando LEAST_USED
+BeloHorizonte->Fortaleza: L1
+BeloHorizonte->RioDeJaneiro->Salvador: L1
+BeloHorizonte->Brasilia: L1
+Brasilia->SaoPaulo: L1
+Brasilia->SemNome->Florianopolis: L1
+Curitiba->SaoPaulo->RioDeJaneiro: L1
+Curitiba->Florianopolis: L1
+Fortaleza->Recife: L1
+Recife->Salvador: L1
+BeloHorizonte->Fortaleza->Recife: L2
+BeloHorizonte->RioDeJaneiro: L2
+BeloHorizonte->Brasilia->SaoPaulo: L2
+Brasilia->SemNome: L2
+Curitiba->SaoPaulo->RioDeJaneiro->Salvador->Recife: L2
+Curitiba->Florianopolis->SemNome: L2
+BeloHorizonte->Brasilia->SaoPaulo->Curitiba: L3
+Florianopolis->SemNome->Brasilia: L3
+Florianopolis->Curitiba: L3
+Fortaleza->Recife->Salvador: L3
+Fortaleza->BeloHorizonte: L3
+RioDeJaneiro->Salvador: L3
+RioDeJaneiro->BeloHorizonte: L3
+RioDeJaneiro->SaoPaulo: L3
+BeloHorizonte->Brasilia->SemNome->Florianopolis: L4
+Brasilia->SaoPaulo->Curitiba: L4
+Fortaleza->BeloHorizonte->RioDeJaneiro: L4
+Recife->Fortaleza: L4
+Recife->Salvador->RioDeJaneiro: L4
+SaoPaulo->RioDeJaneiro: L4
+BeloHorizonte->Brasilia->SemNome: L5
+Curitiba->SaoPaulo->RioDeJaneiro->Salvador: L5
+Florianopolis->SemNome: L5
+Recife->Fortaleza->BeloHorizonte: L5
+Salvador->Recife: L5
+SaoPaulo->Brasilia: L5
+Brasilia->BeloHorizonte->Fortaleza: L6
+Curitiba->SaoPaulo->Brasilia: L6
+Recife->Salvador->RioDeJaneiro->SaoPaulo: L6
+SemNome->Brasilia: L6
+SemNome->Florianopolis->Curitiba: L6
+Brasilia->BeloHorizonte->Fortaleza->Recife: L7
+Curitiba->SaoPaulo: L7
+RioDeJaneiro->Salvador->Recife: L7
+SaoPaulo->Brasilia->SemNome: L7
+SemNome->Florianopolis: L7
+Brasilia->BeloHorizonte->RioDeJaneiro->Salvador: L8
+Florianopolis->Curitiba->SaoPaulo->RioDeJaneiro: L8
+Salvador->Recife->Fortaleza: L8
+SemNome->Brasilia->SaoPaulo: L8
+Brasilia->BeloHorizonte: L9
+Florianopolis->Curitiba->SaoPaulo->RioDeJaneiro->Salvador: L9
+RioDeJaneiro->BeloHorizonte->Fortaleza: L9
+Brasilia->BeloHorizonte->RioDeJaneiro: L10
+Florianopolis->Curitiba->SaoPaulo: L10
+Salvador->RioDeJaneiro: L10
+Curitiba->SaoPaulo->Brasilia->BeloHorizonte->Fortaleza: L11
+Salvador->RioDeJaneiro->BeloHorizonte: L11
+Curitiba->SaoPaulo->Brasilia->BeloHorizonte: L12
+Salvador->RioDeJaneiro->SaoPaulo: L12
+Florianopolis->SemNome->Brasilia->BeloHorizonte->Fortaleza: L13
+Recife->Salvador->RioDeJaneiro->SaoPaulo->Curitiba: L13
+Florianopolis->SemNome->Brasilia->BeloHorizonte->Fortaleza->Recife: L14
+Recife->Salvador->RioDeJaneiro->SaoPaulo->Curitiba->Florianopolis: L14
+Florianopolis->SemNome->Brasilia->BeloHorizonte: L15
+RioDeJaneiro->SaoPaulo->Curitiba: L15
+Fortaleza->BeloHorizonte->Brasilia: L16
+RioDeJaneiro->SaoPaulo->Curitiba->Florianopolis: L16
+Fortaleza->BeloHorizonte->Brasilia->SaoPaulo: L17
+Salvador->RioDeJaneiro->SaoPaulo->Curitiba: L17
+Fortaleza->BeloHorizonte->Brasilia->SaoPaulo->Curitiba: L18
+SaoPaulo->RioDeJaneiro->Salvador->Recife: L18
+Fortaleza->BeloHorizonte->Brasilia->SemNome->Florianopolis: L19
+Salvador->RioDeJaneiro->SaoPaulo->Curitiba->Florianopolis: L19
+Fortaleza->BeloHorizonte->Brasilia->SemNome: L20
+SaoPaulo->RioDeJaneiro->Salvador: L20
+SaoPaulo->Curitiba: L20
+Recife->Fortaleza->BeloHorizonte->Brasilia: L21
+SaoPaulo->Curitiba->Florianopolis: L21
+Recife->Fortaleza->BeloHorizonte->Brasilia->SemNome: L22
+RioDeJaneiro->BeloHorizonte->Brasilia: L23
+RioDeJaneiro->BeloHorizonte->Brasilia->SemNome: L24
+Salvador->RioDeJaneiro->BeloHorizonte->Brasilia: L25
+Salvador->RioDeJaneiro->BeloHorizonte->Brasilia->SemNome: L26
+SaoPaulo->Brasilia->BeloHorizonte->Fortaleza: L27
+SaoPaulo->Brasilia->BeloHorizonte: L28
+SemNome->Brasilia->BeloHorizonte->Fortaleza: L29
+SemNome->Brasilia->BeloHorizonte->Fortaleza->Recife: L30
+SemNome->Brasilia->BeloHorizonte->RioDeJaneiro->Salvador: L31
+SemNome->Brasilia->BeloHorizonte: L32
+SemNome->Brasilia->BeloHorizonte->RioDeJaneiro: L33
+  BASIC 33 lambdas usados / 0 conversoes feitas
+  RANDOM 33 lambdas usados / 0 conversoes feitas
+  FIRST_FIT 33 lambdas usados / 0 conversoes feitas
+  LEAST_USED 33 lambdas usados / 0 conversoes feitas
+  Melhor estrategia encontrada para reduzir lambda: BASIC
+  Melhor estrategia encontrada para reduzir conversao: BASIC
+*******************************************************
+* Matriz de custo:
+   Fortaleza Recife Salvador Brasilia BeloHorizonte RioDeJaneiro SaoPaulo Curitiba Florianopolis SemNome 
+Fortaleza 0   1   X   X   1   X   X   X   X   X   
+Recife 1   0   1   X   X   X   X   X   X   X   
+Salvador X   1   0   X   X   1   X   X   X   X   
+Brasilia X   X   X   0   1   X   1   X   X   1   
+BeloHorizonte 1   X   X   1   0   1   X   X   X   X   
+RioDeJaneiro X   X   1   X   1   0   1   X   X   X   
+SaoPaulo X   X   X   1   X   1   0   1   X   X   
+Curitiba X   X   X   X   X   X   1   0   1   X   
+Florianopolis X   X   X   X   X   X   X   1   0   1   
+SemNome X   X   X   1   X   X   X   X   1   0   
+*******************************************************
+* Numero medio de hops: 2.288889
+*******************************************************
+* Utilizacao de enlace:
+(Fortaleza->Recife) 6
+(Fortaleza->BeloHorizonte) 10
+(Recife->Fortaleza) 5
+(Recife->Salvador) 6
+(Salvador->Recife) 5
+(Salvador->RioDeJaneiro) 11
+(Brasilia->BeloHorizonte) 17
+(Brasilia->SaoPaulo) 7
+(Brasilia->SemNome) 10
+(BeloHorizonte->Fortaleza) 11
+(BeloHorizonte->Brasilia) 16
+(BeloHorizonte->RioDeJaneiro) 7
+(RioDeJaneiro->Salvador) 10
+(RioDeJaneiro->BeloHorizonte) 7
+(RioDeJaneiro->SaoPaulo) 9
+(SaoPaulo->Brasilia) 7
+(SaoPaulo->RioDeJaneiro) 8
+(SaoPaulo->Curitiba) 11
+(Curitiba->SaoPaulo) 10
+(Curitiba->Florianopolis) 6
+(Florianopolis->Curitiba) 5
+(Florianopolis->SemNome) 6
+(SemNome->Brasilia) 11
+(SemNome->Florianopolis) 5
+*******************************************************
+* Alocacao de lambda por caminho minimo:
+(Fortaleza->Recife) (6 lambdas) L1 L2 L3 L7 L14 L30 
+(Fortaleza->BeloHorizonte) (10 lambdas) L3 L4 L5 L16 L17 L18 L19 L20 L21 L22 
+(Recife->Fortaleza) (5 lambdas) L4 L5 L8 L21 L22 
+(Recife->Salvador) (6 lambdas) L1 L3 L4 L6 L13 L14 
+(Salvador->Recife) (5 lambdas) L2 L5 L7 L8 L18 
+(Salvador->RioDeJaneiro) (11 lambdas) L4 L6 L10 L11 L12 L13 L14 L17 L19 L25 L26 
+(Brasilia->BeloHorizonte) (17 lambdas) L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L27 L28 L29 L30 L31 L32 L33 
+(Brasilia->SaoPaulo) (7 lambdas) L1 L2 L3 L4 L8 L17 L18 
+(Brasilia->SemNome) (10 lambdas) L1 L2 L4 L5 L7 L19 L20 L22 L24 L26 
+(BeloHorizonte->Fortaleza) (11 lambdas) L1 L2 L6 L7 L9 L11 L13 L14 L27 L29 L30 
+(BeloHorizonte->Brasilia) (16 lambdas) L1 L2 L3 L4 L5 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 
+(BeloHorizonte->RioDeJaneiro) (7 lambdas) L1 L2 L4 L8 L10 L31 L33 
+(RioDeJaneiro->Salvador) (10 lambdas) L1 L2 L3 L5 L7 L8 L9 L18 L20 L31 
+(RioDeJaneiro->BeloHorizonte) (7 lambdas) L3 L9 L11 L23 L24 L25 L26 
+(RioDeJaneiro->SaoPaulo) (9 lambdas) L3 L6 L12 L13 L14 L15 L16 L17 L19 
+(SaoPaulo->Brasilia) (7 lambdas) L5 L6 L7 L11 L12 L27 L28 
+(SaoPaulo->RioDeJaneiro) (8 lambdas) L1 L2 L4 L5 L8 L9 L18 L20 
+(SaoPaulo->Curitiba) (11 lambdas) L3 L4 L13 L14 L15 L16 L17 L18 L19 L20 L21 
+(Curitiba->SaoPaulo) (10 lambdas) L1 L2 L5 L6 L7 L8 L9 L10 L11 L12 
+(Curitiba->Florianopolis) (6 lambdas) L1 L2 L14 L16 L19 L21 
+(Florianopolis->Curitiba) (5 lambdas) L3 L6 L8 L9 L10 
+(Florianopolis->SemNome) (6 lambdas) L2 L3 L5 L13 L14 L15 
+(SemNome->Brasilia) (11 lambdas) L3 L6 L8 L13 L14 L15 L29 L30 L31 L32 L33 
+(SemNome->Florianopolis) (5 lambdas) L1 L4 L6 L7 L19 
+Lambdas usados (33): L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 

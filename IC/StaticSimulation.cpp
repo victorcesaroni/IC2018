@@ -10,7 +10,7 @@ StaticSimulation::StaticSimulation(Network *pNetwork)
 {
 	int N = pNetwork->nodeCount;
 
-	DBG_PRINTF(2, "Inicializando matrizes %dx%d\n", N, N);
+	DBG_PRINTF(3, "Inicializando matrizes %dx%d\n", N, N);
 
 	// inicializacao das matrizes
 	connectionsMatrix.Create(N, N);
@@ -53,7 +53,7 @@ StaticSimulation::StaticSimulation(Network *pNetwork)
 		}
 	}
 
-	DBG_PRINTF(2, "Inicializando listas\n");
+	DBG_PRINTF(3, "Inicializando listas\n");
 
 	minimumCostPaths.clear();
 	minimumHopPaths.clear();
@@ -66,7 +66,7 @@ StaticSimulation::~StaticSimulation()
 
 void StaticSimulation::PreparePathsAndMinimumDistanceMatrix()
 {
-	DBG_PRINTF(2, "Inicializando caminhos minimos\n");
+	DBG_PRINTF(3, "Inicializando caminhos minimos\n");
 
 	auto N = pNetwork->nodeCount;
 
@@ -78,7 +78,7 @@ void StaticSimulation::PreparePathsAndMinimumDistanceMatrix()
 		FindShortestPaths(i, hopCostMatrix, minimumHopPaths, minimumHopsMatrix[i], N);		
 	}
 
-	DBG_PRINTF(2, "Inicializando caminhos\n");
+	DBG_PRINTF(3, "Inicializando caminhos\n");
 
 	// descobre todos os caminhos
 	for (const auto& node : pNetwork->nodes)
@@ -263,9 +263,9 @@ void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lamb
 		}
 	}
 
-	if (debugLevel >= 2)
+	if (debugLevel >= 3)
 	{
-		DBG_PRINTF(2, "Encontrou %d caminho(s) parciais.\n", subPathsList.size());
+		DBG_PRINTF(3, "Encontrou %d caminho(s) parciais.\n", subPathsList.size());
 
 		for (auto it = subPathsList.begin(); it != subPathsList.end(); ++it)
 		{
@@ -273,19 +273,19 @@ void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lamb
 
 			if (it != subPathsList.begin())
 			{
-				DBG_PRINTF(2, "[CONVERSAO]%s", pNetwork->FindNameById(subPath.from).c_str());
+				DBG_PRINTF(3, "[CONVERSAO]%s", pNetwork->FindNameById(subPath.from).c_str());
 			}
 			else
 			{
-				DBG_PRINTF(2, " %s", pNetwork->FindNameById(subPath.from).c_str());
+				DBG_PRINTF(3, " %s", pNetwork->FindNameById(subPath.from).c_str());
 			}
 
 			for (const auto& h : subPath.hops)
 			{
-				DBG_PRINTF(2, "->%s", pNetwork->FindNameById(h).c_str());
+				DBG_PRINTF(3, "->%s", pNetwork->FindNameById(h).c_str());
 			}
 		}
-		DBG_PRINTF(2, "\n");
+		DBG_PRINTF(3, "\n");
 	}
 
 	int lastLambda = -1;
@@ -307,17 +307,23 @@ void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lamb
 		// aloca o lambda no caminho parcial (adiciona o lambda escolhido a lista de lambdas de todos os nos no caminho)
 		int lastHop = subPath.from;
 
-		DBG_PRINTF(2, "(%s", pNetwork->FindNameById(lastHop).c_str());
+		DBG_PRINTF(2, "%s", pNetwork->FindNameById(lastHop).c_str());
 		for (const auto& h : subPath.hops)
 		{
 			DBG_PRINTF(2, "->%s", pNetwork->FindNameById(h).c_str());
 			lambdaMatrix[lastHop][h].push_back(LambdaAllocInfo(path.from, path.to, newLambda));
 			lastHop = h;
 		}
-		DBG_PRINTF(2, " L%d)", newLambda);
+		DBG_PRINTF(2, ": L%d", newLambda);
+		if (it + 1 != subPathsList.end())
+		{
+			DBG_PRINTF(2, "\n", newLambda);
+		}
 
 		if (lastLambda != -1 && newLambda != lastLambda)
+		{
 			conversionCount++;
+		}
 
 		lastLambda = newLambda;
 	}
@@ -383,7 +389,7 @@ void StaticSimulation::Run()
 	}
 
 	{
-		DBG_PRINTF(2, ". Gerando matriz de utilizacao de enlace por caminhos minimos\n");
+		DBG_PRINTF(3, ". Gerando matriz de utilizacao de enlace por caminhos minimos\n");
 
 		// matriz de utilizacao de enlaces por caminhos minimos
 		for (const auto& p : minimumCostPaths) // percorre todos os caminhos encontrados anteriormente
@@ -397,7 +403,7 @@ void StaticSimulation::Run()
 			}
 		}
 
-		if (debugLevel >= 2)
+		if (debugLevel >= 3)
 			pNetwork->PrintNodeMatrix(utilizationMatrix);
 	}
 
