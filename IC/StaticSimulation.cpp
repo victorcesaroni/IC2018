@@ -274,6 +274,7 @@ void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lamb
 		}
 	}
 
+#if DEBUG_ALLOC_LAMBDA
 	printf("Encontrou %d caminho(s) parciais.\n", subPathsList.size());
 	
 	for (auto it = subPathsList.begin(); it != subPathsList.end(); ++it)
@@ -291,7 +292,8 @@ void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lamb
 		}
 	}
 	printf("\n");
-	
+#endif
+
 	int lastLambda = -1;
 	for (auto it = subPathsList.begin(); it != subPathsList.end(); ++it)
 	{
@@ -310,22 +312,30 @@ void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lamb
 
 		// aloca o lambda no caminho parcial (adiciona o lambda escolhido a lista de lambdas de todos os nos no caminho)
 		int lastHop = subPath.from;
+
+#if DEBUG_ALLOC_LAMBDA
 		printf("(%s", pNetwork->FindNameById(lastHop).c_str());
+#endif
 		for (const auto& h : subPath.hops)
 		{
+#if DEBUG_ALLOC_LAMBDA
 			printf("->%s", pNetwork->FindNameById(h).c_str());
+#endif
 			lambdaMatrix[lastHop][h].push_back(LambdaAllocInfo(path.from, path.to, newLambda));
 			lastHop = h;
 		}
+#if DEBUG_ALLOC_LAMBDA
 		printf(" L%d)", newLambda);
-
+#endif
 		if (lastLambda != -1 && newLambda != lastLambda)
 			conversionCount++;
 
 		lastLambda = newLambda;
 	}
 
+#if DEBUG_ALLOC_LAMBDA
 	printf("\n");
+#endif
 }
 
 /*
@@ -359,8 +369,8 @@ void StaticSimulation::Run()
 	PreparePathsAndMinimumDistanceMatrix();
 
 	// numero medio de hops
-	int sum = 0;
-	int k = 0;
+	int totalHops = 0;
+	int minimumPathsCount = 0;
 	int N = pNetwork->nodeCount;
 
 	{
@@ -370,16 +380,19 @@ void StaticSimulation::Run()
 		{
 			for (int j = 0; j < N; j++)
 			{
-				if (minimumHopsMatrix[i][j] != INFINITE_VAL && minimumHopsMatrix[i][j] > 0)
+				if (minimumHopsMatrix[i][j] != INFINITE_VAL && minimumHopsMatrix[i][j] > 0) // existe um hop (de i, até j) ?
 				{
-					sum += minimumHopsMatrix[i][j];
-					k++;
+					// a minimumHopsMatrix armazena quantos hops levam para chegar de (de i, até j)
+					// armazena essa quantidade de hops na soma total e incrementa o contador 'k' para fazer a média depois
+					totalHops += minimumHopsMatrix[i][j];
+					minimumPathsCount++;
 				}
 			}
 		}
 
-		avgHops = (float)sum / (float)k;
+		avgHops = (float)totalHops / (float)minimumPathsCount;
 
+		printf("  totalHops = %d / minimumPathsCount = %d\n", totalHops, minimumPathsCount);
 		printf("  avgHops = %f\n", avgHops);
 	}
 

@@ -20,7 +20,7 @@ Node::Node(int id, const std::vector<Link>& links)
 }
 
 void Network::AddNode(const std::string& name, const std::vector<Link>& links)
-{
+{	
 	nodes[name] = Node(nodeCount++, links);
 }
 
@@ -116,7 +116,7 @@ void Network::PrintLambdaPairMatrix(const Matrix<std::vector<LambdaAllocInfo>>& 
 
 			for (const auto& l : lambdas)
 				printf("L%d ", l);
-			printf("\n");
+			printf(" (%d lambdas)\n", lambdas.size());
 		}
 	}
 }
