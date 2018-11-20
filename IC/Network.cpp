@@ -21,6 +21,9 @@ Node::Node(int id, const std::vector<Link>& links)
 
 void Network::AddNode(const std::string& name, const std::vector<Link>& links)
 {	
+	if (nodes.find(name) != nodes.end())
+		throw new std::exception(std::string(name + " already exists").c_str());
+
 	nodes[name] = Node(nodeCount++, links);
 }
 
