@@ -31,7 +31,10 @@ public:
 
 	float avgHops; // número médio de hops, utilizando o caminho mínimo
 
+	int debugLevel; // indica se deve exibir mensagens de depuração do códigoo
+
 	StaticSimulation(Network *pNetwork);
+	~StaticSimulation();
 	
 	//TODO:finish me
 	void Run();

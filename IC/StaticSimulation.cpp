@@ -3,12 +3,14 @@
 #include "NetworkInfo.h"
 #include "StaticSimulation.h"
 
+#define DBG_PRINTF(level, ...) {if (debugLevel >= level) { printf(__VA_ARGS__); }}
+
 StaticSimulation::StaticSimulation(Network *pNetwork)
 	: pNetwork(pNetwork)
 {
 	int N = pNetwork->nodeCount;
 
-	printf("Inicializando matrizes %dx%d\n", N, N);
+	DBG_PRINTF(2, "Inicializando matrizes %dx%d\n", N, N);
 
 	// inicializacao das matrizes
 	connectionsMatrix.Create(N, N);
@@ -51,15 +53,20 @@ StaticSimulation::StaticSimulation(Network *pNetwork)
 		}
 	}
 
-	printf("Inicializando listas\n");
+	DBG_PRINTF(2, "Inicializando listas\n");
 
 	minimumCostPaths.clear();
 	minimumHopPaths.clear();
 }
 
+StaticSimulation::~StaticSimulation()
+{
+
+}
+
 void StaticSimulation::PreparePathsAndMinimumDistanceMatrix()
 {
-	printf("Inicializando caminhos minimos\n");
+	DBG_PRINTF(2, "Inicializando caminhos minimos\n");
 
 	auto N = pNetwork->nodeCount;
 
@@ -71,7 +78,7 @@ void StaticSimulation::PreparePathsAndMinimumDistanceMatrix()
 		FindShortestPaths(i, hopCostMatrix, minimumHopPaths, minimumHopsMatrix[i], N);		
 	}
 
-	printf("Inicializando caminhos\n");
+	DBG_PRINTF(2, "Inicializando caminhos\n");
 
 	// descobre todos os caminhos
 	for (const auto& node : pNetwork->nodes)
@@ -215,24 +222,6 @@ void StaticSimulation::DiscoverUsedLambdasInThePath(Matrix<std::vector<LambdaAll
 
 void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas, int& conversionCount)
 {
-	/*std::set<int> usedLambdasInThePath;
-
-	// descobre os lambdas usados no caminho
-	DiscoverUsedLambdasInThePath(lambdaMatrix, path, usedLambdasInThePath);
-
-	// descobre o menor lambda possivel para uso
-	int newLambda = FindSmallestLambdaAvailable(usedLambdasInThePath);
-
-	usedLambdas.emplace(newLambda);
-
-	// aloca o lambda no caminho (adiciona o lambda escolhido a lista de lambdas de todos os nos no caminho)
-	int lastHop = path.from;
-	for (const auto& h : path.hops)
-	{
-		lambdaMatrix[lastHop][h].push_back(LambdaAllocInfo(path.from, path.to, newLambda));
-		lastHop = h;
-	}*/
-
 	// lista com caminhos parciais de um caminho completo usando conversores para separar.
 	// como um conversor pode alterar o lambda é como se fosse outro caminho, ou seja, não precisa
 	// se preocupar em manter o mesmo lambda
@@ -274,25 +263,30 @@ void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lamb
 		}
 	}
 
-#if DEBUG_ALLOC_LAMBDA
-	printf("Encontrou %d caminho(s) parciais.\n", subPathsList.size());
-	
-	for (auto it = subPathsList.begin(); it != subPathsList.end(); ++it)
+	if (debugLevel >= 2)
 	{
-		const auto& subPath = *it;
+		DBG_PRINTF(2, "Encontrou %d caminho(s) parciais.\n", subPathsList.size());
 
-		if (it != subPathsList.begin())
-			printf("[CONVERSAO]%s", pNetwork->FindNameById(subPath.from).c_str());
-		else
-			printf(" %s", pNetwork->FindNameById(subPath.from).c_str());
-
-		for (const auto& h : subPath.hops)
+		for (auto it = subPathsList.begin(); it != subPathsList.end(); ++it)
 		{
-			printf("->%s", pNetwork->FindNameById(h).c_str());
+			const auto& subPath = *it;
+
+			if (it != subPathsList.begin())
+			{
+				DBG_PRINTF(2, "[CONVERSAO]%s", pNetwork->FindNameById(subPath.from).c_str());
+			}
+			else
+			{
+				DBG_PRINTF(2, " %s", pNetwork->FindNameById(subPath.from).c_str());
+			}
+
+			for (const auto& h : subPath.hops)
+			{
+				DBG_PRINTF(2, "->%s", pNetwork->FindNameById(h).c_str());
+			}
 		}
+		DBG_PRINTF(2, "\n");
 	}
-	printf("\n");
-#endif
 
 	int lastLambda = -1;
 	for (auto it = subPathsList.begin(); it != subPathsList.end(); ++it)
@@ -313,29 +307,21 @@ void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lamb
 		// aloca o lambda no caminho parcial (adiciona o lambda escolhido a lista de lambdas de todos os nos no caminho)
 		int lastHop = subPath.from;
 
-#if DEBUG_ALLOC_LAMBDA
-		printf("(%s", pNetwork->FindNameById(lastHop).c_str());
-#endif
+		DBG_PRINTF(2, "(%s", pNetwork->FindNameById(lastHop).c_str());
 		for (const auto& h : subPath.hops)
 		{
-#if DEBUG_ALLOC_LAMBDA
-			printf("->%s", pNetwork->FindNameById(h).c_str());
-#endif
+			DBG_PRINTF(2, "->%s", pNetwork->FindNameById(h).c_str());
 			lambdaMatrix[lastHop][h].push_back(LambdaAllocInfo(path.from, path.to, newLambda));
 			lastHop = h;
 		}
-#if DEBUG_ALLOC_LAMBDA
-		printf(" L%d)", newLambda);
-#endif
+		DBG_PRINTF(2, " L%d)", newLambda);
+
 		if (lastLambda != -1 && newLambda != lastLambda)
 			conversionCount++;
 
 		lastLambda = newLambda;
 	}
-
-#if DEBUG_ALLOC_LAMBDA
-	printf("\n");
-#endif
+	DBG_PRINTF(2, "\n");
 }
 
 /*
@@ -374,7 +360,7 @@ void StaticSimulation::Run()
 	int N = pNetwork->nodeCount;
 
 	{
-		printf(". Calculando numero medio de hops\n");
+		DBG_PRINTF(1, ". Calculando numero medio de hops\n");
 
 		for (int i = 0; i < N; i++)
 		{
@@ -392,12 +378,12 @@ void StaticSimulation::Run()
 
 		avgHops = (float)totalHops / (float)minimumPathsCount;
 
-		printf("  totalHops = %d / minimumPathsCount = %d\n", totalHops, minimumPathsCount);
-		printf("  avgHops = %f\n", avgHops);
+		DBG_PRINTF(1, "  totalHops = %d / minimumPathsCount = %d\n", totalHops, minimumPathsCount);
+		DBG_PRINTF(1, "  avgHops = %f\n", avgHops);
 	}
 
 	{
-		printf(". Gerando matriz de utilizacao de enlace por caminhos minimos\n");
+		DBG_PRINTF(2, ". Gerando matriz de utilizacao de enlace por caminhos minimos\n");
 
 		// matriz de utilizacao de enlaces por caminhos minimos
 		for (const auto& p : minimumCostPaths) // percorre todos os caminhos encontrados anteriormente
@@ -411,24 +397,11 @@ void StaticSimulation::Run()
 			}
 		}
 
-		pNetwork->PrintNodeMatrix(utilizationMatrix);
+		if (debugLevel >= 2)
+			pNetwork->PrintNodeMatrix(utilizationMatrix);
 	}
 
-	{
-		// alocacao de lambda por caminho minimo
-		// (o caminho inteiro so pode utilizar um unico numero de lambda)
-
-		//std::map<int, bool> usedLambdas;
-		//LambdaAllocation(lambdaMatrix, minimumCostPaths, usedLambdas, false, LambdaAllocationStrategy::BASIC);
-	}
-	{
-		// alocacao de lambda por caminho minimo utilizando conversor
-		// (o caminho pode utilizar um diferentes numeros de lambda)
-		//std::map<int, bool> usedLambdas;
-		//LambdaAllocation(lambdaMatrixWithConversor, minimumCostPaths, usedLambdas, true, LambdaAllocationStrategy::BASIC);
-	}
-
-	printf(". Alocando lambdas\n");
+	DBG_PRINTF(1, ". Alocando lambdas\n");
 
 	Matrix<std::vector<LambdaAllocInfo>> tmpLambdaMatrix;
 	tmpLambdaMatrix.Create(N, N);
@@ -485,7 +458,7 @@ void StaticSimulation::Run()
 		std::set<int> usedLambdas;
 		int conversionCount = 0;
 
-		printf("\n.. Alocando utilizando %s\n", strategiesName[strategies[i]]);
+		DBG_PRINTF(1, "  Alocando utilizando %s\n", strategiesName[strategies[i]]);
 		LambdaAllocation(tmpLambdaMatrix, minimumCostPaths, usedLambdas, strategies[i], conversionCount);
 
 		strategiesLambdasCount[strategies[i]] = usedLambdas.size();
@@ -508,11 +481,11 @@ void StaticSimulation::Run()
 
 	for (int i = 0; i < STRATEGIES_COUNT; i++)
 	{
-		printf("  %s %d lambdas usados / %d conversoes feitas\n", strategiesName[strategies[i]], strategiesLambdasCount[strategies[i]], strategiesConversionCount[strategies[i]]);
+		DBG_PRINTF(1, "  %s %d lambdas usados / %d conversoes feitas\n", strategiesName[strategies[i]], strategiesLambdasCount[strategies[i]], strategiesConversionCount[strategies[i]]);
 	}
 
-	printf("  Melhor estrategia encontrada para reduzir lambda: %s\n", strategiesName[bestStrategyToReduceLambda]);
-	printf("  Melhor estrategia encontrada para reduzir conversao: %s\n", strategiesName[bestStrategyToReduceConversion]);
+	DBG_PRINTF(1, "  Melhor estrategia encontrada para reduzir lambda: %s\n", strategiesName[bestStrategyToReduceLambda]);
+	DBG_PRINTF(1, "  Melhor estrategia encontrada para reduzir conversao: %s\n", strategiesName[bestStrategyToReduceConversion]);
 }
 
 void StaticSimulation::FindAllPathsDfs(int from, int to, int current, const Matrix<int>& cost, int N, std::vector<bool>& visited, std::vector<int>& path, int& level, Matrix<std::vector<PathInfo>>& allPaths)

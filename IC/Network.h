@@ -33,6 +33,7 @@ public:
 class Network
 {
 public:
+	std::string name; // nome da rede
 	int nodeCount = 0; // número de nós na rede
 	std::map<std::string, Node> nodes; // map que associa um nome de nó a um identificador de nó
 

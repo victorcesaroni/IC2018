@@ -117,9 +117,10 @@ void Network::PrintLambdaPairMatrix(const Matrix<std::vector<LambdaAllocInfo>>& 
 			std::set<int> s(lambdas.begin(), lambdas.end());
 			lambdas.assign(s.begin(), s.end());
 
+			printf("(%d lambdas) ", lambdas.size());
 			for (const auto& l : lambdas)
 				printf("L%d ", l);
-			printf(" (%d lambdas)\n", lambdas.size());
+			printf("\n");
 		}
 	}
 }
