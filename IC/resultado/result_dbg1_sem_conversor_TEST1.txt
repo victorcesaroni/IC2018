@@ -1,0 +1,49 @@
+. Calculando numero medio de hops
+  totalHops = 102 / minimumPathsCount = 42
+  avgHops = 2.428571
+. Alocando lambdas
+  Alocando utilizando BASIC
+  Alocando utilizando RANDOM
+  Alocando utilizando FIRST_FIT
+  Alocando utilizando LEAST_USED
+  BASIC 24 lambdas usados / 0 conversoes feitas
+  RANDOM 24 lambdas usados / 0 conversoes feitas
+  FIRST_FIT 24 lambdas usados / 0 conversoes feitas
+  LEAST_USED 24 lambdas usados / 0 conversoes feitas
+  Melhor estrategia encontrada para reduzir lambda: BASIC
+  Melhor estrategia encontrada para reduzir conversao: BASIC
+*******************************************************
+* Numero medio de hops: 2.428571
+*******************************************************
+* Utilizacao de enlace:
+(n1->n2) 1
+(n1->n3) 5
+(n2->n1) 1
+(n2->n3) 5
+(n3->n1) 5
+(n3->n2) 5
+(n3->n4) 12
+(n4->n3) 12
+(n4->n5) 12
+(n5->n4) 12
+(n5->n6) 10
+(n6->n5) 10
+(n6->n7) 6
+(n7->n6) 6
+*******************************************************
+* Alocacao de lambda por caminho minimo:
+(n1->n2) (1 lambdas) L1 
+(n1->n3) (5 lambdas) L1 L2 L3 L4 L5 
+(n2->n1) (1 lambdas) L2 
+(n2->n3) (5 lambdas) L1 L6 L7 L8 L9 
+(n3->n1) (5 lambdas) L6 L13 L16 L19 L22 
+(n3->n2) (5 lambdas) L2 L14 L17 L20 L23 
+(n3->n4) (12 lambdas) L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 
+(n4->n3) (12 lambdas) L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 
+(n4->n5) (12 lambdas) L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 
+(n5->n4) (12 lambdas) L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 
+(n5->n6) (10 lambdas) L1 L2 L3 L4 L5 L6 L8 L9 L11 L12 
+(n6->n5) (10 lambdas) L7 L10 L14 L15 L19 L20 L21 L22 L23 L24 
+(n6->n7) (6 lambdas) L1 L3 L5 L6 L9 L12 
+(n7->n6) (6 lambdas) L2 L10 L15 L22 L23 L24 
+Lambdas usados (24): L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 

@@ -1,0 +1,105 @@
+. Calculando numero medio de hops
+  totalHops = 390 / minimumPathsCount = 182
+  avgHops = 2.142857
+. Alocando lambdas
+  Alocando utilizando BASIC
+  Alocando utilizando RANDOM
+  Alocando utilizando FIRST_FIT
+  Alocando utilizando LEAST_USED
+  BASIC 30 lambdas usados / 180 conversoes feitas
+  RANDOM 30 lambdas usados / 180 conversoes feitas
+  FIRST_FIT 30 lambdas usados / 113 conversoes feitas
+  LEAST_USED 30 lambdas usados / 113 conversoes feitas
+  Melhor estrategia encontrada para reduzir lambda: BASIC
+  Melhor estrategia encontrada para reduzir conversao: FIRST_FIT
+*******************************************************
+* Numero medio de hops: 2.142857
+*******************************************************
+* Utilizacao de enlace:
+(Seattler->PaloAlto) 8
+(Seattler->SanDiego) 8
+(Seattler->Champaign) 11
+(PaloAlto->Seattler) 7
+(PaloAlto->SanDiego) 6
+(PaloAlto->SaltLKcity) 12
+(SanDiego->Seattler) 7
+(SanDiego->PaloAlto) 6
+(SanDiego->Houston) 14
+(SaltLKcity->PaloAlto) 11
+(SaltLKcity->Boulder) 13
+(SaltLKcity->AnnArbor) 14
+(Boulder->SaltLKcity) 12
+(Boulder->Lincoln) 10
+(Boulder->Houston) 11
+(Lincoln->Boulder) 8
+(Lincoln->Champaign) 9
+(Houston->SanDiego) 13
+(Houston->Boulder) 12
+(Houston->Atalanta) 9
+(Houston->CollegePk) 12
+(Champaign->Seattler) 13
+(Champaign->Lincoln) 7
+(Champaign->Pittsburgh) 15
+(AnnArbor->SaltLKcity) 14
+(AnnArbor->Ithaca) 10
+(AnnArbor->Princeton) 5
+(Atalanta->Houston) 9
+(Atalanta->Pittsburgh) 6
+(Pittsburgh->Champaign) 15
+(Pittsburgh->Atalanta) 6
+(Pittsburgh->Ithaca) 11
+(Pittsburgh->Princeton) 5
+(Ithaca->AnnArbor) 10
+(Ithaca->Pittsburgh) 11
+(Ithaca->CollegePk) 6
+(CollegePk->Houston) 12
+(CollegePk->Ithaca) 6
+(CollegePk->Princeton) 3
+(Princeton->AnnArbor) 5
+(Princeton->Pittsburgh) 5
+(Princeton->CollegePk) 3
+*******************************************************
+* Alocacao de lambda por caminho minimo:
+(Seattler->PaloAlto) (8 lambdas) L2 L4 L5 L7 L10 L13 L14 L15 
+(Seattler->SanDiego) (8 lambdas) L3 L5 L6 L8 L11 L12 L13 L15 
+(Seattler->Champaign) (11 lambdas) L9 L10 L12 L13 L14 L15 L16 L21 L22 L23 L24 
+(PaloAlto->Seattler) (7 lambdas) L1 L3 L6 L8 L9 L11 L12 
+(PaloAlto->SanDiego) (6 lambdas) L1 L3 L7 L9 L10 L11 
+(PaloAlto->SaltLKcity) (12 lambdas) L4 L5 L11 L12 L15 L16 L17 L18 L19 L21 L22 L23 
+(SanDiego->Seattler) (7 lambdas) L1 L2 L4 L7 L9 L10 L14 
+(SanDiego->PaloAlto) (6 lambdas) L2 L4 L5 L6 L8 L12 
+(SanDiego->Houston) (14 lambdas) L5 L13 L15 L16 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 
+(SaltLKcity->PaloAlto) (11 lambdas) L1 L2 L3 L6 L7 L8 L9 L10 L13 L14 L20 
+(SaltLKcity->Boulder) (13 lambdas) L2 L5 L6 L7 L14 L18 L19 L20 L21 L22 L23 L24 L25 
+(SaltLKcity->AnnArbor) (14 lambdas) L10 L11 L12 L15 L16 L17 L18 L19 L23 L24 L25 L26 L27 L28 
+(Boulder->SaltLKcity) (12 lambdas) L1 L3 L4 L8 L9 L10 L11 L12 L13 L15 L16 L17 
+(Boulder->Lincoln) (10 lambdas) L1 L2 L4 L6 L7 L8 L9 L15 L16 L17 
+(Boulder->Houston) (11 lambdas) L1 L2 L6 L7 L9 L16 L17 L18 L21 L22 L23 
+(Lincoln->Boulder) (8 lambdas) L3 L5 L10 L11 L12 L13 L14 L18 
+(Lincoln->Champaign) (9 lambdas) L2 L4 L5 L6 L7 L8 L11 L12 L13 
+(Houston->SanDiego) (13 lambdas) L1 L2 L3 L4 L6 L7 L8 L9 L10 L11 L12 L14 L17 
+(Houston->Boulder) (12 lambdas) L3 L4 L5 L8 L10 L11 L12 L13 L14 L15 L19 L20 
+(Houston->Atalanta) (9 lambdas) L9 L10 L11 L12 L14 L15 L16 L17 L18 
+(Houston->CollegePk) (12 lambdas) L2 L5 L6 L7 L13 L16 L18 L20 L21 L22 L23 L24 
+(Champaign->Seattler) (13 lambdas) L1 L2 L3 L4 L5 L6 L7 L8 L11 L17 L18 L19 L20 
+(Champaign->Lincoln) (7 lambdas) L1 L3 L9 L10 L14 L15 L16 
+(Champaign->Pittsburgh) (15 lambdas) L2 L4 L5 L6 L7 L8 L9 L14 L15 L16 L17 L27 L28 L29 L30 
+(AnnArbor->SaltLKcity) (14 lambdas) L1 L2 L3 L4 L5 L6 L7 L8 L9 L13 L14 L20 L21 L22 
+(AnnArbor->Ithaca) (10 lambdas) L1 L2 L3 L4 L5 L11 L15 L17 L19 L20 
+(AnnArbor->Princeton) (5 lambdas) L1 L4 L5 L7 L10 
+(Atalanta->Houston) (9 lambdas) L1 L2 L3 L4 L5 L6 L7 L8 L13 
+(Atalanta->Pittsburgh) (6 lambdas) L1 L3 L4 L5 L6 L10 
+(Pittsburgh->Champaign) (15 lambdas) L1 L3 L10 L11 L12 L13 L18 L19 L20 L21 L22 L23 L24 L25 L26 
+(Pittsburgh->Atalanta) (6 lambdas) L2 L7 L8 L9 L11 L12 
+(Pittsburgh->Ithaca) (11 lambdas) L4 L5 L6 L7 L9 L16 L17 L18 L19 L20 L22 
+(Pittsburgh->Princeton) (5 lambdas) L1 L3 L4 L6 L10 
+(Ithaca->AnnArbor) (10 lambdas) L6 L7 L8 L9 L10 L12 L13 L14 L16 L18 
+(Ithaca->Pittsburgh) (11 lambdas) L1 L2 L3 L8 L10 L11 L12 L13 L14 L15 L21 
+(Ithaca->CollegePk) (6 lambdas) L2 L3 L7 L9 L10 L11 
+(CollegePk->Houston) (12 lambdas) L1 L3 L4 L8 L9 L10 L11 L12 L14 L15 L17 L19 
+(CollegePk->Ithaca) (6 lambdas) L1 L4 L5 L6 L8 L12 
+(CollegePk->Princeton) (3 lambdas) L1 L3 L6 
+(Princeton->AnnArbor) (5 lambdas) L2 L3 L6 L8 L9 
+(Princeton->Pittsburgh) (5 lambdas) L2 L5 L7 L8 L9 
+(Princeton->CollegePk) (3 lambdas) L2 L4 L5 
+Lambdas usados (30): L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 
