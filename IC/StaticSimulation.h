@@ -1,5 +1,7 @@
 #pragma once
 
+#include "Constants.h"
+
 //TODO:finish me
 enum LambdaAllocationStrategy
 {
@@ -9,6 +11,8 @@ enum LambdaAllocationStrategy
 	LEAST_USED,
 	STRATEGIES_COUNT,
 };
+
+static const char *strategiesName[STRATEGIES_COUNT] = { "BASIC", "RANDOM", "FIRST_FIT", "LEAST_USED" };
 
 //TODO:finish me
 class StaticSimulation
@@ -28,12 +32,20 @@ public:
 	Matrix<std::vector<PathInfo>> allPaths; // matriz com todos os caminhos possíveis (de i, até j)
 	std::vector<PathInfo> minimumCostPaths; // lista de caminhos de distância mínimas
 	std::vector<PathInfo> minimumHopPaths; // lista de caminhos de saltos mínimos
+	int maxLambda; // numero de lambda máximo
 
 	float avgHops; // número médio de hops, utilizando o caminho mínimo
+	
+	LambdaAllocationStrategy bestStrategyToReduceLambda;
+	LambdaAllocationStrategy bestStrategyToReduceConversion;
+	LambdaAllocationStrategy bestStrategyToReduceFailure;
+	int strategiesLambdasCount[STRATEGIES_COUNT]; // quantidade de lambdas por estratégia
+	int strategiesConversionCount[STRATEGIES_COUNT]; // número de conversões por estratégia
+	int strategiesFailCount[STRATEGIES_COUNT]; // número de vezes que a alocação de lambda falhou por estrategia
 
 	int debugLevel; // indica se deve exibir mensagens de depuração do códigoo
 
-	StaticSimulation(Network *pNetwork);
+	StaticSimulation(Network *pNetwork, int maxLambda = INFINITE_VAL);
 	~StaticSimulation();
 	
 	//TODO:finish me
@@ -47,13 +59,13 @@ public:
 	int FindSmallestLambdaAvailable(const std::set<int>& used);
 
 	//TODO:finish me
-	void LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const std::vector<PathInfo>& paths, std::set<int>& usedLambdas, LambdaAllocationStrategy strategy, int& conversionCount);
+	void LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const std::vector<PathInfo>& paths, std::set<int>& usedLambdas, LambdaAllocationStrategy strategy, int& conversionCount, int& lambdaAllocationFailCount);
 
 	//TODO:finish me
 	void DiscoverUsedLambdasInThePath(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdasInThePath);
 
 	//TODO:finish me
-	void AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas, int& conversionCount);
+	void AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas, int& conversionCount, int& lambdaAllocationFailCount);
 		
 	/*//TODO:finish me
 	void AllocateLambdaWithConversor(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas);*/

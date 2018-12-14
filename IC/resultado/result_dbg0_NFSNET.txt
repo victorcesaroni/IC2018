@@ -1,19 +1,13 @@
-. Calculando numero medio de hops
-  totalHops = 390 / minimumPathsCount = 182
-  avgHops = 2.142857
-. Alocando lambdas
-  Alocando utilizando BASIC
-  Alocando utilizando RANDOM
-  Alocando utilizando FIRST_FIT
-  Alocando utilizando LEAST_USED
-  BASIC 30 lambdas usados / 0 conversoes feitas
-  RANDOM 30 lambdas usados / 0 conversoes feitas
-  FIRST_FIT 30 lambdas usados / 0 conversoes feitas
-  LEAST_USED 30 lambdas usados / 0 conversoes feitas
-  Melhor estrategia encontrada para reduzir lambda: BASIC
-  Melhor estrategia encontrada para reduzir conversao: BASIC
+*******************************************************
+* Numero de nos: 14
 *******************************************************
 * Numero medio de hops: 2.142857
+*******************************************************
+* Numero de enlaces: 42
+*******************************************************
+* Utilizacao media de enlace: 9.285714
+*******************************************************
+* Custo medio: 1.000000
 *******************************************************
 * Utilizacao de enlace:
 (Seattler->PaloAlto) 8
@@ -58,6 +52,15 @@
 (Princeton->AnnArbor) 5
 (Princeton->Pittsburgh) 5
 (Princeton->CollegePk) 3
+*******************************************************
+* Resultados das estrategias de alocacao de lambda com no maximo 999999 lambdas:
+BASIC: 30 lambdas usados / 0 conversoes feitas / 0 alocacoes com falha
+RANDOM: 30 lambdas usados / 0 conversoes feitas / 0 alocacoes com falha
+FIRST_FIT: 30 lambdas usados / 0 conversoes feitas / 0 alocacoes com falha
+LEAST_USED: 30 lambdas usados / 0 conversoes feitas / 0 alocacoes com falha
+  Melhor estrategia encontrada para reduzir lambda: BASIC
+  Melhor estrategia encontrada para reduzir conversao: BASIC
+  Melhor estrategia encontrada para reduzir falhas: BASIC
 *******************************************************
 * Alocacao de lambda por caminho minimo:
 (Seattler->PaloAlto) (8 lambdas) L2 L4 L5 L7 L14 L19 L28 L29 

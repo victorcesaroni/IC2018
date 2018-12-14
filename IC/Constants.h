@@ -1,3 +1,3 @@
 #pragma once
 
-const int INFINITE_VAL = 999999;
+#define INFINITE_VAL 999999

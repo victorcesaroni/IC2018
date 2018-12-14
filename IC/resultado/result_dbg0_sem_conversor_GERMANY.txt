@@ -1,19 +1,13 @@
-. Calculando numero medio de hops
-  totalHops = 764 / minimumPathsCount = 272
-  avgHops = 2.808824
-. Alocando lambdas
-  Alocando utilizando BASIC
-  Alocando utilizando RANDOM
-  Alocando utilizando FIRST_FIT
-  Alocando utilizando LEAST_USED
-  BASIC 83 lambdas usados / 0 conversoes feitas
-  RANDOM 83 lambdas usados / 0 conversoes feitas
-  FIRST_FIT 83 lambdas usados / 0 conversoes feitas
-  LEAST_USED 83 lambdas usados / 0 conversoes feitas
-  Melhor estrategia encontrada para reduzir lambda: BASIC
-  Melhor estrategia encontrada para reduzir conversao: BASIC
+*******************************************************
+* Numero de nos: 17
 *******************************************************
 * Numero medio de hops: 2.808824
+*******************************************************
+* Numero de enlaces: 51
+*******************************************************
+* Utilizacao media de enlace: 14.980392
+*******************************************************
+* Custo medio: 1.000000
 *******************************************************
 * Utilizacao de enlace:
 (Norden->Dortmund) 18
@@ -67,6 +61,15 @@
 (Berlin->Hannover) 10
 (Berlin->Hamburg) 1
 (Berlin->Leipzig) 5
+*******************************************************
+* Resultados das estrategias de alocacao de lambda com no maximo 999999 lambdas:
+BASIC: 83 lambdas usados / 0 conversoes feitas / 0 alocacoes com falha
+RANDOM: 83 lambdas usados / 0 conversoes feitas / 0 alocacoes com falha
+FIRST_FIT: 83 lambdas usados / 0 conversoes feitas / 0 alocacoes com falha
+LEAST_USED: 83 lambdas usados / 0 conversoes feitas / 0 alocacoes com falha
+  Melhor estrategia encontrada para reduzir lambda: BASIC
+  Melhor estrategia encontrada para reduzir conversao: BASIC
+  Melhor estrategia encontrada para reduzir falhas: BASIC
 *******************************************************
 * Alocacao de lambda por caminho minimo:
 (Norden->Dortmund) (18 lambdas) L2 L3 L4 L5 L16 L17 L19 L21 L62 L63 L65 L68 L69 L70 L71 L72 L73 L74 

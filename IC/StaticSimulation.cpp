@@ -5,10 +5,11 @@
 
 #define DBG_PRINTF(level, ...) {if (debugLevel >= level) { printf(__VA_ARGS__); }}
 
-StaticSimulation::StaticSimulation(Network *pNetwork)
+StaticSimulation::StaticSimulation(Network *pNetwork, int maxLambda)
 	: pNetwork(pNetwork)
 {
 	int N = pNetwork->nodeCount;
+	this->maxLambda = maxLambda;
 
 	DBG_PRINTF(3, "Inicializando matrizes %dx%d\n", N, N);
 
@@ -35,7 +36,7 @@ StaticSimulation::StaticSimulation(Network *pNetwork)
 			hasConversorMatrix[i][j] = 0;
 			lambdaMatrix[i][j].clear();
 			allPaths[i][j].clear();
-		}
+ 		}
 	}
 
 	for (const auto& node : pNetwork->nodes)
@@ -57,6 +58,8 @@ StaticSimulation::StaticSimulation(Network *pNetwork)
 
 	minimumCostPaths.clear();
 	minimumHopPaths.clear();
+
+	avgHops = 0;
 }
 
 StaticSimulation::~StaticSimulation()
@@ -108,7 +111,7 @@ int StaticSimulation::FindSmallestLambdaAvailable(const std::set<int>& used) // 
 	return lambda;
 }
 
-void StaticSimulation::LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const std::vector<PathInfo>& paths, std::set<int>& usedLambdas, LambdaAllocationStrategy strategy, int& conversionCount)
+void StaticSimulation::LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const std::vector<PathInfo>& paths, std::set<int>& usedLambdas, LambdaAllocationStrategy strategy, int& conversionCount, int& lambdaAllocationFailCount)
 {
 	if (strategy == LambdaAllocationStrategy::BASIC)
 	{
@@ -117,7 +120,7 @@ void StaticSimulation::LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& la
 			if (!p.hops.empty())
 			{
 				// aloca
-				AllocateLambda(lambdaMatrix, p, usedLambdas, conversionCount);
+				AllocateLambda(lambdaMatrix, p, usedLambdas, conversionCount, lambdaAllocationFailCount);
 			}
 		}
 	}
@@ -133,7 +136,7 @@ void StaticSimulation::LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& la
 			if (!availablePaths[idx].hops.empty())
 			{
 				// aloca
-				AllocateLambda(lambdaMatrix, availablePaths[idx], usedLambdas, conversionCount);
+				AllocateLambda(lambdaMatrix, availablePaths[idx], usedLambdas, conversionCount, lambdaAllocationFailCount);
 			}
 
 			availablePaths.erase(availablePaths.begin() + idx);
@@ -165,7 +168,7 @@ void StaticSimulation::LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& la
 			if (!availablePaths[idx].hops.empty())
 			{
 				// aloca
-				AllocateLambda(lambdaMatrix, availablePaths[idx], usedLambdas, conversionCount);
+				AllocateLambda(lambdaMatrix, availablePaths[idx], usedLambdas, conversionCount, lambdaAllocationFailCount);
 			}
 
 			availablePaths.erase(availablePaths.begin() + idx);
@@ -196,7 +199,7 @@ void StaticSimulation::LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& la
 			if (!availablePaths[idx].hops.empty())
 			{
 				// aloca
-				AllocateLambda(lambdaMatrix, availablePaths[idx], usedLambdas, conversionCount);
+				AllocateLambda(lambdaMatrix, availablePaths[idx], usedLambdas, conversionCount, lambdaAllocationFailCount);
 			}
 
 			availablePaths.erase(availablePaths.begin() + idx);
@@ -220,7 +223,7 @@ void StaticSimulation::DiscoverUsedLambdasInThePath(Matrix<std::vector<LambdaAll
 	}
 }
 
-void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas, int& conversionCount)
+void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas, int& conversionCount, int& lambdaAllocationFailCount)
 {
 	// lista com caminhos parciais de um caminho completo usando conversores para separar.
 	// como um conversor pode alterar o lambda é como se fosse outro caminho, ou seja, não precisa
@@ -302,30 +305,40 @@ void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lamb
 		// descobre o menor lambda possivel para uso
 		int newLambda = FindSmallestLambdaAvailable(usedLambdasInThePath);
 
-		usedLambdas.emplace(newLambda);
-
-		// aloca o lambda no caminho parcial (adiciona o lambda escolhido a lista de lambdas de todos os nos no caminho)
-		int lastHop = subPath.from;
-
-		DBG_PRINTF(2, "%s", pNetwork->FindNameById(lastHop).c_str());
-		for (const auto& h : subPath.hops)
+		if (newLambda > maxLambda)
 		{
-			DBG_PRINTF(2, "->%s", pNetwork->FindNameById(h).c_str());
-			lambdaMatrix[lastHop][h].push_back(LambdaAllocInfo(path.from, path.to, newLambda));
-			lastHop = h;
+			// não existe um lambda disponível nesse ponto
+			lambdaAllocationFailCount++;
+			DBG_PRINTF(2, "Alocacao de lambda falhou para o caminho %s->%s", pNetwork->FindNameById(path.from).c_str(), pNetwork->FindNameById(path.to).c_str());
+			break;
 		}
-		DBG_PRINTF(2, ": L%d", newLambda);
-		if (it + 1 != subPathsList.end())
+		else
 		{
-			DBG_PRINTF(2, "\n", newLambda);
+			usedLambdas.emplace(newLambda);
+
+			// aloca o lambda no caminho parcial (adiciona o lambda escolhido a lista de lambdas de todos os nos no caminho)
+			int lastHop = subPath.from;
+
+			DBG_PRINTF(2, "%s", pNetwork->FindNameById(lastHop).c_str());
+			for (const auto& h : subPath.hops)
+			{
+				DBG_PRINTF(2, "->%s", pNetwork->FindNameById(h).c_str());
+				lambdaMatrix[lastHop][h].push_back(LambdaAllocInfo(path.from, path.to, newLambda));
+				lastHop = h;
+			}
+			DBG_PRINTF(2, ": L%d", newLambda);
+			if (it + 1 != subPathsList.end())
+			{
+				DBG_PRINTF(2, "\n", newLambda);
+			}
+
+			if (lastLambda != -1 && newLambda != lastLambda)
+			{
+				conversionCount++;
+			}
 		}
 
-		if (lastLambda != -1 && newLambda != lastLambda)
-		{
-			conversionCount++;
-		}
-
-		lastLambda = newLambda;
+		lastLambda = newLambda;		
 	}
 	DBG_PRINTF(2, "\n");
 }
@@ -413,15 +426,20 @@ void StaticSimulation::Run()
 	tmpLambdaMatrix.Create(N, N);
 	size_t bestLambdaUseCount = INFINITE_VAL;
 	int bestConversionCount = INFINITE_VAL;
-	LambdaAllocationStrategy bestStrategyToReduceLambda = LambdaAllocationStrategy::BASIC;
-	LambdaAllocationStrategy bestStrategyToReduceConversion = LambdaAllocationStrategy::BASIC;
+	int bestFailureCount = INFINITE_VAL;
+
+	bestStrategyToReduceLambda = LambdaAllocationStrategy::BASIC;
+	bestStrategyToReduceConversion = LambdaAllocationStrategy::BASIC;
+	bestStrategyToReduceFailure = LambdaAllocationStrategy::BASIC;
 
 	auto ClearTempMatrix = [&]()
 	{
 		for (int i = 0; i < N; i++)
 		{
 			for (int j = 0; j < N; j++)
+			{
 				tmpLambdaMatrix[i][j].clear();
+			}
 		}
 	};
 
@@ -451,11 +469,19 @@ void StaticSimulation::Run()
 		bestStrategyToReduceConversion = strategy;
 	};
 
-	const LambdaAllocationStrategy strategies[STRATEGIES_COUNT] = { BASIC, RANDOM, FIRST_FIT, LEAST_USED };
-	const char *strategiesName[STRATEGIES_COUNT] = { "BASIC", "RANDOM", "FIRST_FIT", "LEAST_USED" };
-	int strategiesLambdasCount[STRATEGIES_COUNT];
-	int strategiesConversionCount[STRATEGIES_COUNT];
+	auto SaveTempMatrixToReduceFailure = [&](LambdaAllocationStrategy strategy)
+	{
+		for (int i = 0; i < N; i++)
+		{
+			for (int j = 0; j < N; j++)
+			{
+				lambdaMatrix[i][j] = tmpLambdaMatrix[i][j];
+			}
+		}
 
+		bestStrategyToReduceFailure = strategy;
+	};
+	
 	for (int i = 0; i < STRATEGIES_COUNT; i++)
 	{
 		ClearTempMatrix();
@@ -463,35 +489,43 @@ void StaticSimulation::Run()
 		// executa a alocacao de acordo com a estrategia
 		std::set<int> usedLambdas;
 		int conversionCount = 0;
+		int failureCount = 0;
 
-		DBG_PRINTF(1, "  Alocando utilizando %s\n", strategiesName[strategies[i]]);
-		LambdaAllocation(tmpLambdaMatrix, minimumCostPaths, usedLambdas, strategies[i], conversionCount);
+		DBG_PRINTF(1, "  Alocando utilizando %s %d caminhos\n", strategiesName[i], minimumCostPaths.size());
+		LambdaAllocation(tmpLambdaMatrix, minimumCostPaths, usedLambdas, LambdaAllocationStrategy(i), conversionCount, failureCount);
 
-		strategiesLambdasCount[strategies[i]] = usedLambdas.size();
-		strategiesConversionCount[strategies[i]] = conversionCount;
+		strategiesLambdasCount[i] = usedLambdas.size();
+		strategiesConversionCount[i] = conversionCount;
+		strategiesFailCount[i] = failureCount;
 
 		if (usedLambdas.size() < bestLambdaUseCount)
 		{
 			bestLambdaUseCount = usedLambdas.size();
 			// salva a matriz que utiliza a menor quantidade de lambdas
-			SaveTempMatrixToReduceLambda(strategies[i]);
+			SaveTempMatrixToReduceLambda(LambdaAllocationStrategy(i));
 		}
-
 		if (conversionCount < bestConversionCount)
 		{
 			bestConversionCount = conversionCount;
 			// salva a matriz que faz a menor quantidade de conversões
-			SaveTempMatrixToReduceConversion(strategies[i]);
+			SaveTempMatrixToReduceConversion(LambdaAllocationStrategy(i));
+		}
+		if (failureCount < bestFailureCount)
+		{
+			bestFailureCount = failureCount;
+			// salva a matriz que tem a menor falha
+			SaveTempMatrixToReduceFailure(LambdaAllocationStrategy(i));
 		}
 	}
 
 	for (int i = 0; i < STRATEGIES_COUNT; i++)
 	{
-		DBG_PRINTF(1, "  %s %d lambdas usados / %d conversoes feitas\n", strategiesName[strategies[i]], strategiesLambdasCount[strategies[i]], strategiesConversionCount[strategies[i]]);
+		DBG_PRINTF(1, "  %s %d lambdas usados / %d conversoes feitas / %d alocacoes com falha\n", strategiesName[i], strategiesLambdasCount[i], strategiesConversionCount[i], strategiesFailCount[i]);
 	}
 
 	DBG_PRINTF(1, "  Melhor estrategia encontrada para reduzir lambda: %s\n", strategiesName[bestStrategyToReduceLambda]);
 	DBG_PRINTF(1, "  Melhor estrategia encontrada para reduzir conversao: %s\n", strategiesName[bestStrategyToReduceConversion]);
+	DBG_PRINTF(1, "  Melhor estrategia encontrada para reduzir falhas: %s\n", strategiesName[bestStrategyToReduceFailure]);
 }
 
 void StaticSimulation::FindAllPathsDfs(int from, int to, int current, const Matrix<int>& cost, int N, std::vector<bool>& visited, std::vector<int>& path, int& level, Matrix<std::vector<PathInfo>>& allPaths)
