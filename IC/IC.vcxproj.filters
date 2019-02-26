@@ -42,6 +42,9 @@
     <ClInclude Include="NetworkConfigParser.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="DynamicSimulation.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stdafx.cpp">

@@ -148,6 +148,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="Constants.h" />
+    <ClInclude Include="DynamicSimulation.h" />
     <ClInclude Include="Matrix.h" />
     <ClInclude Include="Network.h" />
     <ClInclude Include="NetworkConfigParser.h" />
