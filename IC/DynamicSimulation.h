@@ -12,17 +12,36 @@ namespace DynamicSimulation
 	{
 		virtual void OnTickUpdate(tick_t tick) = 0;
 	};
+
+	class Node;
 	
-	class TrafficGenerator : public DynamicItem
+	class TrafficGenerator
 	{
 	public:
 		int interval;
 		int numberOfPackets;
 		int sizeOfPacket;
 
-		void OnTickUpdate(tick_t tick)
-		{
+		int maxNodes;
+		int packetCounter;
 
+		bool CreatePacket(tick_t tick, Packet &packet)
+		{
+			//TODO: criar pacote de acordo com probabilidade
+
+			if (tick % 3 == 0)
+				return false;
+
+			int source = rand() % maxNodes;
+			int destination = rand() % maxNodes;
+
+			if (source == destination)
+				destination = (source + 1) % maxNodes;
+
+			packet = Packet(packetCounter, 1, source, destination);
+			packetCounter++;
+
+			return true;
 		}
 	};
 
@@ -33,11 +52,17 @@ namespace DynamicSimulation
 		int size;
 		int source;
 		int destination;
-		Node *pDestinationNode; // so vai ficar ativo (diferente de NULL) depois que o pacote for adicionado na rede (enviado)
+		Node *pNextNode; // proximo no que o pacote vai ir, so vai ficar ativo (diferente de NULL) depois que o pacote for adicionado na rede (enviado)
 		bool dropped;
 
+		Packet()
+			: id(-1), size(-1), source(-1), destination(-1), pNextNode(NULL)
+		{
+			dropped = false;
+		}
+
 		Packet(int id, int size, int source, int destination)
-			: id(id), size(size), source(source), destination(destination), pDestinationNode(NULL)
+			: id(id), size(size), source(source), destination(destination), pNextNode(NULL)
 		{
 			dropped = false;
 		}
@@ -88,6 +113,8 @@ namespace DynamicSimulation
 		}
 	};
 
+	class Simulator;
+
 	class Node : public DynamicItem
 	{
 	public:
@@ -97,8 +124,10 @@ namespace DynamicSimulation
 		TrafficGenerator trafficGenerator;
 		int packetsDropped;
 		int packetsSended;
+		std::deque<Packet> *pPacketList;
 
-		Node()
+		Node(Simulator *pSimulator)
+			: pPacketList(pPacketList)
 		{
 			packetsSended = 0;
 			packetsDropped = 0;
@@ -112,14 +141,16 @@ namespace DynamicSimulation
 
 		void OnTickUpdate(tick_t tick)
 		{
-			trafficGenerator.OnTickUpdate(tick);
+			Packet packet;
+			if (trafficGenerator.CreatePacket(tick, packet))
+				AddPacket(&packet);
 
 			for (Link& link : links)
 			{
 				link.OnTickUpdate(tick);
 			}
 		}
-		
+
 		int GetBestLambdaForLink(const Link& link)
 		{
 			for (unsigned i = 0; i != link.lambdas.size(); i++)
@@ -133,6 +164,12 @@ namespace DynamicSimulation
 			return -1;
 		}
 
+		// adiciona o pacote na rede
+		void AddPacket(Packet *pPacket)
+		{
+			pPacketList->emplace_back(*pPacket);
+		}
+
 		// "async"
 		bool SendPacket(Packet *pPacket)
 		{
@@ -140,7 +177,7 @@ namespace DynamicSimulation
 
 			for (Link& link : links)
 			{
-				if (link.destination == pPacket->destination)
+				if (link.destination == pPacket->pNextNode->id)
 				{
 					found = true;
 
@@ -161,7 +198,7 @@ namespace DynamicSimulation
 
 			if (!found)
 			{
-				printf("[ERROR] Packet %d INVALID DESTINATION %d\n", pPacket->id, pPacket->destination);
+				printf("[ERROR] SendPacket Packet %d INVALID DESTINATION %d\n", pPacket->id, pPacket->pNextNode->id);
 			}			
 
 			pPacket->Drop();
@@ -172,8 +209,25 @@ namespace DynamicSimulation
 
 		bool ReceivePacket(Packet *pPacket)
 		{
-			if (id != pPacket->destination)
+			if (id != pPacket->pNextNode->id)
+			{
+				// nunca deve acontecer
+				printf("[ERROR] ReceivePacket Packet %d INVALID DESTINATION %d\n", pPacket->id, pPacket->pNextNode->id);
+				
+				pPacket->Drop();
+				packetsDropped++;
 				return false;
+			}
+
+			if (pPacket->pNextNode->id == id)
+			{
+				// pacote eh para mim
+				return true;
+			}
+
+			AddPacket(pPacket);
+
+			return true;
 		}
 	};
 
@@ -185,9 +239,11 @@ namespace DynamicSimulation
 		int maxPacketsPerTick;
 		bool conversor;
 
+		int packetsDropped;
+
 		Link()
 		{
-
+			packetsDropped = 0;
 		}
 
 		void OnTickUpdate(tick_t tick)
@@ -198,7 +254,12 @@ namespace DynamicSimulation
 			{
 				if (linkLambda.allocated)
 				{
-					if (linkLambda.pPacket.)
+					//TODO: talvez adicionar um ponteiro a Network, para poder eliminar esse pDestinationNode, e acessar pelos ids dos Node
+					if (linkLambda.pPacket->pNextNode == NULL) // nunca deve acontecer
+						printf("[%d] FATAL ERROR with packet %d\n", linkLambda.pPacket->id);
+					
+					linkLambda.pPacket->pNextNode->ReceivePacket(linkLambda.pPacket);
+					linkLambda.Deallocate();
 				}
 			}
 		}
@@ -316,8 +377,8 @@ namespace DynamicSimulation
 					printf("[%d] Sending packet %d\n", tick, packet.id);
 					// envia o pacote que vai ser processado pelo lambda no proximo tick
 					//TODO: talvez tenha que mudar essa questao de processar no proximo tick
-					packet.pDestinationNode = &pNetwork->nodes[nextNode];
-					packet.pDestinationNode->SendPacket(&packet);
+					packet.pNextNode = &pNetwork->nodes[nextNode];
+					packet.pNextNode->SendPacket(&packet);
 				}
 				else
 				{
