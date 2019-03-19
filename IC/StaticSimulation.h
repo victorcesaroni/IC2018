@@ -60,13 +60,13 @@ public:
 	int FindSmallestLambdaAvailable(const std::set<int>& used);
 
 	//TODO:finish me
-	void LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const std::vector<PathInfo>& paths, std::set<int>& usedLambdas, LambdaAllocationStrategy strategy, int& conversionCount, int& lambdaAllocationFailCount);
+	void LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const std::vector<PathInfo>& paths, std::set<int>& usedLambdas, LambdaAllocationStrategy strategy, int& conversionCount, std::vector<int>& conversionCounts, int& lambdaAllocationFailCount);
 
 	//TODO:finish me
 	void DiscoverUsedLambdasInThePath(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdasInThePath);
 
 	//TODO:finish me
-	void AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas, int& conversionCount, int& lambdaAllocationFailCount);
+	void AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas, int& conversionCount, std::vector<int>& conversionCounts, int& lambdaAllocationFailCount);
 		
 	/*//TODO:finish me
 	void AllocateLambdaWithConversor(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const PathInfo& path, std::set<int>& usedLambdas);*/

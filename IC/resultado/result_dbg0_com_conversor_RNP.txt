@@ -74,13 +74,14 @@ LEAST_USED: 33 lambdas usados / 86 conversoes feitas / 0 alocacoes com falha
 Lambdas usados (33): L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 
 *******************************************************
 * Conversoes por no:
-Fortaleza 30
-Recife 22
-Salvador 36
-Brasilia 56
-BeloHorizonte 55
-RioDeJaneiro 51
-SaoPaulo 49
-Curitiba 23
-Florianopolis 26
-SemNome 37
+ Fortaleza 7
+ Recife 4
+ Salvador 9
+ Brasilia 12
+ BeloHorizonte 12
+ RioDeJaneiro 12
+ SaoPaulo 11
+ Curitiba 4
+ Florianopolis 6
+ SemNome 9
+ Total 86

@@ -110,17 +110,18 @@ LEAST_USED: 30 lambdas usados / 113 conversoes feitas / 0 alocacoes com falha
 Lambdas usados (30): L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 
 *******************************************************
 * Conversoes por no:
-Seattler 52
-PaloAlto 49
-SanDiego 50
-SaltLKcity 63
-Boulder 35
-Lincoln 37
-Houston 59
-Champaign 48
-AnnArbor 28
-Atalanta 18
-Pittsburgh 58
-Ithaca 33
-CollegePk 29
-Princeton 38
+ Seattler 12
+ PaloAlto 12
+ SanDiego 12
+ SaltLKcity 12
+ Boulder 3
+ Lincoln 8
+ Houston 12
+ Champaign 7
+ AnnArbor 3
+ Atalanta 1
+ Pittsburgh 13
+ Ithaca 5
+ CollegePk 3
+ Princeton 10
+ Total 113
