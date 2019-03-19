@@ -57,7 +57,8 @@ public:
 
 	/// encontra o menor número possível N no set (sendo N >= 1 e N < infinito)
 	/// used: set com números N (sendo N >= 1 e N < infinito)
-	int FindSmallestLambdaAvailable(const std::set<int>& used);
+	/// prefered: um lambda de preferência
+	int FindSmallestLambdaAvailable(const std::set<int>& used, int prefered = -1);
 
 	//TODO:finish me
 	void LambdaAllocation(Matrix<std::vector<LambdaAllocInfo>>& lambdaMatrix, const std::vector<PathInfo>& paths, std::set<int>& usedLambdas, LambdaAllocationStrategy strategy, int& conversionCount, std::vector<int>& conversionCounts, int& lambdaAllocationFailCount);

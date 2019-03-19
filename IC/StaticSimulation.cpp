@@ -100,8 +100,11 @@ void StaticSimulation::PreparePathsAndMinimumDistanceMatrix()
 	}
 }
 
-int StaticSimulation::FindSmallestLambdaAvailable(const std::set<int>& used) // funcao que retorna o menor lambda disponivel
+int StaticSimulation::FindSmallestLambdaAvailable(const std::set<int>& used, int prefered) // funcao que retorna o menor lambda disponivel
 {
+	if (prefered != -1 && used.find(prefered) == used.end())
+		return prefered;
+
 	int lambda = 1;
 	while (used.find(lambda) != used.end() && lambda < INFINITE_VAL)
 		lambda++;
@@ -320,7 +323,7 @@ void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lamb
 		DiscoverUsedLambdasInThePath(lambdaMatrix, subPath, usedLambdasInThePath);
 
 		// descobre o menor lambda possivel para uso
-		int newLambda = FindSmallestLambdaAvailable(usedLambdasInThePath);
+		int newLambda = FindSmallestLambdaAvailable(usedLambdasInThePath, /*lastLambda*/-1); //TODO: checar impacto de sempre minimizar o lambda (-1) vs tentar manter o lambda (lastLambda)
 
 		if (newLambda > maxLambda)
 		{
