@@ -52,6 +52,7 @@ StaticSimulation::StaticSimulation(Network *pNetwork, int maxLambda)
 			hopCostMatrix[i][j] = 1;
 			hasConversorMatrix[i][j] = link.conversor;
 		}
+		conversionCounts.emplace_back(0);
 	}
 
 	DBG_PRINTF(3, "Inicializando listas\n");
@@ -236,6 +237,12 @@ void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lamb
 		tmpPath.to = path.to;
 		tmpPath.hops.clear();
 
+		//ex: n1-[conversor]->n2->n3-[conversor]->n4
+		// subPaths:
+		// from : hops
+		// n1   : n2
+		// n2   : n3, n4
+
 		int lastHop = path.from;
 
 		// descobre os segmentos que não possuem conversores
@@ -274,24 +281,34 @@ void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lamb
 		{
 			const auto& subPath = *it;
 
-			if (it != subPathsList.begin())
+			if (it == subPathsList.begin())
 			{
-				DBG_PRINTF(3, "[CONVERSAO]%s", pNetwork->FindNameById(subPath.from).c_str());
+				// primeiro no, portanto nao existe algum sub caminho atras dele, portando nao existe conversor
+				DBG_PRINTF(3, "%s", pNetwork->FindNameById(subPath.from).c_str());				
 			}
 			else
 			{
-				DBG_PRINTF(3, " %s", pNetwork->FindNameById(subPath.from).c_str());
+				DBG_PRINTF(3, "-[conversor disponivel]->%s", pNetwork->FindNameById(subPath.from).c_str());
 			}
 
 			for (const auto& h : subPath.hops)
 			{
-				DBG_PRINTF(3, "->%s", pNetwork->FindNameById(h).c_str());
+				if (h == subPath.hops.back() && it+1 != subPathsList.end())
+				{
+					// eh um nó que eh precedido por um nó com conversor, entao deixa para exibir depois
+				}
+				else
+				{
+					DBG_PRINTF(3, "->%s", pNetwork->FindNameById(h).c_str());
+				}
 			}
+
 		}
 		DBG_PRINTF(3, "\n");
 	}
 
 	int lastLambda = -1;
+	int lastConversorNode = -1;
 	for (auto it = subPathsList.begin(); it != subPathsList.end(); ++it)
 	{
 		const auto& subPath = *it;
@@ -329,16 +346,30 @@ void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lamb
 			DBG_PRINTF(2, ": L%d", newLambda);
 			if (it + 1 != subPathsList.end())
 			{
-				DBG_PRINTF(2, "\n", newLambda);
+				DBG_PRINTF(2, "\n");
 			}
 
 			if (lastLambda != -1 && newLambda != lastLambda)
 			{
 				conversionCount++;
+
+				if (it != subPathsList.begin())
+					conversionCounts[lastConversorNode]++;
 			}
 		}
 
-		lastLambda = newLambda;		
+		lastLambda = newLambda;	
+		
+		if (subPath.hops.size() <= 1)
+		{
+			// caso o numero de hops seja 1, entao existe um conversor em subPath.from 
+			lastConversorNode = subPath.from;
+		}
+		else
+		{
+			// caso contrário o conversor está no penúltimo hop, uma vez que o último hop é o nó após o nó com conversor
+			lastConversorNode = *(subPath.hops.end() - 2);
+		}
 	}
 	DBG_PRINTF(2, "\n");
 }

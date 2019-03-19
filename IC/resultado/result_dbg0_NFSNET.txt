@@ -108,3 +108,19 @@ LEAST_USED: 30 lambdas usados / 0 conversoes feitas / 0 alocacoes com falha
 (Princeton->Pittsburgh) (5 lambdas) L2 L9 L24 L25 L26 
 (Princeton->CollegePk) (3 lambdas) L2 L17 L18 
 Lambdas usados (30): L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 
+*******************************************************
+* Conversoes por no:
+Seattler 0
+PaloAlto 0
+SanDiego 0
+SaltLKcity 0
+Boulder 0
+Lincoln 0
+Houston 0
+Champaign 0
+AnnArbor 0
+Atalanta 0
+Pittsburgh 0
+Ithaca 0
+CollegePk 0
+Princeton 0

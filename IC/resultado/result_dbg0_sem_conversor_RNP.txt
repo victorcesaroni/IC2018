@@ -72,3 +72,15 @@ LEAST_USED: 33 lambdas usados / 0 conversoes feitas / 0 alocacoes com falha
 (SemNome->Brasilia) (11 lambdas) L3 L6 L8 L13 L14 L15 L29 L30 L31 L32 L33 
 (SemNome->Florianopolis) (5 lambdas) L1 L4 L6 L7 L19 
 Lambdas usados (33): L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 
+*******************************************************
+* Conversoes por no:
+Fortaleza 0
+Recife 0
+Salvador 0
+Brasilia 0
+BeloHorizonte 0
+RioDeJaneiro 0
+SaoPaulo 0
+Curitiba 0
+Florianopolis 0
+SemNome 0

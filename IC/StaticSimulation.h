@@ -26,12 +26,13 @@ public:
 	Matrix<int> minimumDistanceMatrix; // matriz que possui a distancia mínima para ir, passando por um ou mais nos, (de i, até j), infinito caso não seja possível
 	Matrix<int> minimumHopsMatrix; // matriz que possui a distancia mínima para ir, passando por um ou mais nos, (de i, até j), infinito caso não seja possível
 	Matrix<int> utilizationMatrix; // matriz que possui o numero de vezes que um caminho minimo passa por (i, j)
-	Matrix<bool> hasConversorMatrix; // matriz que se existe conversor entre (i,j)
+	Matrix<bool> hasConversorMatrix; // matriz que se existe conversor entre (i,j)	
 	Matrix<std::vector<LambdaAllocInfo>> lambdaMatrix; // matriz que possui as alocações de comprimento de onda (de i, até j) das rotas de caminho mínimo, utilizando o menor lambda possível por caminho
 	
 	Matrix<std::vector<PathInfo>> allPaths; // matriz com todos os caminhos possíveis (de i, até j)
 	std::vector<PathInfo> minimumCostPaths; // lista de caminhos de distância mínimas
 	std::vector<PathInfo> minimumHopPaths; // lista de caminhos de saltos mínimos
+	std::vector<int> conversionCounts; // lista que possui o numero de vezes que houve uma conversão entre no nó i
 	int maxLambda; // numero de lambda máximo
 
 	float avgHops; // número médio de hops, utilizando o caminho mínimo
