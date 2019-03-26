@@ -88,109 +88,109 @@
 (Moscow->Stockholm) 3
 *******************************************************
 * Resultados das estrategias de alocacao de lambda com no maximo 999999 lambdas:
-BASIC: 60 lambdas usados / 439 conversoes feitas / 0 alocacoes com falha
-RANDOM: 60 lambdas usados / 422 conversoes feitas / 0 alocacoes com falha
-FIRST_FIT: 60 lambdas usados / 255 conversoes feitas / 0 alocacoes com falha
-LEAST_USED: 60 lambdas usados / 255 conversoes feitas / 0 alocacoes com falha
+BASIC: 60 lambdas usados / 203 conversoes feitas / 0 alocacoes com falha
+RANDOM: 60 lambdas usados / 215 conversoes feitas / 0 alocacoes com falha
+FIRST_FIT: 60 lambdas usados / 117 conversoes feitas / 0 alocacoes com falha
+LEAST_USED: 60 lambdas usados / 117 conversoes feitas / 0 alocacoes com falha
   Melhor estrategia encontrada para reduzir lambda: BASIC
   Melhor estrategia encontrada para reduzir conversao: FIRST_FIT
   Melhor estrategia encontrada para reduzir falhas: BASIC
 *******************************************************
 * Alocacao de lambda por caminho minimo:
 (Dublin->London) (11 lambdas) L3 L4 L5 L8 L9 L10 L11 L12 L13 L14 L17 
-(Dublin->Paris) (7 lambdas) L2 L3 L4 L6 L8 L11 L12 
+(Dublin->Paris) (7 lambdas) L2 L3 L4 L6 L8 L9 L11 
 (Lisbon->London) (25 lambdas) L6 L9 L10 L12 L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L28 L29 L30 L31 L32 L33 L34 L35 
-(Lisbon->Madrid) (9 lambdas) L1 L3 L4 L5 L6 L15 L16 L17 L18 
-(London->Dublin) (11 lambdas) L1 L2 L6 L7 L15 L16 L18 L19 L20 L21 L22 
+(Lisbon->Madrid) (9 lambdas) L1 L4 L5 L11 L27 L38 L40 L46 L48 
+(London->Dublin) (11 lambdas) L1 L2 L6 L7 L15 L16 L18 L19 L20 L24 L27 
 (London->Lisbon) (25 lambdas) L1 L2 L3 L4 L5 L7 L8 L11 L26 L27 L36 L37 L38 L39 L40 L41 L42 L43 L44 L45 L46 L47 L48 L49 L50 
-(London->Paris) (24 lambdas) L1 L3 L4 L5 L9 L10 L11 L13 L14 L15 L16 L18 L19 L20 L24 L25 L26 L27 L31 L32 L34 L35 L38 L39 
-(London->Amesterdam) (15 lambdas) L10 L12 L13 L15 L16 L17 L18 L19 L20 L21 L22 L23 L27 L28 L29 
-(London->SemNome) (8 lambdas) L1 L3 L4 L6 L8 L9 L10 L15 
-(London->Oslo) (21 lambdas) L1 L2 L5 L6 L7 L8 L10 L12 L13 L14 L22 L23 L25 L26 L27 L29 L31 L32 L38 L41 L42 
-(London->Berlim) (20 lambdas) L8 L9 L10 L11 L12 L14 L17 L19 L20 L21 L22 L23 L24 L25 L26 L29 L32 L33 L34 L36 
-(Madrid->Lisbon) (9 lambdas) L2 L7 L8 L9 L10 L11 L12 L13 L14 
-(Madrid->Paris) (9 lambdas) L1 L3 L5 L6 L7 L10 L13 L15 L16 
-(Paris->Dublin) (7 lambdas) L1 L5 L7 L9 L10 L13 L14 
-(Paris->London) (24 lambdas) L2 L6 L7 L8 L12 L17 L21 L22 L23 L28 L29 L30 L33 L36 L37 L40 L41 L42 L43 L44 L45 L46 L47 L48 
-(Paris->Madrid) (9 lambdas) L2 L4 L8 L9 L11 L12 L14 L17 L18 
-(Paris->SemNome) (6 lambdas) L1 L3 L4 L6 L9 L10 
-(Paris->Zurich) (8 lambdas) L1 L2 L3 L4 L6 L7 L13 L14 
-(Paris->Milan) (28 lambdas) L6 L8 L10 L11 L13 L14 L16 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L31 L32 L33 L34 L35 L37 L38 L39 L45 L55 L56 
-(Amesterdam->London) (15 lambdas) L1 L2 L3 L4 L5 L6 L7 L8 L9 L11 L14 L24 L25 L26 L30 
+(London->Paris) (24 lambdas) L1 L3 L4 L5 L9 L10 L11 L13 L14 L15 L16 L18 L19 L20 L24 L25 L26 L27 L32 L33 L34 L35 L37 L39 
+(London->Amesterdam) (15 lambdas) L10 L12 L13 L15 L16 L17 L18 L19 L20 L21 L22 L23 L28 L29 L31 
+(London->SemNome) (8 lambdas) L1 L4 L5 L6 L8 L12 L15 L31 
+(London->Oslo) (21 lambdas) L1 L2 L6 L7 L8 L9 L10 L12 L13 L14 L22 L23 L26 L30 L31 L34 L36 L38 L40 L49 L54 
+(London->Berlim) (20 lambdas) L8 L9 L10 L11 L12 L14 L17 L19 L20 L21 L22 L23 L24 L25 L26 L29 L30 L32 L33 L35 
+(Madrid->Lisbon) (9 lambdas) L2 L3 L6 L7 L8 L9 L10 L12 L13 
+(Madrid->Paris) (9 lambdas) L1 L3 L5 L6 L7 L10 L13 L14 L15 
+(Paris->Dublin) (7 lambdas) L1 L5 L7 L10 L15 L40 L47 
+(Paris->London) (24 lambdas) L2 L6 L7 L8 L12 L17 L21 L22 L23 L28 L29 L30 L31 L36 L38 L40 L41 L42 L43 L44 L48 L49 L50 L54 
+(Paris->Madrid) (9 lambdas) L2 L4 L8 L9 L11 L12 L18 L41 L51 
+(Paris->SemNome) (6 lambdas) L1 L3 L9 L19 L46 L53 
+(Paris->Zurich) (8 lambdas) L1 L2 L3 L4 L6 L7 L15 L19 
+(Paris->Milan) (28 lambdas) L6 L8 L10 L11 L13 L14 L16 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L32 L33 L34 L35 L37 L38 L39 L45 L55 L56 
+(Amesterdam->London) (15 lambdas) L1 L2 L3 L4 L5 L6 L7 L8 L9 L11 L14 L24 L25 L26 L27 
 (Amesterdam->SemNome) (5 lambdas) L1 L2 L3 L4 L5 
-(Amesterdam->Copenhagen) (16 lambdas) L1 L2 L10 L13 L17 L18 L19 L23 L24 L25 L27 L28 L29 L30 L31 L32 
-(Amesterdam->Berlim) (13 lambdas) L1 L2 L3 L4 L5 L6 L7 L12 L15 L16 L18 L19 L20 
-(Amesterdam->Prague) (7 lambdas) L1 L4 L5 L6 L7 L8 L10 
-(SemNome->London) (8 lambdas) L2 L5 L7 L11 L12 L13 L14 L16 
-(SemNome->Paris) (6 lambdas) L2 L5 L7 L8 L11 L12 
+(Amesterdam->Copenhagen) (16 lambdas) L1 L2 L10 L13 L17 L18 L19 L23 L24 L25 L27 L28 L29 L31 L35 L50 
+(Amesterdam->Berlim) (13 lambdas) L1 L2 L3 L4 L5 L6 L7 L12 L15 L16 L20 L21 L22 
+(Amesterdam->Prague) (7 lambdas) L1 L6 L7 L12 L16 L19 L21 
+(SemNome->London) (8 lambdas) L2 L3 L7 L9 L10 L11 L13 L14 
+(SemNome->Paris) (6 lambdas) L2 L4 L5 L6 L7 L8 
 (SemNome->Amesterdam) (5 lambdas) L6 L7 L8 L9 L10 
-(SemNome->Zurich) (3 lambdas) L1 L2 L4 
-(Zurich->Paris) (8 lambdas) L5 L8 L9 L10 L11 L12 L15 L16 
-(Zurich->SemNome) (3 lambdas) L3 L5 L6 
-(Zurich->Milan) (7 lambdas) L3 L5 L9 L10 L11 L13 L14 
+(SemNome->Zurich) (3 lambdas) L1 L2 L5 
+(Zurich->Paris) (8 lambdas) L5 L8 L9 L10 L11 L12 L13 L14 
+(Zurich->SemNome) (3 lambdas) L3 L4 L6 
+(Zurich->Milan) (7 lambdas) L3 L4 L6 L7 L8 L9 L11 
 (Zurich->Prague) (4 lambdas) L2 L4 L6 L7 
-(Milan->Paris) (28 lambdas) L1 L2 L3 L4 L5 L7 L9 L12 L15 L17 L18 L19 L30 L36 L40 L41 L42 L43 L44 L46 L47 L48 L49 L50 L51 L52 L53 L54 
-(Milan->Zurich) (7 lambdas) L1 L2 L4 L6 L7 L8 L12 
-(Milan->Berlim) (24 lambdas) L8 L9 L10 L11 L13 L14 L15 L16 L17 L23 L24 L34 L35 L36 L37 L38 L39 L40 L41 L42 L43 L44 L45 L46 
-(Milan->Prague) (4 lambdas) L1 L4 L5 L8 
+(Milan->Paris) (28 lambdas) L1 L2 L3 L4 L5 L7 L9 L12 L15 L17 L18 L19 L31 L36 L40 L41 L42 L43 L44 L46 L47 L48 L49 L50 L51 L52 L53 L54 
+(Milan->Zurich) (7 lambdas) L1 L2 L5 L10 L23 L26 L47 
+(Milan->Berlim) (24 lambdas) L8 L9 L10 L11 L13 L14 L15 L16 L17 L24 L25 L34 L35 L36 L37 L38 L39 L40 L41 L45 L50 L51 L53 L54 
+(Milan->Prague) (4 lambdas) L1 L6 L15 L52 
 (Milan->Rome) (30 lambdas) L3 L6 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 L34 L35 L36 L37 L38 L39 L55 L56 L57 L58 L59 L60 
-(Milan->Zagreb) (15 lambdas) L1 L3 L4 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L23 
-(Oslo->London) (21 lambdas) L3 L4 L9 L11 L15 L16 L17 L18 L19 L20 L21 L24 L28 L30 L33 L34 L35 L36 L37 L39 L40 
+(Milan->Zagreb) (15 lambdas) L1 L3 L4 L7 L8 L9 L13 L14 L20 L21 L28 L30 L31 L33 L45 
+(Oslo->London) (21 lambdas) L3 L4 L5 L11 L15 L16 L17 L18 L19 L20 L21 L24 L25 L27 L28 L29 L32 L33 L35 L37 L39 
 (Oslo->Copenhagen) (1 lambdas) L2 
-(Oslo->Stockholm) (8 lambdas) L2 L3 L5 L6 L8 L10 L12 L13 
+(Oslo->Stockholm) (8 lambdas) L2 L3 L5 L10 L13 L22 L34 L38 
 (Copenhagen->Amesterdam) (16 lambdas) L3 L4 L5 L6 L7 L8 L9 L11 L12 L14 L15 L16 L20 L21 L22 L26 
 (Copenhagen->Oslo) (1 lambdas) L1 
 (Copenhagen->Stockholm) (3 lambdas) L1 L2 L3 
-(Berlim->London) (20 lambdas) L1 L2 L3 L4 L5 L6 L7 L13 L15 L16 L18 L27 L28 L30 L31 L35 L37 L38 L39 L40 
-(Berlim->Amesterdam) (13 lambdas) L8 L9 L10 L11 L13 L14 L17 L21 L22 L23 L24 L25 L26 
-(Berlim->Milan) (24 lambdas) L1 L2 L3 L4 L5 L6 L7 L12 L18 L19 L20 L21 L22 L25 L26 L27 L28 L29 L30 L31 L32 L33 L47 L48 
+(Berlim->London) (20 lambdas) L1 L2 L3 L4 L5 L6 L7 L13 L15 L16 L18 L27 L28 L31 L34 L36 L37 L38 L39 L40 
+(Berlim->Amesterdam) (13 lambdas) L8 L9 L10 L11 L13 L14 L17 L18 L24 L34 L35 L45 L50 
+(Berlim->Milan) (24 lambdas) L1 L2 L3 L4 L5 L6 L7 L12 L18 L19 L20 L21 L22 L23 L26 L27 L28 L29 L30 L31 L32 L33 L42 L43 
 (Berlim->Prague) (3 lambdas) L1 L3 L6 
-(Berlim->Vienna) (13 lambdas) L1 L3 L4 L5 L8 L9 L10 L11 L13 L14 L15 L19 L23 
-(Berlim->Stockholm) (8 lambdas) L1 L4 L6 L7 L8 L12 L13 L14 
-(Berlim->Moscow) (15 lambdas) L1 L5 L6 L7 L8 L10 L14 L16 L17 L20 L24 L26 L28 L29 L30 
-(Prague->Amesterdam) (7 lambdas) L2 L3 L9 L11 L12 L13 L14 
+(Berlim->Vienna) (13 lambdas) L1 L3 L4 L5 L10 L11 L15 L16 L20 L21 L25 L29 L33 
+(Berlim->Stockholm) (8 lambdas) L1 L4 L6 L10 L16 L37 L40 L53 
+(Berlim->Moscow) (15 lambdas) L1 L5 L6 L7 L12 L14 L17 L23 L25 L26 L30 L35 L38 L41 L54 
+(Prague->Amesterdam) (7 lambdas) L2 L3 L4 L5 L8 L9 L10 
 (Prague->Zurich) (4 lambdas) L1 L3 L5 L8 
-(Prague->Milan) (4 lambdas) L2 L3 L6 L7 
+(Prague->Milan) (4 lambdas) L2 L3 L4 L5 
 (Prague->Berlim) (3 lambdas) L2 L4 L5 
-(Prague->Vienna) (2 lambdas) L1 L4 
+(Prague->Vienna) (2 lambdas) L1 L6 
 (Rome->Milan) (30 lambdas) L1 L2 L4 L5 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L40 L41 L42 L43 L44 L45 L46 L47 L48 L49 L50 L51 L52 L53 L54 
 (Rome->Zagreb) (2 lambdas) L1 L3 
-(Rome->Athens) (16 lambdas) L6 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 
-(Zagreb->Milan) (15 lambdas) L2 L5 L6 L18 L19 L20 L21 L22 L24 L25 L26 L27 L28 L29 L30 
+(Rome->Athens) (16 lambdas) L6 L18 L19 L22 L23 L25 L27 L29 L31 L33 L37 L38 L39 L56 L58 L60 
+(Zagreb->Milan) (15 lambdas) L2 L5 L6 L10 L11 L12 L15 L16 L17 L18 L19 L22 L23 L24 L25 
 (Zagreb->Rome) (2 lambdas) L2 L4 
 (Zagreb->Vienna) (3 lambdas) L2 L3 L6 
-(Zagreb->Athens) (2 lambdas) L3 L4 
-(Vienna->Berlim) (13 lambdas) L2 L6 L7 L12 L16 L17 L18 L20 L21 L22 L24 L25 L26 
+(Zagreb->Athens) (2 lambdas) L3 L5 
+(Vienna->Berlim) (13 lambdas) L2 L6 L7 L8 L9 L12 L13 L14 L17 L18 L19 L22 L23 
 (Vienna->Prague) (2 lambdas) L2 L3 
 (Vienna->Zagreb) (3 lambdas) L1 L4 L5 
-(Stockholm->Oslo) (8 lambdas) L1 L4 L7 L9 L11 L14 L15 L16 
+(Stockholm->Oslo) (8 lambdas) L1 L4 L6 L7 L8 L9 L11 L12 
 (Stockholm->Copenhagen) (3 lambdas) L4 L5 L6 
-(Stockholm->Berlim) (8 lambdas) L2 L3 L5 L9 L10 L11 L15 L16 
+(Stockholm->Berlim) (8 lambdas) L2 L3 L5 L7 L8 L9 L11 L12 
 (Stockholm->Moscow) (3 lambdas) L3 L5 L6 
 (Athens->Rome) (16 lambdas) L1 L2 L3 L4 L5 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 
 (Athens->Zagreb) (2 lambdas) L1 L2 
-(Moscow->Berlim) (15 lambdas) L2 L3 L4 L9 L11 L12 L13 L15 L18 L19 L21 L22 L23 L25 L27 
+(Moscow->Berlim) (15 lambdas) L2 L3 L4 L8 L9 L10 L11 L13 L15 L16 L18 L19 L20 L21 L22 
 (Moscow->Stockholm) (3 lambdas) L1 L2 L4 
 Lambdas usados (60): L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 L34 L35 L36 L37 L38 L39 L40 L41 L42 L43 L44 L45 L46 L47 L48 L49 L50 L51 L52 L53 L54 L55 L56 L57 L58 L59 L60 
 *******************************************************
 * Conversoes por no:
- Dublin 3
- Lisbon 6
- London 34
+ Dublin 2
+ Lisbon 0
+ London 0
  Madrid 11
- Paris 16
- Amesterdam 9
+ Paris 2
+ Amesterdam 1
  SemNome 14
- Zurich 12
- Milan 43
+ Zurich 10
+ Milan 0
  Oslo 16
- Copenhagen 4
- Berlim 20
+ Copenhagen 0
+ Berlim 5
  Prague 8
- Rome 9
- Zagreb 14
+ Rome 0
+ Zagreb 12
  Vienna 11
  Stockholm 13
  Athens 0
  Moscow 12
- Total 255
+ Total 117

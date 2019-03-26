@@ -323,7 +323,7 @@ void StaticSimulation::AllocateLambda(Matrix<std::vector<LambdaAllocInfo>>& lamb
 		DiscoverUsedLambdasInThePath(lambdaMatrix, subPath, usedLambdasInThePath);
 
 		// descobre o menor lambda possivel para uso
-		int newLambda = FindSmallestLambdaAvailable(usedLambdasInThePath, /*lastLambda*/-1); //TODO: checar impacto de sempre minimizar o lambda (-1) vs tentar manter o lambda (lastLambda)
+		int newLambda = FindSmallestLambdaAvailable(usedLambdasInThePath, lastLambda/*-1*/); //TODO: checar impacto de sempre minimizar o lambda (-1) vs tentar manter o lambda (lastLambda)
 
 		if (newLambda > maxLambda)
 		{

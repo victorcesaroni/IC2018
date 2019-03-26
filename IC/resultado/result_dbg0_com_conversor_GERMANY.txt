@@ -65,84 +65,84 @@
 (Berlin->Leipzig) 5
 *******************************************************
 * Resultados das estrategias de alocacao de lambda com no maximo 999999 lambdas:
-BASIC: 83 lambdas usados / 469 conversoes feitas / 0 alocacoes com falha
-RANDOM: 83 lambdas usados / 463 conversoes feitas / 0 alocacoes com falha
-FIRST_FIT: 83 lambdas usados / 325 conversoes feitas / 0 alocacoes com falha
-LEAST_USED: 83 lambdas usados / 325 conversoes feitas / 0 alocacoes com falha
+BASIC: 83 lambdas usados / 218 conversoes feitas / 0 alocacoes com falha
+RANDOM: 83 lambdas usados / 232 conversoes feitas / 0 alocacoes com falha
+FIRST_FIT: 83 lambdas usados / 143 conversoes feitas / 0 alocacoes com falha
+LEAST_USED: 83 lambdas usados / 143 conversoes feitas / 0 alocacoes com falha
   Melhor estrategia encontrada para reduzir lambda: BASIC
   Melhor estrategia encontrada para reduzir conversao: FIRST_FIT
   Melhor estrategia encontrada para reduzir falhas: BASIC
 *******************************************************
 * Alocacao de lambda por caminho minimo:
-(Norden->Dortmund) (18 lambdas) L2 L3 L4 L5 L16 L17 L20 L21 L27 L28 L29 L30 L31 L32 L33 L34 L35 L36 
-(Norden->Bremen) (6 lambdas) L7 L8 L9 L10 L11 L12 
-(Essen->Dusseldorf) (8 lambdas) L2 L3 L4 L5 L6 L16 L28 L30 
-(Essen->Dortmund) (28 lambdas) L7 L8 L9 L10 L11 L12 L13 L14 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 L34 L35 L36 
-(Dusseldorf->Essen) (23 lambdas) L1 L7 L8 L9 L10 L11 L12 L13 L14 L15 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L29 L31 
+(Norden->Dortmund) (18 lambdas) L2 L3 L4 L5 L16 L17 L19 L21 L22 L23 L24 L25 L26 L27 L29 L30 L31 L32 
+(Norden->Bremen) (6 lambdas) L7 L8 L9 L10 L14 L15 
+(Essen->Dusseldorf) (8 lambdas) L2 L3 L4 L5 L6 L17 L40 L45 
+(Essen->Dortmund) (28 lambdas) L7 L8 L9 L10 L11 L12 L13 L14 L15 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 L34 L35 L36 
+(Dusseldorf->Essen) (23 lambdas) L1 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L18 L19 L20 L21 L22 L23 L24 L25 L26 L29 L39 L52 
 (Dusseldorf->Koln) (2 lambdas) L1 L4 
-(Koln->Dusseldorf) (17 lambdas) L2 L3 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 
-(Koln->Dortmund) (28 lambdas) L3 L5 L6 L7 L8 L9 L10 L11 L12 L13 L15 L16 L17 L18 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 L34 
-(Dortmund->Norden) (18 lambdas) L1 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L18 L19 L22 L23 L24 L25 L26 
-(Dortmund->Essen) (13 lambdas) L1 L2 L3 L4 L5 L6 L15 L16 L37 L38 L39 L40 L41 
-(Dortmund->Koln) (6 lambdas) L1 L2 L4 L14 L19 L20 
+(Koln->Dusseldorf) (17 lambdas) L2 L3 L5 L6 L8 L9 L11 L14 L15 L19 L22 L29 L30 L39 L44 L52 L54 
+(Koln->Dortmund) (28 lambdas) L3 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L20 L21 L22 L23 L24 L25 L26 L28 L37 L38 L51 L53 L56 
+(Dortmund->Norden) (18 lambdas) L1 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L18 L20 L28 L38 L43 L52 L53 
+(Dortmund->Essen) (13 lambdas) L1 L2 L3 L4 L5 L6 L16 L17 L39 L40 L44 L45 L53 
+(Dortmund->Koln) (6 lambdas) L1 L2 L4 L19 L41 L46 
 (Dortmund->Hannover) (54 lambdas) L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 L34 L35 L36 L37 L38 L48 L49 L50 L51 L54 L55 L56 L57 L58 L59 L60 L62 L63 L64 L65 L66 L67 L68 L69 L70 L71 
 (Bremen->Norden) (6 lambdas) L1 L2 L3 L4 L5 L6 
-(Bremen->Hannover) (10 lambdas) L1 L2 L3 L4 L5 L7 L10 L11 L12 L13 
-(Bremen->Hamburg) (2 lambdas) L1 L4 
-(Frankfurt->Koln) (37 lambdas) L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 L34 L35 L36 L37 
-(Frankfurt->Mannheim) (24 lambdas) L1 L2 L3 L4 L8 L9 L13 L14 L16 L17 L20 L21 L29 L30 L31 L32 L33 L34 L35 L36 L41 L42 L47 L48 
+(Bremen->Hannover) (10 lambdas) L1 L2 L3 L4 L5 L7 L9 L11 L12 L13 
+(Bremen->Hamburg) (2 lambdas) L1 L10 
+(Frankfurt->Koln) (37 lambdas) L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L18 L19 L20 L21 L22 L23 L24 L28 L29 L30 L33 L37 L38 L39 L44 L45 L51 L52 L53 L54 L55 L56 
+(Frankfurt->Mannheim) (24 lambdas) L1 L2 L3 L4 L8 L9 L13 L14 L16 L17 L20 L21 L29 L30 L32 L38 L39 L44 L45 L50 L55 L56 L69 L70 
 (Frankfurt->Hannover) (24 lambdas) L5 L26 L27 L32 L50 L51 L52 L53 L61 L62 L63 L64 L65 L66 L67 L75 L76 L77 L78 L79 L80 L81 L82 L83 
-(Frankfurt->Numberg) (38 lambdas) L1 L2 L3 L4 L5 L9 L10 L11 L15 L16 L17 L18 L22 L23 L24 L25 L26 L27 L31 L34 L35 L36 L39 L40 L41 L42 L46 L47 L48 L49 L57 L58 L59 L60 L64 L65 L66 L67 
-(Frankfurt->Leipzig) (3 lambdas) L1 L5 L8 
-(Mannheim->Frankfurt) (24 lambdas) L5 L6 L7 L10 L11 L12 L15 L18 L19 L22 L23 L24 L25 L26 L27 L28 L37 L38 L39 L40 L43 L44 L45 L46 
-(Mannheim->Karlruhe) (14 lambdas) L2 L3 L4 L8 L9 L13 L14 L17 L19 L20 L21 L22 L27 L28 
-(Karlruhe->Mannheim) (14 lambdas) L1 L5 L6 L7 L10 L11 L12 L15 L16 L18 L23 L24 L25 L26 
-(Karlruhe->Stuttgart) (6 lambdas) L1 L3 L4 L5 L7 L10 
-(Stuttgart->Karlruhe) (6 lambdas) L2 L6 L8 L9 L11 L12 
-(Stuttgart->Ulm) (17 lambdas) L2 L3 L4 L5 L7 L8 L9 L10 L12 L13 L15 L20 L21 L22 L23 L30 L31 
-(Stuttgart->Numberg) (25 lambdas) L6 L13 L14 L17 L18 L19 L20 L21 L26 L29 L30 L31 L34 L35 L36 L37 L38 L39 L40 L45 L46 L47 L48 L49 L50 
+(Frankfurt->Numberg) (38 lambdas) L1 L2 L3 L4 L5 L10 L11 L12 L15 L16 L17 L18 L22 L23 L24 L25 L26 L27 L31 L34 L35 L36 L40 L41 L42 L43 L46 L47 L48 L49 L57 L58 L59 L60 L71 L72 L73 L74 
+(Frankfurt->Leipzig) (3 lambdas) L1 L11 L28 
+(Mannheim->Frankfurt) (24 lambdas) L5 L6 L7 L10 L11 L12 L15 L18 L19 L22 L23 L24 L25 L26 L27 L28 L31 L33 L34 L35 L36 L37 L40 L41 
+(Mannheim->Karlruhe) (14 lambdas) L2 L3 L4 L8 L9 L13 L14 L17 L21 L30 L39 L45 L56 L70 
+(Karlruhe->Mannheim) (14 lambdas) L1 L5 L6 L7 L10 L11 L12 L15 L16 L18 L19 L20 L22 L23 
+(Karlruhe->Stuttgart) (6 lambdas) L1 L3 L4 L5 L8 L13 
+(Stuttgart->Karlruhe) (6 lambdas) L2 L6 L7 L9 L11 L15 
+(Stuttgart->Ulm) (17 lambdas) L2 L3 L4 L5 L7 L8 L9 L10 L12 L13 L16 L23 L34 L41 L47 L58 L72 
+(Stuttgart->Numberg) (25 lambdas) L6 L13 L14 L17 L18 L19 L20 L21 L24 L25 L26 L27 L28 L29 L30 L32 L33 L35 L36 L37 L38 L39 L42 L43 L44 
 (Hannover->Dortmund) (17 lambdas) L1 L2 L3 L4 L5 L39 L40 L41 L42 L43 L44 L45 L46 L47 L52 L53 L61 
-(Hannover->Bremen) (10 lambdas) L6 L8 L9 L14 L15 L16 L17 L18 L19 L20 
+(Hannover->Bremen) (10 lambdas) L6 L8 L10 L26 L50 L61 L65 L75 L78 L81 
 (Hannover->Frankfurt) (59 lambdas) L1 L2 L3 L4 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L28 L29 L30 L31 L33 L34 L35 L36 L37 L38 L39 L40 L41 L42 L43 L44 L45 L46 L47 L48 L49 L54 L55 L56 L57 L58 L59 L60 L68 L69 L70 L71 L72 L73 L74 
-(Hannover->Hamburg) (13 lambdas) L3 L4 L5 L6 L7 L8 L20 L21 L22 L23 L24 L25 L26 
-(Hannover->Leipzig) (8 lambdas) L1 L2 L5 L6 L8 L9 L10 L14 
-(Hannover->Berlin) (10 lambdas) L11 L12 L13 L14 L15 L16 L17 L18 L19 L20 
+(Hannover->Hamburg) (13 lambdas) L3 L4 L8 L12 L27 L33 L49 L52 L63 L67 L77 L80 L83 
+(Hannover->Leipzig) (8 lambdas) L1 L2 L7 L9 L26 L37 L50 L63 
+(Hannover->Berlin) (10 lambdas) L11 L12 L13 L14 L27 L32 L38 L51 L53 L64 
 (Hamburg->Bremen) (2 lambdas) L2 L3 
-(Hamburg->Hannover) (13 lambdas) L1 L2 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 
+(Hamburg->Hannover) (13 lambdas) L1 L2 L5 L6 L7 L9 L10 L11 L13 L14 L15 L16 L17 
 (Hamburg->Berlin) (1 lambdas) L2 
-(Ulm->Stuttgart) (17 lambdas) L1 L6 L11 L14 L16 L17 L18 L19 L24 L25 L26 L27 L28 L29 L32 L33 L34 
-(Ulm->Munich) (3 lambdas) L3 L4 L6 
+(Ulm->Stuttgart) (17 lambdas) L1 L6 L11 L14 L15 L17 L18 L19 L20 L21 L22 L24 L25 L26 L27 L28 L29 
+(Ulm->Munich) (3 lambdas) L3 L4 L9 
 (Munich->Ulm) (3 lambdas) L1 L2 L5 
-(Munich->Numberg) (13 lambdas) L2 L6 L7 L8 L9 L11 L12 L14 L15 L18 L23 L24 L25 
-(Numberg->Frankfurt) (38 lambdas) L6 L7 L8 L12 L13 L14 L19 L20 L21 L28 L29 L30 L32 L33 L37 L38 L43 L44 L45 L50 L51 L52 L53 L54 L55 L56 L61 L62 L63 L68 L69 L70 L71 L72 L73 L74 L75 L76 
-(Numberg->Stuttgart) (25 lambdas) L1 L2 L3 L4 L5 L7 L8 L9 L10 L11 L12 L15 L16 L22 L23 L24 L25 L27 L28 L32 L33 L41 L42 L43 L44 
-(Numberg->Munich) (13 lambdas) L1 L3 L4 L5 L10 L13 L16 L17 L19 L20 L21 L22 L26 
-(Numberg->Leipzig) (8 lambdas) L9 L10 L11 L12 L13 L14 L15 L16 
-(Leipzig->Frankfurt) (5 lambdas) L2 L3 L4 L6 L7 
-(Leipzig->Hannover) (6 lambdas) L3 L4 L7 L11 L12 L13 
+(Munich->Numberg) (13 lambdas) L2 L6 L7 L8 L9 L10 L12 L13 L14 L15 L16 L18 L19 
+(Numberg->Frankfurt) (38 lambdas) L6 L7 L8 L9 L13 L14 L19 L20 L21 L28 L29 L30 L32 L33 L37 L38 L39 L44 L45 L50 L51 L52 L53 L54 L55 L56 L61 L62 L63 L64 L65 L66 L67 L68 L69 L70 L75 L76 
+(Numberg->Stuttgart) (25 lambdas) L1 L2 L3 L4 L5 L7 L8 L9 L10 L11 L12 L15 L16 L22 L23 L31 L34 L40 L41 L46 L47 L57 L58 L71 L72 
+(Numberg->Munich) (13 lambdas) L1 L3 L4 L5 L11 L17 L24 L26 L35 L42 L48 L59 L73 
+(Numberg->Leipzig) (8 lambdas) L9 L10 L11 L12 L17 L18 L21 L24 
+(Leipzig->Frankfurt) (5 lambdas) L2 L3 L4 L5 L6 
+(Leipzig->Hannover) (6 lambdas) L3 L4 L5 L6 L8 L10 
 (Leipzig->Numberg) (8 lambdas) L1 L2 L3 L4 L5 L6 L7 L8 
-(Leipzig->Berlin) (5 lambdas) L6 L7 L8 L9 L10 
+(Leipzig->Berlin) (5 lambdas) L6 L10 L12 L18 L24 
 (Berlin->Hannover) (10 lambdas) L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 
 (Berlin->Hamburg) (1 lambdas) L1 
 (Berlin->Leipzig) (5 lambdas) L1 L2 L3 L4 L5 
 Lambdas usados (83): L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 L34 L35 L36 L37 L38 L39 L40 L41 L42 L43 L44 L45 L46 L47 L48 L49 L50 L51 L52 L53 L54 L55 L56 L57 L58 L59 L60 L61 L62 L63 L64 L65 L66 L67 L68 L69 L70 L71 L72 L73 L74 L75 L76 L77 L78 L79 L80 L81 L82 L83 
 *******************************************************
 * Conversoes por no:
- Norden 14
+ Norden 10
  Essen 20
- Dusseldorf 8
- Koln 28
- Dortmund 24
+ Dusseldorf 1
+ Koln 14
+ Dortmund 8
  Bremen 1
- Frankfurt 68
- Mannheim 17
- Karlruhe 6
- Stuttgart 24
- Hannover 24
+ Frankfurt 0
+ Mannheim 8
+ Karlruhe 5
+ Stuttgart 18
+ Hannover 0
  Hamburg 12
- Ulm 14
+ Ulm 12
  Munich 12
- Numberg 45
+ Numberg 14
  Leipzig 8
  Berlin 0
- Total 325
+ Total 143

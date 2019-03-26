@@ -38,50 +38,50 @@
 (SemNome->Florianopolis) 5
 *******************************************************
 * Resultados das estrategias de alocacao de lambda com no maximo 999999 lambdas:
-BASIC: 33 lambdas usados / 111 conversoes feitas / 0 alocacoes com falha
-RANDOM: 33 lambdas usados / 102 conversoes feitas / 0 alocacoes com falha
-FIRST_FIT: 33 lambdas usados / 86 conversoes feitas / 0 alocacoes com falha
-LEAST_USED: 33 lambdas usados / 86 conversoes feitas / 0 alocacoes com falha
+BASIC: 33 lambdas usados / 44 conversoes feitas / 0 alocacoes com falha
+RANDOM: 33 lambdas usados / 45 conversoes feitas / 0 alocacoes com falha
+FIRST_FIT: 33 lambdas usados / 37 conversoes feitas / 0 alocacoes com falha
+LEAST_USED: 33 lambdas usados / 37 conversoes feitas / 0 alocacoes com falha
   Melhor estrategia encontrada para reduzir lambda: BASIC
   Melhor estrategia encontrada para reduzir conversao: FIRST_FIT
   Melhor estrategia encontrada para reduzir falhas: BASIC
 *******************************************************
 * Alocacao de lambda por caminho minimo:
-(Fortaleza->Recife) (6 lambdas) L1 L2 L3 L6 L8 L11 
-(Fortaleza->BeloHorizonte) (10 lambdas) L3 L4 L5 L12 L13 L14 L15 L16 L17 L18 
-(Recife->Fortaleza) (5 lambdas) L4 L5 L7 L9 L10 
+(Fortaleza->Recife) (6 lambdas) L1 L2 L3 L7 L14 L30 
+(Fortaleza->BeloHorizonte) (10 lambdas) L3 L4 L5 L9 L10 L12 L15 L16 L17 L18 
+(Recife->Fortaleza) (5 lambdas) L4 L5 L6 L8 L9 
 (Recife->Salvador) (6 lambdas) L1 L3 L4 L6 L9 L10 
-(Salvador->Recife) (5 lambdas) L2 L5 L7 L8 L11 
+(Salvador->Recife) (5 lambdas) L2 L5 L7 L8 L15 
 (Salvador->RioDeJaneiro) (11 lambdas) L4 L6 L10 L11 L12 L13 L14 L17 L18 L19 L20 
 (Brasilia->BeloHorizonte) (17 lambdas) L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L27 L28 L29 L30 L31 L32 L33 
-(Brasilia->SaoPaulo) (7 lambdas) L1 L2 L3 L4 L8 L11 L12 
-(Brasilia->SemNome) (10 lambdas) L1 L2 L4 L5 L7 L12 L13 L14 L15 L16 
-(BeloHorizonte->Fortaleza) (11 lambdas) L1 L2 L6 L7 L8 L9 L10 L11 L19 L20 L21 
+(Brasilia->SaoPaulo) (7 lambdas) L1 L2 L3 L4 L8 L17 L18 
+(Brasilia->SemNome) (10 lambdas) L1 L2 L4 L5 L7 L19 L20 L22 L24 L26 
+(BeloHorizonte->Fortaleza) (11 lambdas) L1 L2 L6 L7 L8 L11 L13 L14 L27 L29 L30 
 (BeloHorizonte->Brasilia) (16 lambdas) L1 L2 L3 L4 L5 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 
-(BeloHorizonte->RioDeJaneiro) (7 lambdas) L1 L2 L4 L5 L7 L13 L14 
-(RioDeJaneiro->Salvador) (10 lambdas) L1 L2 L3 L5 L7 L8 L9 L15 L16 L21 
-(RioDeJaneiro->BeloHorizonte) (7 lambdas) L3 L6 L8 L9 L10 L11 L12 
-(RioDeJaneiro->SaoPaulo) (9 lambdas) L3 L6 L9 L10 L11 L12 L14 L16 L17 
-(SaoPaulo->Brasilia) (7 lambdas) L5 L6 L7 L9 L10 L13 L14 
-(SaoPaulo->RioDeJaneiro) (8 lambdas) L1 L2 L4 L5 L7 L8 L13 L15 
+(BeloHorizonte->RioDeJaneiro) (7 lambdas) L1 L2 L4 L8 L10 L31 L33 
+(RioDeJaneiro->Salvador) (10 lambdas) L1 L2 L3 L5 L7 L8 L9 L15 L16 L31 
+(RioDeJaneiro->BeloHorizonte) (7 lambdas) L3 L5 L6 L7 L11 L19 L20 
+(RioDeJaneiro->SaoPaulo) (9 lambdas) L3 L6 L7 L11 L12 L13 L14 L17 L18 
+(SaoPaulo->Brasilia) (7 lambdas) L5 L6 L7 L9 L10 L11 L12 
+(SaoPaulo->RioDeJaneiro) (8 lambdas) L1 L2 L4 L5 L8 L9 L10 L15 
 (SaoPaulo->Curitiba) (11 lambdas) L3 L4 L13 L14 L15 L16 L17 L18 L19 L20 L21 
 (Curitiba->SaoPaulo) (10 lambdas) L1 L2 L5 L6 L7 L8 L9 L10 L11 L12 
-(Curitiba->Florianopolis) (6 lambdas) L1 L2 L8 L9 L10 L11 
+(Curitiba->Florianopolis) (6 lambdas) L1 L2 L14 L16 L19 L21 
 (Florianopolis->Curitiba) (5 lambdas) L3 L4 L5 L6 L7 
 (Florianopolis->SemNome) (6 lambdas) L2 L3 L5 L8 L9 L10 
-(SemNome->Brasilia) (11 lambdas) L3 L6 L8 L9 L10 L11 L17 L18 L19 L20 L21 
-(SemNome->Florianopolis) (5 lambdas) L1 L4 L6 L7 L11 
+(SemNome->Brasilia) (11 lambdas) L3 L6 L8 L9 L10 L11 L12 L13 L14 L15 L16 
+(SemNome->Florianopolis) (5 lambdas) L1 L4 L6 L7 L19 
 Lambdas usados (33): L1 L2 L3 L4 L5 L6 L7 L8 L9 L10 L11 L12 L13 L14 L15 L16 L17 L18 L19 L20 L21 L22 L23 L24 L25 L26 L27 L28 L29 L30 L31 L32 L33 
 *******************************************************
 * Conversoes por no:
  Fortaleza 7
  Recife 4
- Salvador 9
- Brasilia 12
- BeloHorizonte 12
- RioDeJaneiro 12
- SaoPaulo 11
- Curitiba 4
+ Salvador 0
+ Brasilia 0
+ BeloHorizonte 0
+ RioDeJaneiro 8
+ SaoPaulo 4
+ Curitiba 0
  Florianopolis 6
- SemNome 9
- Total 86
+ SemNome 8
+ Total 37
