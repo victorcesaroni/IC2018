@@ -13,6 +13,12 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="Header Files\DynamicSimulation">
+      <UniqueIdentifier>{9253ab64-cb08-41b8-a9a9-f7530e7fb66f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\DynamicSimulation">
+      <UniqueIdentifier>{353c46f2-7b7e-4f9d-8232-e4dae769a2df}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h">
@@ -43,7 +49,37 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="DynamicSimulation.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\DynamicSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="DynNetwork.h">
+      <Filter>Header Files\DynamicSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="DynSimulator.h">
+      <Filter>Header Files\DynamicSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="DynDebugConnection.h">
+      <Filter>Header Files\DynamicSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="DynDynamicItem.h">
+      <Filter>Header Files\DynamicSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="DynLink.h">
+      <Filter>Header Files\DynamicSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="DynLinkLambda.h">
+      <Filter>Header Files\DynamicSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="DynNode.h">
+      <Filter>Header Files\DynamicSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="DynPacket.h">
+      <Filter>Header Files\DynamicSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="DynTrafficGenerator.h">
+      <Filter>Header Files\DynamicSimulation</Filter>
+    </ClInclude>
+    <ClInclude Include="DynConstants.h">
+      <Filter>Header Files\DynamicSimulation</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -64,6 +100,36 @@
     </ClCompile>
     <ClCompile Include="NetworkConfigParser.cpp">
       <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="DynamicSimulation.cpp">
+      <Filter>Source Files\DynamicSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="DynDebugConnection.cpp">
+      <Filter>Source Files\DynamicSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="DynDynamicItem.cpp">
+      <Filter>Source Files\DynamicSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="DynLink.cpp">
+      <Filter>Source Files\DynamicSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="DynLinkLambda.cpp">
+      <Filter>Source Files\DynamicSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="DynNetwork.cpp">
+      <Filter>Source Files\DynamicSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="DynNode.cpp">
+      <Filter>Source Files\DynamicSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="DynPacket.cpp">
+      <Filter>Source Files\DynamicSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="DynSimulator.cpp">
+      <Filter>Source Files\DynamicSimulation</Filter>
+    </ClCompile>
+    <ClCompile Include="DynTrafficGenerator.cpp">
+      <Filter>Source Files\DynamicSimulation</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
