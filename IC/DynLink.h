@@ -3,10 +3,12 @@
 namespace DynamicSimulation
 {
 	class LinkLambda;
+	class Node;
 
 	class Link : public DynamicItem
 	{
 	public:
+		Node *pNode;
 		std::vector<LinkLambda> lambdas;
 		int destination;
 		int maxPacketsPerTick;
@@ -15,7 +17,7 @@ namespace DynamicSimulation
 		int packetsDropped;
 
 		Link();
-		Link(int destination, bool conversor, std::vector<LinkLambda> lambdas);
+		Link(Node *pNode, int destination, bool conversor, std::vector<LinkLambda> lambdas);
 
 		void OnTickUpdate(tick_t tick);
 

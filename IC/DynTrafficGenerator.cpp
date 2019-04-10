@@ -18,7 +18,7 @@ namespace DynamicSimulation
 		if (tick % 3 == 0)
 			return false;
 
-		int source = packet.pCurrentNode->id;
+		int source = packet.currentNode;
 
 		auto tmp = availableNodes;
 		tmp.erase(tmp.begin() + source); // remove current node from available to nodes send list

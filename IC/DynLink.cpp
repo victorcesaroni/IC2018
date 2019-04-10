@@ -11,8 +11,8 @@ namespace DynamicSimulation
 		packetsDropped = 0;
 	}
 
-	Link::Link(int destination, bool conversor, std::vector<LinkLambda> lambdas)
-		: destination(destination), conversor(conversor), lambdas(lambdas)
+	Link::Link(Node *pNode, int destination, bool conversor, std::vector<LinkLambda> lambdas)
+		: pNode(pNode), destination(destination), conversor(conversor), lambdas(lambdas)
 	{
 		packetsDropped = 0;
 	}
@@ -25,11 +25,16 @@ namespace DynamicSimulation
 		{
 			if (linkLambda.allocated)
 			{
+				if (linkLambda.pPacket->nextNode == -1) // nunca deve acontecer
+					printf("[%d] FATAL ERROR with packet %d nextNode == -1\n", tick, linkLambda.pPacket->id);
+
+				Node *pNextNode = &pNode->pNetwork->nodes[linkLambda.pPacket->nextNode];
+
 				//TODO: talvez adicionar um ponteiro a Network, para poder eliminar esse pDestinationNode, e acessar pelos ids dos Node
-				if (linkLambda.pPacket->pNextNode == NULL) // nunca deve acontecer
+				if (pNextNode == NULL) // nunca deve acontecer
 					printf("[%d] FATAL ERROR with packet %d\n", tick, linkLambda.pPacket->id);
 
-				linkLambda.pPacket->pNextNode->ReceivePacket(linkLambda.pPacket);
+				pNextNode->ReceivePacket(linkLambda.pPacket);
 				linkLambda.Deallocate();
 			}
 		}

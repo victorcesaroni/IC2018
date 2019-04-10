@@ -64,8 +64,10 @@ namespace DynamicSimulation
 				printf("[%d] Sending packet %d to node %d\n", tick, packet.id, nextNode);
 				// envia o pacote que vai ser processado pelo lambda no proximo tick
 				//TODO: talvez tenha que mudar essa questao de processar no proximo tick
-				packet.pNextNode = &pNetwork->nodes[nextNode];
-				packet.pCurrentNode->SendPacket(&packet);
+				
+				//packet.pNextNode = &pNetwork->nodes[nextNode];
+				//packet.pCurrentNode->SendPacket(&packet);
+				pNetwork->nodes[packet.currentNode].SendPacket(&packet);
 			}
 			else
 			{

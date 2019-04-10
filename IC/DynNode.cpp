@@ -22,8 +22,8 @@ namespace DynamicSimulation
 		packetsDropped = 0;
 	}
 
-	Node::Node(int id, std::string name, std::vector<Link> links)
-		: id(id), name(name), links(links), pPacketList(NULL)
+	Node::Node(Network *pNetwork, int id, std::string name, std::vector<Link> links)
+		: pNetwork(pNetwork), id(id), name(name), links(links), pPacketList(NULL)
 	{
 		packetsSent = 0;
 		packetsDropped = 0;
@@ -43,8 +43,10 @@ namespace DynamicSimulation
 	void Node::OnTickUpdate(tick_t tick)
 	{
 		Packet packet;
-		packet.pCurrentNode = this;
-		packet.pNextNode = NULL;
+		//packet.pCurrentNode = this;
+		//packet.pNextNode = NULL;
+		packet.nextNode = -1;
+		packet.currentNode = this->id;
 		if (trafficGenerator.CreatePacket(tick, packet))
 		{
 			AddPacket(&packet);
@@ -80,17 +82,18 @@ namespace DynamicSimulation
 	{
 		if (pPacket->destination == id)
 		{
-			printf("[WARNING] SendPacket Packet %d SENDING TO MYSELF %d\n", pPacket->id, pPacket->pNextNode->id);
+			printf("[WARNING] SendPacket Packet %d SENDING TO MYSELF %d\n", pPacket->id, pPacket->nextNode);
 		}
 
-		pPacket->pCurrentNode = this;
+		//pPacket->pCurrentNode = this;
+		pPacket->currentNode = this->id;
 		pPacket->source = id; // atualiza a origem do pacote para ser o no atual
 		
 		bool found = false;
 
 		for (Link& link : links)
 		{
-			if (link.destination == pPacket->pNextNode->id)
+			if (link.destination == pPacket->nextNode)
 			{
 				found = true;
 
@@ -110,7 +113,7 @@ namespace DynamicSimulation
 
 		if (!found)
 		{
-			printf("[ERROR] SendPacket Packet %d INVALID DESTINATION %d\n", pPacket->id, pPacket->pNextNode->id);
+			printf("[ERROR] SendPacket Packet %d INVALID DESTINATION %d\n", pPacket->id, pPacket->nextNode);
 		}
 
 		pPacket->Drop();
@@ -121,17 +124,17 @@ namespace DynamicSimulation
 
 	bool Node::ReceivePacket(Packet *pPacket)
 	{
-		if (id != pPacket->pNextNode->id)
+		if (id != pPacket->nextNode)
 		{
 			// nunca deve acontecer
-			printf("[ERROR] ReceivePacket Packet %d INVALID DESTINATION %d\n", pPacket->id, pPacket->pNextNode->id);
+			printf("[ERROR] ReceivePacket Packet %d INVALID DESTINATION %d\n", pPacket->id, pPacket->nextNode);
 
 			pPacket->Drop();
 			packetsDropped++;
 			return false;
 		}
 
-		if (pPacket->pNextNode->id == id)
+		if (pPacket->nextNode == id)
 		{
 			// pacote eh para mim
 			return true;

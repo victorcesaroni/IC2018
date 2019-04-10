@@ -10,6 +10,7 @@ namespace DynamicSimulation
 	public:
 		int id;
 		std::string name;
+		Network *pNetwork;
 		std::vector<Link> links;
 		TrafficGenerator trafficGenerator;
 		int packetsDropped;
@@ -17,7 +18,7 @@ namespace DynamicSimulation
 		std::deque<Packet> *pPacketList;
 
 		Node();
-		Node(int id, std::string name, std::vector<Link> links);
+		Node(Network *pNetwork, int id, std::string name, std::vector<Link> links);
 
 		void UpdateWaitingToSendList(std::deque<Packet> *pPacketList);
 

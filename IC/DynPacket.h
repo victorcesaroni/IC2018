@@ -11,8 +11,10 @@ namespace DynamicSimulation
 		int size;
 		int source;
 		int destination;
-		Node *pNextNode; // proximo no que o pacote vai ir, so vai ficar ativo (diferente de NULL) depois que o pacote for adicionado na rede (enviado)
-		Node *pCurrentNode;
+		//Node *pNextNode; // proximo no que o pacote vai ir, so vai ficar ativo (diferente de NULL) depois que o pacote for adicionado na rede (enviado)
+		//Node *pCurrentNode;
+		int currentNode;
+		int nextNode;
 		bool dropped;
 
 		Packet();
