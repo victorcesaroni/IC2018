@@ -46,10 +46,13 @@ namespace DynamicSimulation
 
 	void Simulator::OnTickUpdate(tick_t tick)
 	{
-		for (Node& node : pNetwork->nodes)
+		printf("---[Tick %d]---\n", tick);
+
+		for (Node *node : pNetwork->nodes)
 		{
-			node.OnTickUpdate(globalTickCount);
+			node->OnTickUpdate(globalTickCount);
 		}
+
 
 		// envia os pacotes em ordem aleatoria, para garantir a validade da concorrencia entre os nos
 		while (!waitingToSend.empty())
@@ -57,35 +60,24 @@ namespace DynamicSimulation
 			int idx = rand() % waitingToSend.size();
 			Packet& packet = waitingToSend[idx];
 
-			int nextNode = pNetwork->GetNextHopToPacket(packet.source, packet.destination);
-
-			if (nextNode != -1)
-			{
-				printf("[%d] Sending packet %d to node %d\n", tick, packet.id, nextNode);
-				// envia o pacote que vai ser processado pelo lambda no proximo tick
-				//TODO: talvez tenha que mudar essa questao de processar no proximo tick
-				
-				//packet.pNextNode = &pNetwork->nodes[nextNode];
-				//packet.pCurrentNode->SendPacket(&packet);
-				pNetwork->nodes[packet.currentNode].SendPacket(&packet);
-			}
-			else
-			{
-				printf("[%d] Packet %d cannot find a valid path\n", tick, packet.id);
-				packet.Drop();
-				packetsFailed++;
-			}
-
+			printf("Sending packet %d to Node %d\n", packet.id, packet.destination);
+			// envia o pacote que vai ser processado pelo lambda no proximo tick
+			//TODO: talvez tenha que mudar essa questao de processar no proximo tick
+			
+			//packet.pNextNode = &pNetwork->nodes[nextNode];
+			//packet.pCurrentNode->SendPacket(&packet);
+			pNetwork->nodes[packet.currentNode]->SendPacket(&packet);
+	
 			waitingToSend.erase(waitingToSend.begin() + idx);
 		}
 
 		// coleta as estatisticas para cada no
-		for (Node& node : pNetwork->nodes)
+		for (Node *node : pNetwork->nodes)
 		{
-			packetsSent += node.packetsSent;
-			packetsFailed += node.packetsDropped;
+			packetsSent += node->packetsSent;
+			packetsFailed += node->packetsDropped;
 
-			node.ResetPacketsCounter();
+			node->ResetPacketsCounter();
 		}
 	}
 

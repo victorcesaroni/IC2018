@@ -88,6 +88,10 @@ namespace DynamicSimulation
 		//pPacket->pCurrentNode = this;
 		pPacket->currentNode = this->id;
 		pPacket->source = id; // atualiza a origem do pacote para ser o no atual
+		pPacket->nextNode = pNetwork->GetNextHopToPacket(pPacket->source, pPacket->destination);
+		
+		if (pPacket->nextNode == -1)
+			printf("[ERROR] SendPacket Packet %d HOP NOT FOUND\n", pPacket->id);
 		
 		bool found = false;
 
@@ -137,6 +141,7 @@ namespace DynamicSimulation
 		if (pPacket->nextNode == id)
 		{
 			// pacote eh para mim
+			printf("[Node %d] Succefully received packet %d\n", id, pPacket->id);
 			return true;
 		}
 

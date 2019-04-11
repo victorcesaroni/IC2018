@@ -10,7 +10,6 @@ namespace DynamicSimulation
 		int sizeOfPacket;
 
 		int maxNodes;
-		int packetCounter;
 
 		TrafficGenerator();
 

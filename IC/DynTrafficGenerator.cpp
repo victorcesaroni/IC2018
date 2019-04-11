@@ -5,9 +5,10 @@
 
 namespace DynamicSimulation
 {
+	static tick_t gPacketCounter = 0;
+
 	TrafficGenerator::TrafficGenerator()
 	{
-		packetCounter = 0;
 		maxNodes = 0;
 	}
 
@@ -24,12 +25,12 @@ namespace DynamicSimulation
 		tmp.erase(tmp.begin() + source); // remove current node from available to nodes send list
 		int destination = tmp[rand() % tmp.size()];
 		
-		packet.id = packetCounter;
+		packet.id = gPacketCounter;
 		packet.size = 1;
 		packet.source = source;
 		packet.destination = destination;
 
-		packetCounter++;
+		gPacketCounter++;
 
 		return true;
 	}

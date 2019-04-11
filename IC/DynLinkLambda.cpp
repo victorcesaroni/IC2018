@@ -9,13 +9,13 @@ namespace DynamicSimulation
 		: lambda(lambda)
 	{
 		allocated = false;
-		pPacket = NULL;
+		packet.destination = -1;
 	}
 
 	void LinkLambda::Deallocate()
 	{
 		allocated = false;
-		pPacket = NULL;
+		packet.destination = -1;
 	}
 
 	bool LinkLambda::AddPacket(Packet *pPacket)
@@ -23,7 +23,7 @@ namespace DynamicSimulation
 		if (allocated)
 			return false;
 
-		this->pPacket = pPacket;
+		this->packet = *pPacket;
 		allocated = true;
 
 		return true;

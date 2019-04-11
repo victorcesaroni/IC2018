@@ -1,7 +1,7 @@
 #include "stdafx.h"
 #include "DynamicSimulation.h"
-#include "DynNetwork.h"
 #include "DynNode.h"
+#include "DynNetwork.h"
 #include "DynDebugConnection.h"
 
 namespace DynamicSimulation
@@ -12,13 +12,19 @@ namespace DynamicSimulation
 
 	}
 
+	Network::~Network()
+	{
+		for (auto& n : nodes)
+			delete n;
+	}
+
 	void Network::AddNode(std::string name, std::vector<Link> links)
 	{
-		nodes.push_back(Node(this, nodeCount, name, links));
+		nodes.push_back(new Node());
 
-		// TODO: fix hierarchy
-		for (auto& l : nodes[nodeCount].links)
-			l.pNode = &nodes[nodeCount];		
+		for (auto& l : links)
+			l.pNode = nodes[nodeCount];
+		*nodes[nodeCount] = Node(this, nodeCount, name, links);
 
 		nodeCount++;
 	}
@@ -27,10 +33,10 @@ namespace DynamicSimulation
 	{
 		//TODO: selecionar o proximo hop do caminho ate o destino
 
-		for (const Node& node : nodes)
+		for (Node *node : nodes)
 		{
-			if (node.id == destination)
-				return node.id;
+			if (node->id == destination)
+				return node->id;
 		}
 
 		return -1;

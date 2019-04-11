@@ -9,7 +9,7 @@ namespace DynamicSimulation
 	public:
 		int lambda;
 		bool allocated;
-		Packet *pPacket;
+		Packet packet;
 
 		LinkLambda(int lambda);
 

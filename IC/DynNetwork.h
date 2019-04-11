@@ -8,11 +8,12 @@ namespace DynamicSimulation
 	class Network
 	{
 	public:
-		std::vector<Node> nodes;
+		std::deque<Node*> nodes;
 		std::vector<DebugConnection> debugConnections;
 		int nodeCount;
 
 		Network();
+		~Network();
 
 		void AddNode(std::string name, std::vector<Link> links);
 
