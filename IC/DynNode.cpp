@@ -110,7 +110,7 @@ namespace DynamicSimulation
 
 				if (lambda != -1 && link.AddPacket(pPacket, lambda))
 				{
-					printf("[INFO] [Node %d] SendPacket packet P%d added on lambda %d\n", id, pPacket->id, lambda);
+					printf("[INFO] [Node %d] [ADD] SendPacket packet P%d added on lambda %d\n", id, pPacket->id, lambda);
 					return true;
 				}
 				else
@@ -125,7 +125,7 @@ namespace DynamicSimulation
 			printf("[ERROR] [Node %d] SendPacket packet P%d INVALID DESTINATION %d\n", id, pPacket->id, pPacket->nextNode);
 		}
 
-		printf("[INFO] [Node %d] SendPacket dropped packet P%d\n", id, pPacket->id);
+		printf("[INFO] [Node %d] [DROP] SendPacket dropped packet P%d\n", id, pPacket->id);
 
 		pPacket->Drop();
 		packetsDropped++;
@@ -135,6 +135,8 @@ namespace DynamicSimulation
 
 	bool Node::ReceivePacket(Packet *pPacket, LinkLambda *lambdaFrom)
 	{
+		// TODO: implementar delay de recebimento colocando um contador no pPacket e decrementar ele cada vez q receive packet for chamado (talvez tenha q mudar a estrutura da lista de pacotes esperando e transferir o controle de quando se retira um pacote dessa lista para aqui, pois podemos manter o pacote nesse lista pelo tempo necessario)
+
 		if (id != pPacket->nextNode)
 		{
 			// nunca deve acontecer
@@ -148,7 +150,7 @@ namespace DynamicSimulation
 		if (pPacket->nextNode == id)
 		{
 			// pacote eh para mim
-			printf("[INFO] [Node %d] Succefully received packet P%d\n", id, pPacket->id);
+			printf("[INFO] [Node %d] [RECV] Succefully received packet P%d\n", id, pPacket->id);
 			return true;
 		}
 
