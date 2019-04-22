@@ -32,11 +32,19 @@ namespace DynamicSimulation
 	int Network::GetNextHopToPacket(int currentHop, int destination)
 	{
 		//TODO: selecionar o proximo hop do caminho ate o destino
+		//TODO: implementar caminho minimo (atualmente so manda para hops que estao diretamente conectados ao no)
 
+		Node *pCurrentNode = NULL;
 		for (Node *node : nodes)
 		{
-			if (node->id == destination)
-				return node->id;
+			if (node->id == currentHop)
+				pCurrentNode = node;
+		}
+
+		for (const Link& link : pCurrentNode->links)
+		{
+			if (link.destination == destination)
+				return link.destination;
 		}
 
 		return -1;

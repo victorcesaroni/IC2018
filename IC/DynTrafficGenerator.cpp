@@ -9,30 +9,44 @@ namespace DynamicSimulation
 
 	TrafficGenerator::TrafficGenerator()
 	{
+		numberOfPackets = 10;
+		interval = 3;
 		maxNodes = 0;
+		lastCreatedTick = 0;
 	}
 
-	bool TrafficGenerator::CreatePacket(tick_t tick, Packet &packet)
+	bool TrafficGenerator::CreatePackets(tick_t tick, int currentNode, std::vector<Packet>& packets)
 	{
-		//TODO: criar pacote de acordo com probabilidade
-
-		if (tick % 3 == 0)
+		// espera o intervalo
+		if (tick < lastCreatedTick + interval)
 			return false;
 
-		int source = packet.currentNode;
+		// tenta criar numberOfPackets pacotes
+		for (int i = 0; i < numberOfPackets; i++)
+		{
+			if (rand() % 100 < 30) // 30% de chance
+			{
+				Packet packet = Packet(-1, -1, -1, -1);
+				int source = currentNode;
 
-		auto tmp = availableNodes;
-		tmp.erase(tmp.begin() + source); // remove current node from available to nodes send list
-		int destination = tmp[rand() % tmp.size()];
-		
-		packet.id = gPacketCounter;
-		packet.size = 1;
-		packet.source = source;
-		packet.destination = destination;
+				auto tmp = availableNodes;
+				tmp.erase(tmp.begin() + source); // remove current node from available to nodes send list
+				int destination = tmp[rand() % tmp.size()];
 
-		gPacketCounter++;
+				packet.currentNode = currentNode;
+				packet.id = gPacketCounter;
+				packet.size = 1;
+				packet.source = source;
+				packet.destination = destination;
 
-		return true;
+				packets.push_back(packet);
+
+				gPacketCounter++;
+				lastCreatedTick = tick;
+			}
+		}
+
+		return !packets.empty();
 	}
 	
 	void TrafficGenerator::UpdateNodeCount(int newCount)

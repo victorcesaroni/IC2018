@@ -8,6 +8,7 @@ namespace DynamicSimulation
 		int interval;
 		int numberOfPackets;
 		int sizeOfPacket;
+		tick_t lastCreatedTick;
 
 		int maxNodes;
 
@@ -15,7 +16,7 @@ namespace DynamicSimulation
 
 		std::vector<int> availableNodes;
 
-		bool CreatePacket(tick_t tick, Packet &packet);
+		bool CreatePackets(tick_t tick, int currentNode, std::vector<Packet>& packets);
 		void UpdateNodeCount(int newCount);
 	};
 };

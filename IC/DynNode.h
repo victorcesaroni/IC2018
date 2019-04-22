@@ -34,6 +34,6 @@ namespace DynamicSimulation
 		// "async"
 		bool SendPacket(Packet *pPacket);
 
-		bool ReceivePacket(Packet *pPacket);
+		bool ReceivePacket(Packet *pPacket, LinkLambda *lambdaFrom);
 	};
 };

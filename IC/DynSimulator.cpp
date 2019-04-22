@@ -60,7 +60,7 @@ namespace DynamicSimulation
 			int idx = rand() % waitingToSend.size();
 			Packet& packet = waitingToSend[idx];
 
-			printf("Sending packet %d to Node %d\n", packet.id, packet.destination);
+			//printf("[INFO] Sending packet %d to Node %d\n", packet.id, packet.destination);
 			// envia o pacote que vai ser processado pelo lambda no proximo tick
 			//TODO: talvez tenha que mudar essa questao de processar no proximo tick
 			
@@ -83,13 +83,18 @@ namespace DynamicSimulation
 
 	void Simulator::HandleTickcountOverflow()
 	{
-		size_t maxVal = 2 << (sizeof(tick_t) * 8);
+		size_t maxVal = 2 << (sizeof(tick_t) * 8 - 1) - 1;
 
 		if (globalTickCount + tickInterval >= maxVal - tickInterval)
 		{
 			//TODO: handle overflow
 			// ideia basica do momento eh ajustar todos os timers ativos para suportar o novo globalTickCount
 			globalTickCount = 0;
+
+			for (Node *node : pNetwork->nodes)
+			{
+				node->trafficGenerator.lastCreatedTick = 0;
+			}
 		}
 	}
 };

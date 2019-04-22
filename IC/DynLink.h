@@ -17,7 +17,8 @@ namespace DynamicSimulation
 		int packetsDropped;
 
 		Link();
-		Link(Node *pNode, int destination, bool conversor, std::vector<LinkLambda> lambdas);
+		Link(int destination, bool conversor, int numLambdas);
+		Link(Node *pNode, int destination, bool conversor, int numLambdas);
 
 		void OnTickUpdate(tick_t tick);
 
