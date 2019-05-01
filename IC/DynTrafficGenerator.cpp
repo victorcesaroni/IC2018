@@ -9,10 +9,17 @@ namespace DynamicSimulation
 
 	TrafficGenerator::TrafficGenerator()
 	{
+		//numberOfPackets = 1;
+		//interval = 0;
+		//maxNodes = 0;
+		//lastCreatedTick = 0;
+		//chance = 1.0f;
+
 		numberOfPackets = 10;
 		interval = 3;
 		maxNodes = 0;
 		lastCreatedTick = 0;
+		chance = 0.3f;
 	}
 
 	bool TrafficGenerator::CreatePackets(tick_t tick, int currentNode, std::vector<Packet>& packets)
@@ -24,7 +31,7 @@ namespace DynamicSimulation
 		// tenta criar numberOfPackets pacotes
 		for (int i = 0; i < numberOfPackets; i++)
 		{
-			if (rand() % 100 < 30) // 30% de chance
+			if ((rand() % 100) / 100.0f <= chance)
 			{
 				Packet packet = Packet(-1, -1, -1, -1);
 				int source = currentNode;

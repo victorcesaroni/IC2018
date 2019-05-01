@@ -7,31 +7,23 @@
 namespace DynamicSimulation
 {
 	Link::Link()
+		: pNodeFrom(NULL), pNodeTo(NULL), destination(-1), conversor(false), packetsSent(0), packetsDropped(0), cost(1)
 	{
-		pNode = NULL;
-		packetsDropped = 0;
-	}
 
-	Link::Link(Node *pNode, int destination, bool conversor, int numLambdas)
-		: pNode(pNode), destination(destination), conversor(conversor)
-	{
-		lambdas.clear();
-		for (int i = 0; i < numLambdas; i++)
-			lambdas.push_back(LinkLambda(i));		
-
-		packetsDropped = 0;
 	}
 
 	Link::Link(int destination, bool conversor, int numLambdas)
-		: Link::Link(NULL, destination, conversor, numLambdas)
+		: pNodeFrom(NULL), pNodeTo(NULL), packetsSent(0), packetsDropped(0), destination(destination), conversor(conversor), cost(1)
 	{
-
+		lambdas.clear();
+		for (int i = 0; i < numLambdas; i++)
+			lambdas.push_back(LinkLambda(i));
 	}
 
 	void Link::OnTickUpdate(tick_t tick)
 	{
-		if (pNode == NULL)
-			printf("[%d] FATAL ERROR pNode == NULL\n", tick);
+		if (pNodeFrom == NULL)
+			DBG_PRINTF_ERROR("[%d] FATAL ERROR pNodeFrom == NULL\n", tick);
 
 		//TODO: processar o trafego dos pacote atraves dos lambdas (talvez seja melhor deixar aqui mesmo por questoes de implementacao)
 
@@ -40,12 +32,12 @@ namespace DynamicSimulation
 			if (linkLambda.allocated)
 			{
 				if (linkLambda.packet.nextNode == -1) // nunca deve acontecer
-					printf("[%d] FATAL ERROR with packet %d nextNode == -1\n", tick, linkLambda.packet.id);
+					DBG_PRINTF_ERROR("[%d] FATAL ERROR with packet %d nextNode == -1\n", tick, linkLambda.packet.id);
 
-				Node *pNextNode = pNode->pNetwork->nodes[linkLambda.packet.nextNode];
+				Node *pNextNode = pNodeFrom->pNetwork->nodes[linkLambda.packet.nextNode];
 
 				if (pNextNode == NULL) // nunca deve acontecer
-					printf("[%d] FATAL ERROR with packet %d\n", tick, linkLambda.packet.id);
+					DBG_PRINTF_ERROR("[%d] FATAL ERROR with packet %d\n", tick, linkLambda.packet.id);
 
 				pNextNode->ReceivePacket(&linkLambda.packet, &linkLambda);
 
@@ -57,37 +49,57 @@ namespace DynamicSimulation
 
 	int Link::NextAvailableLambda()
 	{
-		if (!conversor)
-			return -1;
+		for (int i = 0; i < (int)lambdas.size(); i++)
+		{
+			if (!lambdas[i].allocated)
+				return i;
+		}
 
 		return -1;
 	}
 
 	bool Link::AddPacket(Packet *pPacket, int lambda)
 	{
+		packetsSent++;
+
 		if (lambda == -1)
 		{
-			printf("[%d] AddPacket FATAL ERROR with packet %d\n", pPacket->id);
-			return false;
+			// nao temos uma preferencia por algum lambda aqui, entao escolhe o proximo disponivel
+			lambda = NextAvailableLambda();
+
+			if (lambda == -1)
+			{
+				// nao tem mais nenhum disponivel
+				packetsDropped++;
+				return false;
+			}
 		}
 
 		if (lambdas[lambda].allocated)
 		{
 			// conversao automatica feita pelo Link (talvez seja melhor deixar isso no Node)
-			int nextLambda = NextAvailableLambda();
+			int nextLambda = (conversor ? NextAvailableLambda() : -1);
 
 			if (nextLambda != -1)
+			{
 				lambda = nextLambda;
+			}
 			else
+			{
+				packetsDropped++;
 				return false;
+			}
 		}
 
 		if (lambdas[lambda].AddPacket(pPacket))
 		{
+
+			DBG_PRINTF_INFO("[INFO] [Node %d: Link %d] [ADD] AddPacket packet P%d added on lambda %d\n", pNodeFrom->id, id, pPacket->id, pPacket->lastLambda);
 			//TODO: propagar para o proximo node e se desligar da conexao (caso traga o processamento do trafego para o lambda em vez do Link)
 			return true;
 		}
 
+		packetsDropped++;
 		return false;
 	}
 };

@@ -33,13 +33,7 @@ namespace DynamicSimulation
 	{
 		this->pPacketList = pPacketList;
 	}
-
-	void Node::ResetPacketsCounter()
-	{
-		packetsDropped = 0;
-		packetsSent = 0;
-	}
-
+	
 	void Node::OnTickUpdate(tick_t tick)
 	{
 		std::vector<Packet> packets;
@@ -56,24 +50,11 @@ namespace DynamicSimulation
 			link.OnTickUpdate(tick);
 		}
 	}
-
-	int Node::GetBestLambdaForLink(const Link& link)
-	{
-		for (unsigned i = 0; i != link.lambdas.size(); i++)
-		{
-			auto& linkLambda = link.lambdas[i];
-
-			if (!linkLambda.allocated)
-				return (int)i;
-		}
-
-		return -1;
-	}
-
+	
 	// adiciona o pacote na rede
 	void Node::AddPacket(Packet *pPacket)
 	{
-		printf("[INFO] [Node %d] Adding packet P%d\n", id, pPacket->id);
+		DBG_PRINTF_INFO("[INFO] [Node %d] Adding packet P%d\n", id, pPacket->id);
 
 		pPacketList->emplace_back(*pPacket);
 	}
@@ -83,11 +64,11 @@ namespace DynamicSimulation
 	{
 		packetsSent++;
 
-		printf("[INFO] [Node %d] Sending packet P%d to Node %d\n", id, pPacket->id, pPacket->destination);
+		DBG_PRINTF_INFO("[INFO] [Node %d] Sending packet P%d to Node %d\n", id, pPacket->id, pPacket->destination);
 
 		if (pPacket->destination == id)
 		{
-			printf("[WARNING] [Node %d] SendPacket packet P%d SENDING TO MYSELF %d\n", id, pPacket->id, pPacket->nextNode);
+			DBG_PRINTF_WARN("[WARNING] [Node %d] SendPacket packet P%d SENDING TO MYSELF %d\n", id, pPacket->id, pPacket->nextNode);
 		}
 
 		//pPacket->pCurrentNode = this;
@@ -96,7 +77,7 @@ namespace DynamicSimulation
 		pPacket->nextNode = pNetwork->GetNextHopToPacket(pPacket->source, pPacket->destination);
 		
 		if (pPacket->nextNode == -1)
-			printf("[ERROR] [Node %d] SendPacket packet P%d HOP NOT FOUND\n", id, pPacket->id);
+			DBG_PRINTF_ERROR("[ERROR] [Node %d] SendPacket packet P%d HOP NOT FOUND\n", id, pPacket->id);
 		
 		bool found = false;
 
@@ -106,26 +87,19 @@ namespace DynamicSimulation
 			{
 				found = true;
 
-				int lambda = GetBestLambdaForLink(link);
-
-				if (lambda != -1 && link.AddPacket(pPacket, lambda))
+				if (link.AddPacket(pPacket, pPacket->lastLambda))
 				{
-					printf("[INFO] [Node %d] [ADD] SendPacket packet P%d added on lambda %d\n", id, pPacket->id, lambda);
 					return true;
-				}
-				else
-				{
-					break;
 				}
 			}
 		}
 
 		if (!found)
 		{
-			printf("[ERROR] [Node %d] SendPacket packet P%d INVALID DESTINATION %d\n", id, pPacket->id, pPacket->nextNode);
+			DBG_PRINTF_ERROR("[ERROR] [Node %d] SendPacket packet P%d INVALID DESTINATION %d\n", id, pPacket->id, pPacket->nextNode);
 		}
 
-		printf("[INFO] [Node %d] [DROP] SendPacket dropped packet P%d\n", id, pPacket->id);
+		DBG_PRINTF_INFO("[INFO] [Node %d] [DROP] SendPacket dropped packet P%d\n", id, pPacket->id);
 
 		pPacket->Drop();
 		packetsDropped++;
@@ -140,7 +114,7 @@ namespace DynamicSimulation
 		if (id != pPacket->nextNode)
 		{
 			// nunca deve acontecer
-			printf("[ERROR] ReceivePacket packet P%d INVALID DESTINATION %d\n", pPacket->id, pPacket->nextNode);
+			DBG_PRINTF_ERROR("[ERROR] ReceivePacket packet P%d INVALID DESTINATION %d\n", pPacket->id, pPacket->nextNode);
 
 			pPacket->Drop();
 			packetsDropped++;
@@ -150,10 +124,11 @@ namespace DynamicSimulation
 		if (pPacket->nextNode == id)
 		{
 			// pacote eh para mim
-			printf("[INFO] [Node %d] [RECV] Succefully received packet P%d\n", id, pPacket->id);
+			DBG_PRINTF_INFO("[INFO] [Node %d] [RECV] Succefully received packet P%d\n", id, pPacket->id);
 			return true;
 		}
 
+		pPacket->lastLambda = lambdaFrom->lambda;
 		AddPacket(pPacket);
 
 		return true;

@@ -19,7 +19,9 @@ public:
 
 template<class T>
 Matrix<T>::Matrix()
+	: data(NULL)
 {
+
 }
 
 template<class T>
@@ -31,6 +33,12 @@ Matrix<T>::Matrix(int N, int M)
 template<class T>
 void Matrix<T>::Create(int N, int M)
 {
+	if (data != NULL)
+	{
+		delete[] data;
+		data = NULL;
+	}
+
 	this->N = N;
 	this->M = M;
 

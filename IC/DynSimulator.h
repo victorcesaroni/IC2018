@@ -7,8 +7,6 @@ namespace DynamicSimulation
 	class Simulator
 	{
 	public:
-		size_t packetsSent;
-		size_t packetsFailed;
 		std::deque<Packet> waitingToSend;
 		int tickInterval;
 		bool running;

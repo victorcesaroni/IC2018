@@ -171,7 +171,6 @@
     <ClInclude Include="DynTrafficGenerator.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="DynamicSimulation.cpp" />
     <ClCompile Include="DynDebugConnection.cpp" />
     <ClCompile Include="DynDynamicItem.cpp" />
     <ClCompile Include="DynLink.cpp" />

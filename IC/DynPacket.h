@@ -17,6 +17,8 @@ namespace DynamicSimulation
 		int nextNode;
 		bool dropped;
 
+		int lastLambda;
+
 		Packet();
 		Packet(int id, int size, int source, int destination);
 

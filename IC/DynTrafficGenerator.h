@@ -8,6 +8,7 @@ namespace DynamicSimulation
 		int interval;
 		int numberOfPackets;
 		int sizeOfPacket;
+		float chance;
 		tick_t lastCreatedTick;
 
 		int maxNodes;

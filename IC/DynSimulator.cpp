@@ -9,8 +9,6 @@ namespace DynamicSimulation
 		: pNetwork(pNetwork), tickInterval(tickInterval), ticksToRun(ticksToRun)
 	{
 		globalTickCount = 0;
-		packetsSent = 0;
-		packetsFailed = 0;
 		running = false;
 	}
 
@@ -46,13 +44,12 @@ namespace DynamicSimulation
 
 	void Simulator::OnTickUpdate(tick_t tick)
 	{
-		printf("---[Tick %d]---\n", tick);
+		DBG_PRINTF_INFO("---[Tick %d]---\n", tick);
 
 		for (Node *node : pNetwork->nodes)
 		{
 			node->OnTickUpdate(globalTickCount);
 		}
-
 
 		// envia os pacotes em ordem aleatoria, para garantir a validade da concorrencia entre os nos
 		while (!waitingToSend.empty())
@@ -69,15 +66,6 @@ namespace DynamicSimulation
 			pNetwork->nodes[packet.currentNode]->SendPacket(&packet);
 	
 			waitingToSend.erase(waitingToSend.begin() + idx);
-		}
-
-		// coleta as estatisticas para cada no
-		for (Node *node : pNetwork->nodes)
-		{
-			packetsSent += node->packetsSent;
-			packetsFailed += node->packetsDropped;
-
-			node->ResetPacketsCounter();
 		}
 	}
 

@@ -13,21 +13,17 @@ namespace DynamicSimulation
 		Network *pNetwork;
 		std::vector<Link> links;
 		TrafficGenerator trafficGenerator;
-		int packetsDropped;
-		int packetsSent;
+		unsigned long packetsDropped;
+		unsigned long packetsSent;
 		std::deque<Packet> *pPacketList;
 
 		Node();
 		Node(Network *pNetwork, int id, std::string name, std::vector<Link> links);
 
 		void UpdateWaitingToSendList(std::deque<Packet> *pPacketList);
-
-		void ResetPacketsCounter();
-
+		
 		void OnTickUpdate(tick_t tick);
 		
-		int GetBestLambdaForLink(const Link& link);
-
 		// adiciona o pacote na rede
 		void AddPacket(Packet *pPacket);
 

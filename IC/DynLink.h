@@ -8,17 +8,20 @@ namespace DynamicSimulation
 	class Link : public DynamicItem
 	{
 	public:
-		Node *pNode;
+		int id;
+		Node *pNodeFrom;
+		Node *pNodeTo;
 		std::vector<LinkLambda> lambdas;
 		int destination;
 		int maxPacketsPerTick;
 		bool conversor;
+		int cost;
 
-		int packetsDropped;
+		unsigned long packetsSent;
+		unsigned long packetsDropped;
 
 		Link();
 		Link(int destination, bool conversor, int numLambdas);
-		Link(Node *pNode, int destination, bool conversor, int numLambdas);
 
 		void OnTickUpdate(tick_t tick);
 

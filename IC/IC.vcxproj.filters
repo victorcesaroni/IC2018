@@ -101,9 +101,6 @@
     <ClCompile Include="NetworkConfigParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="DynamicSimulation.cpp">
-      <Filter>Source Files\DynamicSimulation</Filter>
-    </ClCompile>
     <ClCompile Include="DynDebugConnection.cpp">
       <Filter>Source Files\DynamicSimulation</Filter>
     </ClCompile>
