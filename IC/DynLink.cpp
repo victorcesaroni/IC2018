@@ -7,13 +7,13 @@
 namespace DynamicSimulation
 {
 	Link::Link()
-		: pNodeFrom(NULL), pNodeTo(NULL), destination(-1), conversor(false), packetsSent(0), packetsDropped(0), cost(1)
+		: pNodeFrom(NULL), pNodeTo(NULL), destination(-1), conversor(false), packetsSent(0), packetsDropped(0), conversionCount(0), cost(1)
 	{
 
 	}
 
 	Link::Link(int destination, bool conversor, int numLambdas)
-		: pNodeFrom(NULL), pNodeTo(NULL), packetsSent(0), packetsDropped(0), destination(destination), conversor(conversor), cost(1)
+		: pNodeFrom(NULL), pNodeTo(NULL), packetsSent(0), packetsDropped(0), destination(destination), conversor(conversor), conversionCount(0), cost(1)
 	{
 		lambdas.clear();
 		for (int i = 0; i < numLambdas; i++)
@@ -78,23 +78,24 @@ namespace DynamicSimulation
 		if (lambdas[lambda].allocated)
 		{
 			// conversao automatica feita pelo Link (talvez seja melhor deixar isso no Node)
-			int nextLambda = (conversor ? NextAvailableLambda() : -1);
+			int nextLambda = NextAvailableLambda();
 
-			if (nextLambda != -1)
+			if (!conversor || nextLambda == -1)
 			{
-				lambda = nextLambda;
-			}
-			else
-			{
+				// nao pode converter ou nao tem mais nenhum disponivel
 				packetsDropped++;
 				return false;
 			}
+
+			if (lambda != nextLambda)
+				conversionCount++;
+
+			lambda = nextLambda;
 		}
 
 		if (lambdas[lambda].AddPacket(pPacket))
 		{
-
-			DBG_PRINTF_INFO("[INFO] [Node %d: Link %d] [ADD] AddPacket packet P%d added on lambda %d\n", pNodeFrom->id, id, pPacket->id, pPacket->lastLambda);
+			DBG_PRINTF_INFO("[INFO] [Node %d: Link %d] [ADD] AddPacket packet P%d added on lambda %d (last lambda = %d)\n", pNodeFrom->id, id, pPacket->id, lambda, pPacket->lastLambda);
 			//TODO: propagar para o proximo node e se desligar da conexao (caso traga o processamento do trafego para o lambda em vez do Link)
 			return true;
 		}

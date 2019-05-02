@@ -19,6 +19,7 @@ namespace DynamicSimulation
 
 		unsigned long packetsSent;
 		unsigned long packetsDropped;
+		unsigned long conversionCount;
 
 		Link();
 		Link(int destination, bool conversor, int numLambdas);

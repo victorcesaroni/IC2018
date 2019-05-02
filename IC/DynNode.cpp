@@ -121,12 +121,14 @@ namespace DynamicSimulation
 			return false;
 		}
 
-		if (pPacket->nextNode == id)
+		if (pPacket->destination == id)
 		{
 			// pacote eh para mim
 			DBG_PRINTF_INFO("[INFO] [Node %d] [RECV] Succefully received packet P%d\n", id, pPacket->id);
 			return true;
 		}
+
+		DBG_PRINTF_INFO("[INFO] [Node %d] [RECV] Retransmitting packet P%d (received on lambda %d)\n", id, pPacket->id, lambdaFrom->lambda);
 
 		pPacket->lastLambda = lambdaFrom->lambda;
 		AddPacket(pPacket);

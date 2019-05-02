@@ -8,18 +8,11 @@ namespace DynamicSimulation
 	static tick_t gPacketCounter = 0;
 
 	TrafficGenerator::TrafficGenerator()
+		: maxNodes(0), lastCreatedTick(0)
 	{
-		//numberOfPackets = 1;
-		//interval = 0;
-		//maxNodes = 0;
-		//lastCreatedTick = 0;
-		//chance = 1.0f;
-
-		numberOfPackets = 10;
-		interval = 3;
-		maxNodes = 0;
-		lastCreatedTick = 0;
-		chance = 0.3f;
+		numberOfPackets = 1;
+		interval = 0;
+		chance = 1.0f;
 	}
 
 	bool TrafficGenerator::CreatePackets(tick_t tick, int currentNode, std::vector<Packet>& packets)

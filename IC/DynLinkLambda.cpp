@@ -21,7 +21,10 @@ namespace DynamicSimulation
 	bool LinkLambda::AddPacket(Packet *pPacket)
 	{
 		if (allocated)
+		{
+			DBG_PRINTF_ERROR("[ERROR] LinkLambda::AddPacket already allocated (P%d)\n", pPacket->id);
 			return false;
+		}
 
 		this->packet = *pPacket;
 		allocated = true;
