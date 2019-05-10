@@ -49,10 +49,27 @@ namespace DynamicSimulation
 
 	int Link::NextAvailableLambda()
 	{
-		for (int i = 0; i < (int)lambdas.size(); i++)
+		std::set<int> badLambda = {};
+
+		// considera que os links de ida e volta sao fisicamente os mesmos
+		for (const Link& link : this->pNodeTo->links)
 		{
-			if (!lambdas[i].allocated)
-				return i;
+			if (link.destination == this->id)
+			{
+				for (const LinkLambda& linkLambda : link.lambdas)
+				{
+					if (linkLambda.allocated)
+						badLambda.emplace(linkLambda.lambda);
+				}
+			}
+		}
+
+		for (const LinkLambda& linkLambda : lambdas)
+		{
+			if (!linkLambda.allocated // nao esta alocado
+				&& badLambda.find(linkLambda.lambda) == badLambda.end() // nao esta sendo usado pelo link de volta
+				)
+				return linkLambda.lambda;
 		}
 
 		return -1;
@@ -61,7 +78,7 @@ namespace DynamicSimulation
 	bool Link::AddPacket(Packet *pPacket, int lambda)
 	{
 		packetsSent++;
-
+		
 		if (lambda == -1)
 		{
 			// nao temos uma preferencia por algum lambda aqui, entao escolhe o proximo disponivel
