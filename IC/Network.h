@@ -61,4 +61,7 @@ public:
 	/// exibe as alocações de comprimento de lambda agrupando-os em pares de linha e coluna da matriz
 	/// matrix: matriz onde o número da linha e coluna é um identificador de nó da rede, a linha é o nó de origem e a coluna é o nó de destino
 	void PrintLambdaPairMatrix(const Matrix<std::vector<LambdaAllocInfo>>& matrix);
+
+	/// TODO: finish me
+	void PrintLambdaUse(const Matrix<std::vector<LambdaAllocInfo>>& matrix);
 };

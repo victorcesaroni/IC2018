@@ -122,5 +122,76 @@ void Network::PrintLambdaPairMatrix(const Matrix<std::vector<LambdaAllocInfo>>& 
 				printf("L%d ", l);
 			printf("\n");
 		}
+	}	   
+}
+
+void Network::PrintLambdaUse(const Matrix<std::vector<LambdaAllocInfo>>& matrix)
+{
+	int maxLambda = 0;
+
+	for (int i = 0; i < matrix.N; i++)
+	{
+		for (int j = 0; j < matrix.N; j++)
+		{
+			if (i == j || matrix[i][j].empty())
+				continue;
+
+			std::vector<int> lambdas = {};
+			for (const auto& l : matrix[i][j])
+				lambdas.push_back(l.lambda);
+
+			std::set<int> s(lambdas.begin(), lambdas.end());
+			lambdas.assign(s.begin(), s.end());
+			
+			if (!lambdas.empty())
+				maxLambda = lambdas.back() > maxLambda ? lambdas.back() : maxLambda;
+		}
+	}
+
+	printf("enlace,");
+	for (int k = 1; k <= maxLambda; k++)
+		printf("L%d,", k);
+	printf("total");
+	printf("\n");
+
+	for (int i = 0; i < matrix.N; i++)
+	{
+		for (int j = 0; j < matrix.N; j++)
+		{
+			if (i == j || matrix[i][j].empty())
+				continue;
+			/*printf("(%s,%s) %d caminhos alocados ", FindNameById(i).c_str(), FindNameById(j).c_str(), matrix[i][j].size());
+
+			for (const auto& l : matrix[i][j])
+			{
+			printf("[L%d alocado de %s ate %s] ", l.lambda, FindNameById(l.from).c_str(), FindNameById(l.to).c_str());
+			}
+			printf("\n");*/
+
+			printf("%s->%s,", FindNameById(i).c_str(), FindNameById(j).c_str());
+			std::vector<int> lambdas = {};
+
+			for (const auto& l : matrix[i][j])
+				lambdas.push_back(l.lambda);
+
+			std::set<int> s(lambdas.begin(), lambdas.end());
+			lambdas.assign(s.begin(), s.end());
+
+			int lastLambda = 0;
+			for (int l : lambdas)
+			{
+				for (int k = lastLambda+1; k < l; k++)
+					printf("0,");
+				printf("1,", l);
+				lastLambda = l;
+			}
+
+			for (int k = lastLambda+1; k <= maxLambda; k++)
+				printf("0,");
+			
+			printf("%d", lambdas.size());
+
+			printf("\n");
+		}
 	}
 }

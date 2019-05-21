@@ -46,8 +46,21 @@ namespace DynamicSimulation
 			}
 		}
 	}
+	
+	int Link::NextAvailableLambda(const std::set<int>& badLambda)
+	{	
+		for (const LinkLambda& linkLambda : lambdas)
+		{
+			if (!linkLambda.allocated // nao esta alocado
+				&& badLambda.find(linkLambda.lambda) == badLambda.end() // nao esta sendo usado pelo link de volta
+				)
+				return linkLambda.lambda;
+		}
 
-	int Link::NextAvailableLambda()
+		return -1;
+	}
+
+	bool Link::AddPacket(Packet *pPacket, int lambda)
 	{
 		std::set<int> badLambda = {};
 
@@ -64,25 +77,12 @@ namespace DynamicSimulation
 			}
 		}
 
-		for (const LinkLambda& linkLambda : lambdas)
-		{
-			if (!linkLambda.allocated // nao esta alocado
-				&& badLambda.find(linkLambda.lambda) == badLambda.end() // nao esta sendo usado pelo link de volta
-				)
-				return linkLambda.lambda;
-		}
-
-		return -1;
-	}
-
-	bool Link::AddPacket(Packet *pPacket, int lambda)
-	{
 		packetsSent++;
 		
 		if (lambda == -1)
 		{
 			// nao temos uma preferencia por algum lambda aqui, entao escolhe o proximo disponivel
-			lambda = NextAvailableLambda();
+			lambda = NextAvailableLambda(badLambda);
 
 			if (lambda == -1)
 			{
@@ -92,10 +92,10 @@ namespace DynamicSimulation
 			}
 		}
 
-		if (lambdas[lambda].allocated)
+		if (lambdas[lambda].allocated || badLambda.find(lambda) != badLambda.end()) // esta alocado ou o link de volta esta alocado
 		{
 			// conversao automatica feita pelo Link (talvez seja melhor deixar isso no Node)
-			int nextLambda = NextAvailableLambda();
+			int nextLambda = NextAvailableLambda(badLambda);
 
 			if (!conversor || nextLambda == -1)
 			{

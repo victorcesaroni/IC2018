@@ -25,8 +25,8 @@ namespace DynamicSimulation
 		Link(int destination, bool conversor, int numLambdas);
 
 		void OnTickUpdate(tick_t tick);
-
-		int NextAvailableLambda();
+		
+		int NextAvailableLambda(const std::set<int>& badLambda);
 
 		bool AddPacket(Packet *pPacket, int lambda);
 	};
