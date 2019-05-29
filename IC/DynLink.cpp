@@ -7,13 +7,13 @@
 namespace DynamicSimulation
 {
 	Link::Link()
-		: pNodeFrom(NULL), pNodeTo(NULL), destination(-1), conversor(false), packetsSent(0), packetsDropped(0), conversionCount(0), cost(1)
+		: pNodeFrom(NULL), pNodeTo(NULL), destination(-1), destinationNodeName("invalid"), conversor(false), packetsSent(0), packetsDropped(0), conversionCount(0), cost(1)
 	{
 
 	}
 
-	Link::Link(int destination, bool conversor, int numLambdas)
-		: pNodeFrom(NULL), pNodeTo(NULL), packetsSent(0), packetsDropped(0), destination(destination), conversor(conversor), conversionCount(0), cost(1)
+	Link::Link(std::string destinationNodeName, bool conversor, int numLambdas)
+		: pNodeFrom(NULL), pNodeTo(NULL), packetsSent(0), packetsDropped(0), destination(-1), destinationNodeName(destinationNodeName), conversor(conversor), conversionCount(0), cost(1)
 	{
 		lambdas.clear();
 		for (int i = 0; i < numLambdas; i++)

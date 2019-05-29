@@ -13,6 +13,7 @@ namespace DynamicSimulation
 		Node *pNodeTo;
 		std::vector<LinkLambda> lambdas;
 		int destination;
+		std::string destinationNodeName;
 		int maxPacketsPerTick;
 		bool conversor;
 		int cost;
@@ -22,7 +23,7 @@ namespace DynamicSimulation
 		unsigned long conversionCount;
 
 		Link();
-		Link(int destination, bool conversor, int numLambdas);
+		Link(std::string destinationNodeName, bool conversor, int numLambdas);
 
 		void OnTickUpdate(tick_t tick);
 		

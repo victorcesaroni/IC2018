@@ -33,6 +33,27 @@ namespace DynamicSimulation
 	{
 		this->pPacketList = pPacketList;
 	}
+
+	void Node::UpdateNodesLinks()
+	{
+		for (Link& link : links)
+		{
+			// converte o nome para id internamente
+			link.destination = pNetwork->GetNodeIdByName(link.destinationNodeName);
+
+			// corrige os ponteiros para facilitar o acesso
+			link.pNodeFrom = this;
+
+			for (Node *nodeB : pNetwork->nodes)
+			{
+				if (nodeB->id == link.destination)
+				{
+					link.pNodeTo = nodeB;
+					break;
+				}
+			}
+		}
+	}
 	
 	void Node::OnTickUpdate(tick_t tick)
 	{

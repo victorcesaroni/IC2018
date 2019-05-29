@@ -21,6 +21,7 @@ namespace DynamicSimulation
 		Node(Network *pNetwork, int id, std::string name, std::vector<Link> links);
 
 		void UpdateWaitingToSendList(std::deque<Packet> *pPacketList);
+		void UpdateNodesLinks(); // primeira inicializacao dos links para converter de name para id
 		
 		void OnTickUpdate(tick_t tick);
 		

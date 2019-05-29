@@ -18,6 +18,31 @@ namespace DynamicSimulation
 			delete n;
 	}
 
+	int Network::GetNodeIdByName(std::string name)
+	{
+		for (Node *node : nodes)
+		{
+			if (node->name == name)
+				return node->id;
+		}
+		
+		DBG_PRINTF_ERROR("[ERROR] GetNodeIdByName %s\n", name);
+
+		return -1;
+	}
+
+	void Network::Commit()
+	{
+		// inicializa os ids dos links corretos
+		for (Node *node : nodes)
+		{
+			node->UpdateNodesLinks();
+			node->trafficGenerator.UpdateNodeCount(nodes.size());
+		}
+
+		UpdatePaths();
+	}
+
 	void Network::AddNode(std::string name, std::vector<Link> links)
 	{
 		nodes.push_back(new Node());
@@ -29,25 +54,7 @@ namespace DynamicSimulation
 		}
 
 		*nodes[nodeCount] = Node(this, nodeCount, name, links);
-
-		// corrige os ponteiros para facilitar o acesso
-		for (Node *node : nodes)
-		{
-			for (Link& link : node->links)
-			{
-				link.pNodeFrom = node;
-
-				for (Node *nodeB : nodes)
-				{
-					if (nodeB->id == link.destination)
-					{
-						link.pNodeTo = nodeB;
-						break;
-					}
-				}
-			}
-		}
-
+		
 		nodeCount++;
 	}
 
