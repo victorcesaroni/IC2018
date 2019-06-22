@@ -13,7 +13,8 @@
 #include "DynNode.h"
 #include "DynLink.h"
 
-const int DEBUG_LEVEL = 1 | 2 | 4;
+//const int DEBUG_LEVEL = 1 | 2 | 4;
+const int DEBUG_LEVEL = 1 | 2;
 
 #define DBG_PRINTF_ERROR(...) if (DEBUG_LEVEL & 1) printf(__VA_ARGS__)
 #define DBG_PRINTF_WARN(...) if (DEBUG_LEVEL & 2) printf(__VA_ARGS__)
