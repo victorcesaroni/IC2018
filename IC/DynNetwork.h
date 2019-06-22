@@ -33,7 +33,6 @@ namespace DynamicSimulation
 		void AddNode(std::string name, std::vector<Link> links);
 		void UpdatePaths();
 		void FindAllPaths(Node *from, Node *to);
-		void FindAllPathsDfs(Node *from, Node *to, Node *current, int currentCost, std::vector<bool>& visited, std::vector<int>& cost, std::vector<int>& path, int& level);
 		int GetNodeIdByName(std::string name);
 
 		int GetNextHopToPacket(int currentHop, int destination);

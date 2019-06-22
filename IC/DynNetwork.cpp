@@ -105,60 +105,52 @@ namespace DynamicSimulation
 
 	void Network::FindAllPaths(Node *from, Node *to)
 	{
-		std::vector<bool> visited(nodeCount);
-		std::vector<int> path(nodeCount);
-		std::vector<int> cost(nodeCount);
-		int level = 0;
+		// adaptado: https://efficientcodeblog.wordpress.com/2018/02/15/finding-all-paths-between-two-nodes-in-a-graph/
 
-		for (Node *node : nodes)
+		std::queue<std::vector<Node*>> q;
+
+		std::vector<Node*> path;
+		path.push_back(from);
+		q.push(path);
+
+		auto visited = [](const std::vector<Node*>& path, int id)
 		{
-			visited[node->id] = false;
-			cost[node->id] = 0;
-		}
+			for (Node* node : path)
+				if (node->id == id)
+					return true;
+			return false;
+		};
 
-		FindAllPathsDfs(from, to, from, 0, visited, path, cost, level);
-	}
-
-	void Network::FindAllPathsDfs(Node *from, Node *to, Node *current, int currentCost, std::vector<bool>& visited, std::vector<int>& cost, std::vector<int>& path, int& level)
-	{
-		// adaptado: https://www.geeksforgeeks.org/find-paths-given-source-destination/
-
-		visited[current->id] = true;
-		path[level] = current->id;
-		cost[level] = currentCost;
-
-		level++;
-
-		if (current->id == to->id)
+		while (!q.empty())
 		{
-			Route tmp;
-			tmp.from = from->id;
-			tmp.to = to->id;
-			tmp.hops.clear();
-			tmp.cost = cost[0];
+			path = q.front();
+			q.pop();
+			Node* last = path.back();
 
-			for (int i = 1; i < level; i++)
+			if (last->id == to->id)
 			{
-				tmp.hops.push_back(path[i]);
-				tmp.cost += cost[i];
+				Route tmp;
+				tmp.from = from->id;
+				tmp.to = to->id;
+
+				tmp.hops.clear();
+				for (int i = 1; i < (int)path.size(); i++)
+					tmp.hops.push_back(path[i]->id);
+
+				tmp.cost = (int)path.size() - 1;
+				routes.push_back(tmp);
 			}
 
-			routes.push_back(tmp);
-		}
-		else
-		{
-			for (const Link& link : current->links)
+			for (const Link& link : last->links)
 			{
-				if (!visited[link.destination])
+				if (!visited(path, link.destination))
 				{
-					// OBS: esse algoritmo nao suporta que exista mais de um link (aresta) entre 2 nós vizinhos
-					FindAllPathsDfs(from, to, link.pNodeTo, link.cost, visited, cost, path, level);
+					std::vector<Node*> newpath(path);
+					newpath.push_back(link.pNodeTo);
+					q.push(newpath);
 				}
 			}
 		}
-
-		level--;
 	}
-
 
 };

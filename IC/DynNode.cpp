@@ -66,8 +66,14 @@ namespace DynamicSimulation
 			}
 		}
 
-		for (Link& link : links)
+		std::vector<size_t> randomOrder(links.size());
+		for (size_t i = 0; i < links.size(); i++)
+			randomOrder[i] = i;
+		std::random_shuffle(randomOrder.begin(), randomOrder.end());
+
+		for (size_t idx : randomOrder)
 		{
+			Link& link = links[idx];
 			link.OnTickUpdate(tick);
 		}
 	}

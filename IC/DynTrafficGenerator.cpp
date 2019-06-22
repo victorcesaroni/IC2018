@@ -21,17 +21,27 @@ namespace DynamicSimulation
 		if (tick < lastCreatedTick + interval)
 			return false;
 
+		int source = currentNode;
+
+		std::vector<int> tmp(availableNodes);
+
+		// remove o no atual da lista de possiveis nos
+		for (auto it = tmp.begin(); it != tmp.end(); )
+		{
+			if (*it == source)
+				it = tmp.erase(it);
+			else
+				++it;
+		}
+
 		// tenta criar numberOfPackets pacotes
 		for (int i = 0; i < numberOfPackets; i++)
 		{
 			if ((rand() % 100) / 100.0f <= chance)
 			{
 				Packet packet = Packet(-1, -1, -1, -1);
-				int source = currentNode;
-
-				auto tmp = availableNodes;
-				tmp.erase(tmp.begin() + source); // remove current node from available to nodes send list
-				int destination = tmp[rand() % tmp.size()];
+				
+				int destination = tmp[rand() % tmp.size()]; // seleciona um destino aleatorio
 
 				packet.currentNode = currentNode;
 				packet.id = gPacketCounter;

@@ -51,8 +51,14 @@ namespace DynamicSimulation
 	{
 		DBG_PRINTF_INFO("---[Tick %d]---\n", tick);
 
-		for (Node *node : pNetwork->nodes)
+		std::vector<size_t> randomOrder(pNetwork->nodes.size());
+		for (size_t i = 0; i < pNetwork->nodes.size(); i++)
+			randomOrder[i] = i;
+		std::random_shuffle(randomOrder.begin(), randomOrder.end());
+
+		for (size_t idx : randomOrder)
 		{
+			Node* node = pNetwork->nodes[idx];
 			node->OnTickUpdate(globalTickCount);
 		}
 
