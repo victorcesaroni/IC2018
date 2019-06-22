@@ -6,10 +6,11 @@
 namespace DynamicSimulation
 {
 	LinkLambda::LinkLambda(int lambda)
-		: lambda(lambda)
+		: lambda(lambda), useCount(0)
 	{
 		allocated = false;
 		packet.destination = -1;
+		useCount = 0;
 	}
 
 	void LinkLambda::Deallocate()

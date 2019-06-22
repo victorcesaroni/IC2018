@@ -112,6 +112,20 @@ namespace DynamicSimulation
 
 		if (lambdas[lambda].AddPacket(pPacket))
 		{
+			lambdas[lambda].useCount++; // atualiza a quantidade de vezes que o lambda foi utilizado
+
+			// 
+			//for (Link& link : this->pNodeTo->links)
+			//{
+			//	if (link.destination == this->id) // link de volta para o no atual
+			//	{
+			//		for (LinkLambda& linkLambda : link.lambdas)
+			//		{
+			//			linkLambda.useCount++; // atualiza a quantidade de vezes que o lambda foi utilizado (no link de volta, pois o link de ida e volta sao considerados os mesmos)
+			//		}
+			//	}
+			//}
+
 			DBG_PRINTF_INFO("[INFO] [Node %d: Link %d] [ADD] AddPacket packet P%d added on lambda %d (last lambda = %d)\n", pNodeFrom->id, id, pPacket->id, lambda, pPacket->lastLambda);
 			//TODO: propagar para o proximo node e se desligar da conexao (caso traga o processamento do trafego para o lambda em vez do Link)
 			return true;

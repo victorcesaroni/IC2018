@@ -10,6 +10,11 @@ namespace DynamicSimulation
 	{
 		globalTickCount = 0;
 		running = false;
+
+		for (auto node : pNetwork->nodes)
+		{
+			node->UpdateWaitingToSendList(&waitingToSend); // atualiza a lista de pacotes sendo enviados para ser a mesma para todos os nos da rede
+		}
 	}
 
 	void Simulator::Run()

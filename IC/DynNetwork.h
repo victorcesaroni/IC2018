@@ -16,8 +16,9 @@ namespace DynamicSimulation
 	class Network
 	{
 	public:
-
-		std::deque<Node*> nodes;
+		
+		std::string name;
+		std::deque<Node*> nodes; // ** CUIDADO ** com copias desse objeto, pois os nodes sao alocados dinamicamente
 		std::vector<DebugConnection> debugConnections;
 		std::vector<Route> routes;
 

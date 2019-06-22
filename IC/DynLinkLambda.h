@@ -10,6 +10,7 @@ namespace DynamicSimulation
 		int lambda;
 		bool allocated;
 		Packet packet;
+		unsigned long useCount;
 
 		LinkLambda(int lambda);
 
